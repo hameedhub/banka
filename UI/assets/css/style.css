@@ -348,6 +348,52 @@ header {
 	font-family: arial;
 	color: rgb(51, 153, 51);
 }
+/*List of accounts ..*/
+.list-account a {
+  display: inline-grid;
+  padding:10px;
+  width:95%;
+  text-align: left;
+  color: #444;
+  font-size: 13px;
+  font-family: arial;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-top: 2px solid rgb(229, 115, 115);
+}
+.list-account a:hover{
+	background-color: rgb(  255, 171, 145 );
+}
+.status {
+	width: auto;
+	padding-left: 5px;
+	padding-right: 10px;
+}
+.status select{
+	border:none;
+}
+.list-staff a {
+	display: inline-flex;
+	padding:10px;
+	width:85%;
+	text-align: center;
+  	color: #444;
+  	font-size: 13px;
+  	font-family: arial;
+  	font-weight: 600;
+  	text-transform: uppercase;
+  	border-top: 2px solid rgb(229, 115, 115);
+}
+.list-staff select{
+	width: auto;
+	padding:auto;
+
+
+}
+.list-staff a:hover{
+	background-color: rgb(  255, 171, 145 );
+}
+/*List of accounts ends here..*/
 .recent-trans{
 	display: block;
 	margin-top: 10%;
