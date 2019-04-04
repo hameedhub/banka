@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Banka - Andela</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+</head>
+<body>
+	<header>
+		<a href="index.html" class="header-brand">Banka</a>
+	</header>
+	<main>
+		<section class="container">
+			<h3>Welcome,</h3>
+				<p>Enjoy the convenience of managing your finances with <b>Banka</b>..</p>
+			<div class="form-box">
+				<h3>LOGIN</h3><hr>
+					<form method="post" action="#">
+						<div class="form-input">
+							<input type="email" name="email" required>
+							<label>Email</label>
+						</div>
+						<div class="form-input">
+							<input type="password" name="password" required>
+							<label>Password</label>
+						</div>
+						<span><a id="myBtn" href="#"><u>Forgot password?</u></a></span>
+						<input class="btn btn-danger" type="submit" name="" value="Login">
+					</form>
+				<p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+			</div>
+			<div id="myModal" class="modal">
+
+	  			<div class="modal-content">
+	  				<div class="modal-header">
+	    				<span class="close">&times;</span>
+	    				<h5>Forget Password</h5>
+	  				</div>
+	  				<div class="modal-body">
+	    				<p>Enter the email you registered with to get password rest link</p>
+	    				<input type="email" name="email"> <button class="btn-sm btn-danger">Send</button>
+	  				</div>
+				</div>
+
+			</div>
+
+		</section>
+	</main>
+	<footer><p>&copy; Copyright 2019 Banka Software. All Rights Reserved.</p>
+	</footer>
+	<script type="text/javascript" src="../assets/js/widgets.js"></script>
+</body>
+</html>
