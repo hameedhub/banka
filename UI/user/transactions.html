@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>//FullName - Transactions</title>
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+</head>
+<body>
+	<header>
+	<div class="sidebar">
+		<div class="toggle-btn" onclick="toggle()">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<div class="avatar">
+			<div class="avatar-img">
+				<img src="../assets/images/avatar.jpg" alt="avatar">
+			</div>
+			<div class="avatar-content">
+				<p>Hameed Abdulrahaman</p>
+			</div>
+		</div>
+		<ul>
+			<li><a href="dashboard.html">Dashboard</a></li>
+			<li><a href="profile.html">Profile</a></li>
+			<li><a class="active" href="transactions.html">Transactions</a></li>
+			<li><a href="#">Logout</a></li>
+		</ul>
+	</div>
+	<a class="header-brand"> Banka</a>
+	</header>
+	<main>
+		<section class="container dashboard">
+			<input class="search" type="text" id="myInput" onkeyup="search()" placeholder="Search filter.. e.g date">
+			<ul class="box trans" id="myUL">
+				 <li class="collapsible"><b class="danger"><<</b><a> Debit! | 19 March 2019 | Desc: Withdrawal | NGN 4000 | TransID 28791</a></li>
+					<div class="content">
+					  <p>Debit Alert# on Account Number: 030980382<br> Description: Nip-GTbank/Transfer Out/Abdulrahaman Hameed<br>Date/Time: 19 March 2019 @ 9:01am <br>Amount: NGN 4000<br> Avail. Bal: NGN59293<br> Enquiries? mail banka@banka.com</p>
+					</div> 
+				<li class="collapsible"><b class="success">>></b><a> Credit! | 14 August 2019 | Desc: Payment | N5000 | TransID 42422</a></li>
+					<div class="content">
+					  <p>Credit Alert# on Account Number: 030980382<br> Description: Nip-GTbank/Transfer Out/Abdulrahaman Hameed<br>Date/Time: 19 March 2019 @ 9:01am <br>Amount: NGN 4000<br> Avail. Bal: NGN59293<br> Enquiries? mail banka@banka.com</p>
+					</div> 
+			</ul>
+		</section>
+	</main>
+	<script src="../assets/js/widgets.js"></script>
+</body>
+</html>

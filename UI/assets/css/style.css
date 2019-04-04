@@ -262,7 +262,16 @@ header {
 	padding:2px;
 	border-radius: 3px;
 }
-
+/*Search bar*/
+.search{
+	width: 86%;
+	height: 30px;
+	border-radius: 5px;
+	border-color: #fff;
+	border-style: none;
+	padding-left:10px;
+}
+/*Search bar ends here..*/
 /* Collapsible content*/
 .collapsible {
   cursor: pointer;
@@ -598,6 +607,15 @@ footer p{
 	color: #1c2833;
 	font-family: verdana;
 	font-size: 24px;
+}
+.search{
+	width: 85%;
+	height: 40px;
+	border-radius: 5px;
+	border-color: #fff;
+	font-size: 14px;
+	border-style: none;
+	padding-left:10px;
 }
 .collapsible {
   cursor: pointer;
