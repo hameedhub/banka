@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>View Account - Dashboard</title>
+	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+</head>
+<body>
+	<header>
+	<div class="sidebar"><a href="#">
+		<div class="toggle-btn" onclick="toggle()">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div></a>
+		<div class="avatar">
+			<div class="avatar-content" >
+				<table>
+					<tr><td>ADMIN ID:</td><td>01</td></tr>
+					<tr><td>NAME:</td><td>HAMEED</td></tr>
+					<tr><td>STATUS:</td><td>ACTIVE</td></tr>
+				</table>
+			</div>
+		</div>
+		<ul>
+			<li><a href="dashboard.html">Dashboard</a></li>
+			<li><a href="staff-list.html">Staff List</a></li>
+			<li><a class="active" href="view-account.html">View Accounts</a></li>
+			<li><a href="#">Logout</a></li>
+		</ul>
+	</div>
+	<a class="header-brand"> Banka</a>
+	</header>
+	<main>
+		<section class="container dashboard">
+			<h3>ADMIN ID | <span> 01</span></h3>
+			<input class="search" type="text" id="myInput" onkeyup="search()" placeholder="Search filter.. e.g Name">
+			<ul class="box trans" id="myUL">
+				<li class="list-account"><a href="view-details.html"> ID 01 | 0218812131 | HAMEED ABDULRAHAMAN </a></li>
+				<li class="list-account"><a href="view-details.html"> ID 05 | 8908080808 | MICHEAL AYOBAMI</a></li>
+				<li class="list-account"><a href="view-details.html"> ID 03 | 374923432 | DANIEL David</a></li>
+				<li class="list-account"><a href="view-details.html"> ID 02 | 379472334 | lukman sani</a></li>
+			</ul>
+		</section>
+	</main>
+<script src="../assets/js/widgets.js"></script>
+</body>
+</html>
