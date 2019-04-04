@@ -486,6 +486,12 @@ footer p{
 	text-align: center;
 	color: #fff;
 }
+.sidebar .avatar td{
+	padding:8px;
+	font-size: 90%;
+	font-weight: 600;
+
+}
 
 .sidebar ul{
 	padding-left: 0px;
