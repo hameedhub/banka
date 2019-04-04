@@ -1,0 +1,258 @@
+body {
+	background-image: url(../images/bg.jpg);
+	font-family:corbel;
+	padding: 0;
+	margin: 0;
+}
+a{
+	text-decoration: none;
+	color: #fff;
+}
+h3, h4 {
+	color: #fff;
+}
+h4 {
+	display: inline-flex;
+	color: #fff;
+	font-family: sans-serif;
+}
+
+header {
+	background-color: transparent;
+	width: 100%;
+	height: 50px;
+}
+.header-brand {
+	font-family: broadway;
+	font-size: 24px;
+	font-weight: 900;
+	color:  #f0f3f4;
+	display: block;
+	margin: 0 auto;
+	text-align: center;
+	padding:15px 0;
+	text-shadow:1px 2px rgb(0,0,0,.5); 
+}
+
+/*section container*/
+.container{
+	position: relative;
+	padding-left: 10%;
+	align-content: center;
+	margin-top: 50px;
+	padding-bottom: 100px;
+
+}
+.container p{
+	padding: 0px;
+	color: #fff;
+	font-size: 13px;
+}
+/*section container ends here..*/
+
+/*button style*/
+.btn{
+	border:none;
+	width: 25%;
+	padding: 2%;
+	font-weight: bold;
+	font-size: 12px;
+	border-radius: 5px;
+	font-size: auto;
+	text-decoration-style: bold;
+}
+.btn-danger {
+	color: #fff;
+	background:  #f44336 ;
+}
+.btn-default {
+	color: #111;
+	background: #cacfd2;
+}
+.btn-sm{
+	border:none;
+	padding:5px;
+	height:22px;
+	font-weight: bold;
+	font-size: 11px;
+	border-radius: 2px;
+	text-decoration-style: bold;
+}
+/*button style*/
+/* Form-box for registration and login page*/
+.form-box {
+	width: 90%;
+	background: rgb(0,0,0,.7);
+	padding: 20px;
+	box-sizing: border-box;
+	box-shadow: 0 20px 25px rgb(0,0,0,.5);
+	border-radius: 6px;
+}
+.form-box h3 {
+	color: #fff;	
+}
+.form-box hr{
+	margin: 0 0 50px;
+	width: 100%;
+	color: rgb(0,0,0,.2);
+}
+.form-input{
+	position: relative;
+}
+.form-input input{
+	padding: 6px;
+	width: 100%;
+	font-size: 14px;
+	color: white;
+	margin-bottom: 30px;
+	border:none;
+	border-bottom: 1px solid #fff;
+	outline: none;
+	background: transparent;
+
+}
+.form-input label {
+	position: absolute;
+	top: -25px;
+	left: 0;
+	padding: 10px;
+	font-size: 15px;
+	color: #fff;
+	pointer-events: none;   
+	transition: .4s;
+	color: rgb(0,0,0,0,.3);
+	font-size: 12px;
+	font-weight: bold;
+}
+.form-box span {
+	font-size: 12px;
+	float:right;
+	color: white;
+}
+.form-box p {
+	padding: 0 5px 0 4px;
+	font-size: 13px;
+	color: #fff;
+}
+.form-box a{
+	text-decoration: underline;
+	font-weight: 900;
+}
+/*form box ends here..*/
+
+/*footer section*/
+footer{
+	position: relative;
+	bottom: 0px;
+	height: 30px;
+	right: 0px;
+	left: 0px;
+	width: 100%;
+}
+footer p{
+	font-size: 12px;
+	font-weight: bold;
+	color: #fff;
+	text-align: center;
+}
+/*footer ends here...*/
+
+/*Style for desktop devices*/
+@media only screen and (min-width: 1000px){
+.header-brand {
+	position: fixed;
+	margin:0;
+	text-align: left;
+	padding-left: 20px;
+	float: left;
+	font-size: 36px;
+	
+}
+.container{
+	position: relative;
+	padding-left: 10%;
+	align-content: center;
+	margin-top: 50px;
+	padding-bottom: 100px;
+}
+.container p{
+	padding: 0px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: 500;
+}
+.btn{
+	border:none;
+	width: 25%;
+	padding: 1%;
+	font-weight: bold;
+	font-size: 14px;
+	border-radius: 5px;
+	font-size: auto;
+	text-decoration-style: bold;
+}
+.btn-danger {
+	color: #fff;
+	background:  #f44336 ;
+}
+.btn-default {
+	color: #111;
+	background: #cacfd2;
+}
+.form-box {
+	margin-left: 20%;
+	width: 50%;
+	background: rgb(0,0,0,.7);
+	padding: 20px;
+	box-sizing: border-box;
+	box-shadow: 0 20px 25px rgb(0,0,0,.5);
+	border-radius: 6px;
+}
+.form-box h3 {
+	color: #fff;	
+}
+.form-box hr{
+	margin: 0 0 50px;
+	width: 100%;
+	color: rgb(0,0,0,.2);
+}
+.form-input{
+	position: relative;
+}
+.form-input input{
+	padding: 6px;
+	width: 100%;
+	font-size: 14px;
+	color: white;
+	margin-bottom: 30px;
+	border:none;
+	border-bottom: 1px solid #fff;
+	outline: none;
+	background: transparent;
+
+}
+.form-input label {
+	position: absolute;
+	top: -25px;
+	left: 0;
+	padding: 10px;
+	font-size: 14px;
+	color: #fff;
+	pointer-events: none;   
+	color: rgb(0,0,0,0,.3);
+	font-weight: bold;
+}
+.form-box span {
+	font-size: 14px;
+	float:right;
+	color: white;
+}
+.form-box p {
+	padding: 0 5px 0 4px;
+	font-size: 14px;
+	color: #fff;
+}
+.fb-big{
+	padding:30px;
+	width: 60%;
+}
