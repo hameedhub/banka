@@ -79,7 +79,6 @@ describe('/PUT/:id User', () => {
 });
 
 // DELETE USER
-// NB: PLEASE ENSURE TO COMMENT OUT VALIDATION RESULT BEFORE RUN
 describe('/DELETE/:id User', () => {
   it('should DELETE a user by id', (done) => {
     let user = {
@@ -92,7 +91,7 @@ describe('/DELETE/:id User', () => {
       .delete('/api/v1/users/'+user.id)
       .send(user)
       .end((err, res) => {
-        res.should.have.status(500);
+        res.should.have.status(204);
         res.body.should.be.a('object');
         done();
       });
