@@ -13,8 +13,10 @@ app.use(bodyParser.json());
 
 // ROUTES
 const usersRoute = require('./api/routes/user');
+const accountRoute = require('./api/routes/account');
 
 app.use('/api/v1/users', usersRoute);
+app.use('/api/v1/accounts', accountRoute);
 
 // ERROR HANDLER
 app.use((req, res) => {
