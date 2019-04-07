@@ -14,9 +14,11 @@ app.use(bodyParser.json());
 // ROUTES
 const usersRoute = require('./api/routes/user');
 const accountRoute = require('./api/routes/account');
+const transRoute = require('./api/routes/transaction');
 
 app.use('/api/v1/users', usersRoute);
 app.use('/api/v1/accounts', accountRoute);
+app.use('/api/v1/transactions', transRoute);
 
 // ERROR HANDLER
 app.use((req, res) => {
