@@ -13,6 +13,9 @@ router.get('/:id', Users.getUserById);
 // POST USER
 router.post('/', Users.postUser);
 
+// LOGIN USER
+router.post('/login', Users.loginUser);
+
 // PUT USER
 router.put('/:id', Users.putUser);
 

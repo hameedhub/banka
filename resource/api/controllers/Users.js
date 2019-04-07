@@ -52,6 +52,14 @@ const postUser = (req, res) => {
   users.push(user);
   res.status(201).json({ message: 'Registration was Successful' });
 };
+// POST SIGN IN USER
+const loginUser = (req, res) => { 
+ const mail = users.find( user=> user.email === req.body.email);
+  if (!mail) return res.status(404).json( {error: 'Incorrect email address'} );
+ const data = users.find(user => user.password === req.body.password && mail.email === req.body.email);
+  if (!data) return res.status(404).json( {error: 'Incorrect Password'} );
+  res.status(200).json(data)
+};
 
 // PUT USER FUNCTION
 const putUser = (req, res) => {
@@ -75,4 +83,4 @@ let userData = idValidation(req.params.id);
   res.status(204).json({ message: 'User has been deleted' });
 };
 
-module.exports = { getUsers, getUserById, postUser, putUser, deleteUser  };
+module.exports = { getUsers, getUserById, postUser, loginUser, putUser, deleteUser  };
