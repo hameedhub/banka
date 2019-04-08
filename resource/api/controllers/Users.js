@@ -38,6 +38,8 @@ const getUserById = (req, res) => {
 const postUser = (req, res) => {
   const result = detailsValidation(req.body);
   if (result.error) return res.status(404).json({ error: result.error.details[0].message});
+  const userEmail = users.find(user => user.email === req.body.email);
+  if (userEmail) return res.json({error: 'Email already in use'});
   const user = {
     id: users.length + 1,
     email: req.body.email,
@@ -48,7 +50,7 @@ const postUser = (req, res) => {
     isAdmin: req.body.isAdmin,
   };
   users.push(user);
-  res.status(201).json({ user });
+  res.status(201).json({ message: 'Registration was Successful' });
 };
 
 // PUT USER FUNCTION
