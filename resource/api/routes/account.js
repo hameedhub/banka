@@ -10,6 +10,9 @@ router.get('/', Accounts.getAccounts);
 // GET SPECIFIC ACCOUNT
 router.get('/:id', Accounts.getAccountById);
 
+// GET BY OWNER
+router.get('/owner/:owner', Accounts.getAccountByOwner);
+
 // POST ACCOUNT
 router.post('/', Accounts.postAccount);
 

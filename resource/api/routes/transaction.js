@@ -10,6 +10,9 @@ router.get('/', Transaction.getTrans);
 // GET SPECIFIC TRANSACTION
 router.get('/:id', Transaction.getTransById);
 
+// GET TRANSACTION BY ACCOUNT
+router.get('/account/:accountNumber', Transaction.getTransByAccount);
+
 // POST TRANSACTION
 router.post('/', Transaction.postTrans);
 
