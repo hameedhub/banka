@@ -22,10 +22,24 @@ class UserController {
       isAdmin: false,
     };
     users.push(user);
-    return res.status(200).json({ 
+    return res.status(200).json({
       status: 200,
-      data: user });
-  };
+      data: user 
+    });
+  }
+
+  static signIn(req, res) {
+    const mail = users.find(user => user.email === req.body.email);
+    if (!mail) return res.status(404).json({ error: 'Incorrect email address' });
+    const compare = bcrypt.compareSync(req.body.password, mail.password);
+    if (compare === false) return res.status(404).json({ error: 'Incorrect Password' });
+    return res.status(200).json({
+      status: 200,
+      data: mail,
+    });
+  }
+  
 }
+
 
 export default UserController;
