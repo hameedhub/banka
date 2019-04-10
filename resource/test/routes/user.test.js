@@ -28,3 +28,24 @@ describe('POST/ User sign up', () => {
       });
   });
 });
+
+// this test may fail due to bcrypt
+describe('POST/ User Signin', () => {
+  it('should be able to login user', (done) => {
+    let user = {
+      email: 'hameed@gmail.com',
+      password: '1235n'
+    };
+    chai.request(app)
+      .post('/api/v1/users/auth/login')
+      .send(user)
+      .end((err, res) => {
+        expect(res.body).to.be.an('object');
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.equal(200);
+        expect(res.body.data).to.have.property('email');
+        expect(res.body.data).to.have.property('password');
+        done();
+      });
+  });
+});
