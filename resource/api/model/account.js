@@ -34,7 +34,7 @@ const accounts = [
     type: 'savings',
     status: 'active',
     balance: 6000.00,
-  },
+  }
 ];
 
-module.exports = accounts;
+export default accounts;

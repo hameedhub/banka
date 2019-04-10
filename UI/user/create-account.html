@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>//FullName - Create Account</title>
+	<title></title>
 	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
 </head>
 <body>
@@ -18,7 +18,7 @@
 				<img src="../assets/images/avatar.jpg" alt="avatar">
 			</div>
 			<div class="avatar-content">
-				<p>Hameed Abdulrahaman</p>
+				<p id="fullname"></p>
 			</div>
 		</div>
 		<ul>
@@ -36,19 +36,27 @@
 				<h3>Create Account</h3><p>NB: Your details will be populated, you can only provide <b>Account Number</b> and <b>Account Type</b>..</p><hr>
 				<form>
 					<div class="form-input">
-						<input type="text" name="firstName" disabled value="Hameed" >
+						<input type="text" name="firstName" readonly value="" >
 						<label>First Name</label>
 					</div>
 					<div class="form-input">
-						<input type="text" name="lastName" disabled value="Rahaman" >
+						<input type="text" name="lastName" readonly value="" >
 						<label>Last Name</label>
 					</div>
 					<div class="form-input">
-						<input type="number" name="accountNumber">
+						<input type="text" name="email" readonly value="" >
+						<label>Email Address</label>
+					</div>
+					<div class="form-input">
+						<input type="number" name="accountNumber" required>
 						<label>Account Number</label>
 					</div>
 					<div class="form-input">
-						<input type="number" name="accountNumber">
+						<select name="type" required>
+							<option selected disabled>--Please Select--</option>
+							<option value="savings">savings</option>
+							<option value="current">current</option>
+						</select>
 						<label>Account Type</label>
 					</div>
 					<input class="btn btn-danger" type="submit" name="save" value="Save">
