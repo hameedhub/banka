@@ -2,19 +2,17 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 
-// ROUTES
+// routes
 import usersRoute from './api/routes/user';
-import accountRoute from './api/routes/account';
-import transRoute from './api/routes/transaction';
 
 const app = express();
 
-// EXPRESS APP MIDDLEWARE
+// express middleware
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// PREVENTING CORS ERRORS
+//  CORS errors
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -26,17 +24,15 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/v1/users', usersRoute);
-app.use('/api/v1/accounts', accountRoute);
-app.use('/api/v1/transactions', transRoute);
 
-// ERROR HANDLER
+// error handler
 app.use((req, res) => {
   res.status(404).json({
     error: 'Not found',
   });
 });
 
-// PORT
+// port
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => { console.log(`Listening to port ${port}`); });
