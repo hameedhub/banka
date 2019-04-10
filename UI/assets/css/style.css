@@ -17,7 +17,6 @@ h4 {
 	font-family: sans-serif;
 }
 
-
 header {
 	background-color: transparent;
 	width: 100%;
@@ -232,7 +231,6 @@ header {
 	box-shadow: 0 20px 25px rgb(0,0,0,.5);
 	list-style: none;
 }
-
 .box span{
 	text-transform: uppercase;
 	font-family: verdana;
@@ -452,7 +450,6 @@ header {
   cursor: pointer;
 }
 /*Model ends here..*/
-
 /*footer section*/
 footer{
 	position: relative;

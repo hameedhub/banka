@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title></title>
+	<title>//FullName - Dashboard</title>
 	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
 </head>
 <body>
@@ -18,7 +18,7 @@
 				<img src="../assets/images/avatar.jpg" alt="avatar">
 			</div>
 			<div class="avatar-content">
-				<p id="fullname"></p>
+				<p>Hameed Abdulrahaman</p>
 			</div>
 		</div>
 		<ul>
@@ -32,26 +32,30 @@
 	</header>
 	<main>
 		<section class="container dashboard">
-			<h3>Welcome, <span id="firstName"></span></h3>
+			<h3>Welcome, <span>HAMEED</span></h3>
 
 			<div class="box">
 				<span>Available Balance</span>
-				<p id="bal"></p><hr>
-				<span>Account Number: <b id="accNum"></b></span>
-
+				<p>N1000.00</p><hr>
+				<span>Account Number: </span><span>21801280</span>
 			</div>
 		</section>
 		<section class="container dashboard">
 			<div class="recent-trans">
 				<h4>Recent Transactions</h4>
 				<ul class="box trans" id="myUL">
-				 
+				 <li class="collapsible"><b class="danger"><<</b><a> Debit! | 19 March 2019 | Desc: Withdrawal | NGN 4000 | TransID 28791</a></li>
+					<div class="content">
+					  <p>Debit Alert# on Account Number: 030980382<br> Description: Nip-GTbank/Transfer Out/Abdulrahaman Hameed<br>Date/Time: 19 March 2019 @ 9:01am <br>Amount: NGN 4000<br> Avail. Bal: NGN59293<br> Enquiries? mail banka@banka.com</p>
+					</div> 
+				<li class="collapsible"><b class="success">>></b><a> Credit! | 14 August 2019 | Desc: Payment | N5000 | TransID 42422</a></li>
+					<div class="content">
+					  <p>Credit Alert# on Account Number: 030980382<br> Description: Nip-GTbank/Transfer Out/Abdulrahaman Hameed<br>Date/Time: 19 March 2019 @ 9:01am <br>Amount: NGN 4000<br> Avail. Bal: NGN59293<br> Enquiries? mail banka@banka.com</p>
+					</div> 
 				</ul>
 			</div>
 		</section>
 	</main>
 <script src="../assets/js/widgets.js"></script>
-<script type="text/javascript" src="../../scripts/path.js"></script>
-	<script type="text/javascript" src="../../scripts/dashboard.js"></script>
 </body>
 </html>
