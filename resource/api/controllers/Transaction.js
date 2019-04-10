@@ -17,6 +17,9 @@ const transValildation = (data) => {
 const idValidation = (id) => {
   return transactions.find ( trans => trans.id === parseInt (id));
 };
+const accValidation = (accountNumber) => {
+  return transactions.filter ( trans => trans.accountNumber === parseInt (accountNumber));
+};
 
 // GET TRANSACTIONS
 const getTrans = (req, res) =>{
@@ -33,6 +36,15 @@ const getTransById = (req, res) => {
     data: data,
   });
 };
+const getTransByAccount = (req, res) => {
+  console.log(req.params.accountNumber);
+  const trans = accValidation(req.params.accountNumber);
+  if (!trans) return res.status(404).json({ error: 'Account not found' });
+  res.status(200).json({
+    data: trans,
+  });
+};
+
 
 // POST TRANSACTION
 const postTrans = (req, res) => {
@@ -61,4 +73,4 @@ let data = idValidation(req.params.id);
   res.status(204).json({ message: 'Transaction has been deleted' });
 };
 
-module.exports = { getTrans, getTransById, postTrans, deleteTrans };
+module.exports = { getTrans, getTransById, getTransByAccount, postTrans, deleteTrans };

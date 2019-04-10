@@ -16,6 +16,9 @@ const accValildation = (data) => {
 const idValidation = (id) => {
   return accounts.find ( account => account.id === parseInt (id));
 };
+const ownerValidation = (owner) => {
+  return accounts.find ( account => account.owner === parseInt (owner));
+};
 
 // GET ACCOUNT FUNCTION
 const getAccounts = (req, res) =>{
@@ -30,6 +33,15 @@ const getAccountById = (req, res) => {
   if (!data) res.status(404).json({ error: 'Account not found' });
   res.status(200).json({
     data: data,
+  });
+};
+// GET ACCOUNT BY OWNER
+const getAccountByOwner = (req, res) => {
+   const data = ownerValidation(req.params.owner);
+   if (!data) res.status(404).json({ error: 'Account not found' });
+  console.log(req.params);
+  res.status(200).json({
+   data: data
   });
 };
 
@@ -67,4 +79,4 @@ let data = idValidation(req.params.id);
   res.status(204).json({ message: 'Account has been deleted' });
 };
 
-module.exports = { getAccounts, getAccountById, postAccount, patchAccount, deleteAccount };
+module.exports = { getAccounts, getAccountById, getAccountByOwner, postAccount, patchAccount, deleteAccount };
