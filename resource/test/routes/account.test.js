@@ -51,3 +51,27 @@ describe('PATCH/ Account Status', ()=>{
       })
   })
 })
+describe('DELETE/ Account', ()=>{
+  it('should delete account',(done)=>{
+    const accNum = {
+      id: 1,
+      accountNumber: 3812381012,
+      createdOn: '2019-06-06T21:43:27.124Z',
+      owner: 3,
+      type: 'savings',
+      status: 'active',
+      balance: 81000.00,
+    };
+    chai.request(app)
+      .delete('/api/v1/accounts/'+accNum.accountNumber)
+      .send(accNum)
+      .end((err, res)=>{
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.status).to.eql(204);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('message');
+        done();
+      })
+  })
+})
