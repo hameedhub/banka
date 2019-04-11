@@ -21,5 +21,13 @@ class Validator {
     };
     return Joi.validate(data, schema);
   }
+
+  static trans(data) {
+    const schema = {
+      amount: Joi.number().required(),
+      cashier: Joi.number().required()
+    };
+    return Joi.validate(data, schema);
+  }
 }
 export default Validator;
