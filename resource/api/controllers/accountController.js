@@ -47,6 +47,21 @@ class AccountController {
       },
     });
   }
+
+  static accountStatus(req, res) {
+    const account = accounts.find((accNum => accNum.accountNumber === parseInt(req.params.accountNumber)));
+    if (!account) return res.status(404).json({ 
+      status: 404,
+      error: 'Account number not found' });
+    account.status = req.body.status;
+    return res.status(200).json({
+      status: 200,
+      data:{
+        accountNumber: account.accountNumber,
+        status: account.status
+      }
+    });
+  }
 }
 
 export default AccountController;
