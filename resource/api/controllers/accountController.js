@@ -50,18 +50,32 @@ class AccountController {
 
   static accountStatus(req, res) {
     const account = accounts.find((accNum => accNum.accountNumber === parseInt(req.params.accountNumber)));
-    if (!account) return res.status(404).json({ 
+    if (!account) {return res.status(404).json({ 
       status: 404,
-      error: 'Account number not found' });
+      error: 'Account number not found' });}
     account.status = req.body.status;
     return res.status(200).json({
       status: 200,
-      data:{
+      data: {
         accountNumber: account.accountNumber,
-        status: account.status
-      }
+        status: account.status,
+      },
     });
   }
+
+  static deleteAccount(req, res) {
+    const account = accounts.find((accNum => accNum.accountNumber === parseInt(req.params.accountNumber)));
+    if (!account) {return res.status(404).json({ 
+      status: 404,
+      error: 'Account number not found' });}
+    const accIndex = accounts.indexOf(account);
+    accounts.splice(accIndex, 1);
+   return res.json({
+      status: 204,
+      message: 'Account successfully deleted'
+    }).status(204);
+  }
+
 }
 
 export default AccountController;
