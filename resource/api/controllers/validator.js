@@ -11,6 +11,15 @@ class Validator {
     };
     return Joi.validate(data, schema);
   }
-    
+
+  static accValildation(data) {
+    const schema = {
+      accountNumber: Joi.number().min(8).required(),
+      owner: Joi.number().required(),
+      type: Joi.string().required(),
+      openingBalance: Joi.number().required()
+    };
+    return Joi.validate(data, schema);
+  }
 }
 export default Validator;
