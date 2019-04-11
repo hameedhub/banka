@@ -26,6 +26,28 @@ describe('POST/ Create Account', ()=>{
         expect(res.body.data).to.have.property('type');
         expect(res.body.data).to.have.property('openingBalance');
         done();
+      });
+  });
+});
+
+describe('PATCH/ Account Status', ()=>{
+  it('should be able to change account status', (done)=>{
+    const accNum = {
+      id: 1,
+      accountNumber: 3812381012,
+      type: 'savings',
+      status: 'active'
+    }
+    chai.request(app)
+      .patch('/api/v1/accounts/'+accNum.accountNumber)
+      .send(accNum)
+      .end((err, res)=>{
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.eql(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.data).to.have.property('accountNumber');
+        expect(res.body.data).to.have.property('status');
+        done();
       })
-  } )
+  })
 })
