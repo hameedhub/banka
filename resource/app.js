@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 
 // routes
 import usersRoute from './api/routes/user';
+import accountRoute from './api/routes/account';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/v1/users', usersRoute);
+app.use('/api/v1/accounts', accountRoute);
 
 // error handler
 app.use((req, res) => {
