@@ -1,6 +1,9 @@
 {
   "name": "banka",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.9.4"
+  },
   "description": "Banking Application",
   "main": "app.js",
   "build": "babel src -d lib",
