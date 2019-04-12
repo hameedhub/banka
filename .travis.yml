@@ -5,4 +5,4 @@ cache:
   directories:
     - "node_modules"
 before-script: npm install 
-script: nyc mocha test/**/*.js --require @babel/register --exit
+script: mocha test/**/*.js --require @babel/register --exit
