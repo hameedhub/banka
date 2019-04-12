@@ -53,6 +53,10 @@ class AccountController {
     if (!account) {return res.status(404).json({ 
       status: 404,
       error: 'Account number not found' });}
+      if (req.body.status === "") return res.status(404).json({
+        status: 404,
+        error: 'status is required'
+      });
     account.status = req.body.status;
     return res.status(200).json({
       status: 200,

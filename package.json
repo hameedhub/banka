@@ -9,7 +9,7 @@
   "scripts": {
     "test": "nyc mocha test/**/*.js --require @babel/register --exit",
     "heroku-postbuild":"npm install",
-    "start": "babel-node app.js"
+    "start": "nodemon --exec babel-node app.js"
   },
   "repository": {
     "type": "git",
