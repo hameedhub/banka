@@ -6,11 +6,10 @@
   },
   "description": "Banking Application",
   "main": "app.js",
-  "build": "babel src -d lib",
   "scripts": {
     "test": "nyc mocha test/**/*.js --require @babel/register --exit",
-    "build": "babel src -d lib",
-    "start": "nodemon --exec babel-node app.js"
+    "heroku-postbuild":"npm install",
+    "start": "babel-node app.js"
   },
   "repository": {
     "type": "git",
