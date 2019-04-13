@@ -1,11 +1,18 @@
 language: node_js
 node_js: 
   - "stable"
+env:
+  global:
+  CC_TEST_REPORTER_ID=0013fb89bfcf4dd42027f68e965f2e699a69e350032061f5e6f001426a38b85b
+  - NODE_ENV=test
+  
 cache:
   directories:
     - "node_modules"
 before-script: npm install 
+        - ./cc-test-report before-build
 script: mocha test/**/*.js --require @babel/register --exit
-
-after_success:
-- npm run coveralls
+  -  npm run coveralls
+  -     npm run coverage
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

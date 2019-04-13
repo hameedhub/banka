@@ -7,9 +7,10 @@
   "description": "Banking Application",
   "main": "app.js",
   "scripts": {
-    "test": "nyc mocha test/**/*.js --require @babel/register --exit",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
+    "test": "nyc mocha test/**/*.js --require @babel/register --require coveralls --exit",
     "heroku-postbuild": "npm install",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "start": "nodemon --exec babel-node app.js"
   },
   "repository": {
@@ -43,6 +44,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
+    "istanbul": "^0.4.5",
     "mocha": "^6.0.2",
     "mocha-lcov-reporter": "^1.3.0",
     "morgan": "^1.9.1",
