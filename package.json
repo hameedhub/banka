@@ -7,7 +7,7 @@
   "description": "Banking Application",
   "main": "app.js",
   "scripts": {
-    "test": "nyc mocha test/**/*.js --require @babel/register --require coveralls --exit",
+    "test": "nyc mocha  -r @babel/register test/**/*.js --exit",
     "heroku-postbuild": "npm install",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
@@ -52,6 +52,7 @@
     "nyc": "^13.3.0"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.3",
     "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
