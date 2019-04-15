@@ -1,8 +1,8 @@
-//import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import users from '../model/user';
 import validation from './validator';
 
-//const salt = bcrypt.genSaltSync(10);
+const salt = bcrypt.genSaltSync(10);
 
 class UserController {
 
@@ -17,8 +17,7 @@ class UserController {
       email: req.body.email,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      //password: bcrypt.hashSync(req.body.password, salt),
-      password: req.body.password,
+      password: bcrypt.hashSync(req.body.password, salt),
       type: 'client',
       isAdmin: false,
     };
@@ -37,10 +36,15 @@ class UserController {
 
   static signIn(req, res) {
     const mail = users.find(user => user.email === req.body.email);
-    if (!mail) return res.status(404).json({ error: 'Incorrect email address' });
-    //const compare = bcrypt.compareSync(req.body.password, mail.password);
-    //if (compare === false) return res.status(404).json({ error: 'Incorrect Password' });
-     if (mail.password != req.body.password) return res.status(404).json({ error: 'Incorrect Password' });
+    if (!mail) return res.status(404).json({ 
+      status: 404,
+      error: 'Incorrect email address'
+    });
+    const compare = bcrypt.compareSync(req.body.password, mail.password);
+    if (compare === false) return res.status(404).json({ 
+      status: 404,
+      error: 'Incorrect Password'
+    });
     return res.status(200).json({
       status: 200,
       data: {

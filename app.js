@@ -1,4 +1,4 @@
-import "@babel/polyfill";
+import '@babel/polyfill';
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
@@ -31,15 +31,20 @@ app.use('/api/v1/accounts', accountRoute);
 app.use('/api/v1/transactions', transRoute);
 
 // error handler
-app.use((req, res) => {
-  res.status(404).json({
-    error: 'Not found',
-  });
+app.use((req, res, next) => {
+  const error = new Error('Not found');
+  error.status = 404;
+  next(error);
+});
+app.use((err, req, res, next)=>{
+res.status(err.status || 500).json({
+  status: err.status,
+  error: err.message
+})
 });
 
 // port
 const port = process.env.PORT || 3000;
-
 app.listen(port, () => { console.log(`Listening to port ${port}`); });
 
 export default app;
