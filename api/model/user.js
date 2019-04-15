@@ -5,7 +5,7 @@ const users = [
     email: 'hameed@gmail.com',
     firstName: 'Hameed',
     lastName: 'Abdulrahaman',
-    password: '12345n',
+    password: '$2b$10$YM5OqQ3vw2ZhsfOa4XqP8uRDwr8Zv52j15HLPC80/UkHSlvexyPde',
     type: 'admin',
     isAdmin: true,
   },

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sign Up - Banka </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="/UI/assets/css/style.css">
+</head>
+<body>
+	<header>
+		<a href="index.html" class="header-brand">Banka</a>
+	</header>
+	<main>
+		<section class="container">
+			<div class="form-box">
+				<h3>Registration</h3>
+				<p>Provide the following details, let's setup your account swiftly..</p><hr>
+				<form>
+					<div class="form-input">
+						<input type="text" name="firstName" required >
+						<label>First Name</label>
+					</div>
+					<div class="form-input">
+						<input type="text" name="lastName" required >
+						<label>Last Name</label>
+					</div>
+					<div class="form-input">
+						<input type="email" name="email" required >
+						<label>Email Address</label>
+					</div>
+					<div class="form-input">
+						<input type="password" name="password" required >
+						<label>Password</label>
+					</div>
+					<div class="form-input">
+						<input onkeyup="validatePass()" type="password" name="rpassword" required ><span id="msg"></span>
+						<label>Repeat Password</label>
+					</div>
+					<input class="btn btn-danger" type="submit" name="submit" value="Sign Up">
+				</form>
+				<p id="notify"></p>
+				<p>Do you have an account already? <a href="/UI/user/login.html"> Login</a></p>
+			</div>
+		</section>
+	</main>
+	<footer><p>&copy; Copyright 2019 Banka Software. All Rights Reserved.</p>
+	</footer>
+</body>
+</html>
