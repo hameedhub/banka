@@ -3,6 +3,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>//FullName - Create Account</title>
+
 	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
 </head>
 <body>
@@ -33,25 +34,24 @@
 	<main>
 		<section class="container dashboard">
 			<div class="form-box fb-big">
-				<h3>Create Account</h3><p>NB: Your details will be populated, you can only provide <b>Account Number</b> and <b>Account Type</b>..</p><hr>
+				<h3>Create Account</h3><hr>
 				<form>
 					<div class="form-input">
-						<input type="text" name="firstName" disabled value="Hameed" >
-						<label>First Name</label>
+						<input type="text" name="firstName"  disabled value="Hameed" >
+						
 					</div>
 					<div class="form-input">
 						<input type="text" name="lastName" disabled value="Rahaman" >
-						<label>Last Name</label>
 					</div>
 					<div class="form-input">
-						<input type="number" name="accountNumber">
-						<label>Account Number</label>
-					</div>
-					<div class="form-input">
-						<input type="number" name="accountNumber">
-						<label>Account Type</label>
-					</div>
-					<input class="btn btn-danger" type="submit" name="save" value="Save">
+						<input type="number" placeholder="Account Number" name="accountNumber">
+						
+					</div><p>
+							<input type="checkbox" /><label>Savings</label><br>
+							<input type="checkbox" /><label>Credit</label>
+					</p>
+						
+					<input class="btn btn-default" type="submit" name="save" value="Save">
 				</form>
 			</div>	
 		</section>

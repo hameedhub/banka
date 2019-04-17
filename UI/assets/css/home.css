@@ -1,0 +1,227 @@
+body {
+	font-family:corbel;
+	padding: 0;
+	margin: 0;
+}
+h1{
+    font-size: 50px;
+    color:#fff;
+    font-family: broadway;
+}
+p{
+    font-size: 20px;
+    color:#fff;
+}
+a{
+   text-decoration: none;
+	color: #fff;
+}
+header {
+    overflow: hidden;
+    background:#2E86C1;
+  }
+  
+  header a, header label {
+    display: block;
+    padding: 20px;
+    color: #fff;
+    text-decoration: none;
+    line-height: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif; 
+  }
+  
+  header a:hover, header label:hover { color:#fff; font-weight:600; }
+  
+  header label {
+    float: right;
+    padding: 18px 20px;
+    cursor: pointer;
+  }
+  
+  header label:after {
+    content: "\2261";
+    font-size: 2.5em;
+    color: #fff;
+  }
+  
+  .logo {
+    float: left;
+    font-weight: bold;
+    font-size: 40px;
+    font-family: broadway;
+    
+  }
+    
+  nav {
+    float: right;
+    max-height: 0;
+    width: 100%;
+    -webkit-transition: max-height 0.3s; 
+       -moz-transition: max-height 0.3s;
+         -o-transition: max-height 0.3s;
+            transition: max-height 0.3s;
+  }
+  
+  nav ul {
+    margin: 0;
+    padding: 0;
+     padding-bottom: 10px;
+  }
+    
+  nav li {
+    display: block;
+    text-align: center;
+  }
+    
+  nav a {
+    padding: 10px;
+    width: 100%;
+  }
+  
+  #nav { display: none; }
+  
+  #nav:checked ~ nav {
+    max-height: 200px; /* This can be anything bigger than your nav height. The transition duration works with this */
+  }
+  .home {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url(../images/bg.jpg);
+    background-size: cover;
+}
+.overlay{
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    top:0%;
+    left: 0%;
+    background-color:rgba(0,0, 0, 0.4);
+}
+.container{
+    position: relative;
+	padding-left: 15%;
+	margin-top: 5%;
+	padding-bottom: 100px;
+
+}
+.btn{
+    margin-left: 10px;
+	border:none;
+	width: 25%;
+	padding: 1%;
+	font-weight: bold;
+	font-size: 18px;
+	border-radius: 5px;
+	font-size: auto;
+	text-decoration-style: bold;
+}
+.btn-danger {
+	color: #fff;
+	background:  #f44336 ;
+}
+.btn-default {
+	color: #fff;
+	background: #5DADE2;
+}
+.help{
+    padding: 20px;
+}
+.form-box {
+	width: 80%;
+	background: rgba(14, 13, 13, 0.4);
+	padding: 20px;
+	box-sizing: border-box;
+	box-shadow: 0 20px 25px rgb(0,0,0,.5);
+	border-radius: 6px;
+}
+.form-box h1 {
+    color: #fff;
+    text-align:center;
+    font-size:25px;
+}
+.form-box hr{
+	margin: 0 0 50px;
+	width: 100%;
+	color: rgb(0,0,0,.2);
+}
+.form-input{
+	position: relative;
+}
+.form-input input{
+	padding: 6px;
+	width: 100%;
+	font-size: 16px;
+	color: white;
+	margin-bottom: 30px;
+	border:none;
+	border-bottom: 1px solid #fff;
+	outline: none;
+	background: transparent;
+
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color:#fff;
+    opacity: 1; /* Firefox */
+    font-size:18px;
+  }
+  
+.form-box span {
+	font-size: 15px;
+	float:right;
+	color: white;
+}
+.form-box p {
+	padding: 0 5px 0 4px;
+	font-size: 20px;
+	color: #fff;
+}
+.form-box a{
+	text-decoration: underline;
+	font-weight: 900;
+}
+footer{
+    background:#2E86C1;
+    position: fixed;
+    display: block;
+	bottom: 0;
+	height: 35px;
+	width: 100%;
+}
+footer p{
+	font-size: 15px;
+	font-weight: bold;
+	color: #fff;
+	text-align: center;
+}
+  @media only screen and (min-width: 700px) {
+    
+    header label { display: none; }
+    
+    nav {
+      width: auto;
+      max-height: none;
+    }
+    
+    nav ul {
+      padding: 0;
+      padding-right: 10px;
+    }
+    
+    nav li {
+      display: inline-block;
+      text-align: left;
+    }
+    
+    header nav a {
+      display: inline-block;
+      padding: 20px 10px;
+      width: auto;
+    }
+    p{
+        font-size: 20px;
+        color:#fff;
+    }
+  }
+
+  

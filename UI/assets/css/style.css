@@ -1,11 +1,27 @@
 body {
-	background-image: url(../images/bg.jpg);
 	font-family:corbel;
+	height:100%;
+	width:100%;
 	padding: 0;
 	margin: 0;
+	background-image: url(../images/bg4.jpg);
+	background-size:cover;
 }
+.overlay{
+	position: absolute;
+    width: inherit;
+    height: inherit;
+    top:0%;
+    left: 0%;
+    background-color:rgb(0,0,0,.2);
+}
+
 a{
 	text-decoration: none;
+	color: #fff;
+}
+p{
+	font-size: 14px;
 	color: #fff;
 }
 h3, h4 {
@@ -54,7 +70,7 @@ header {
 	position: fixed;
 	width: 235px;
 	height: 100%;
-	background: rgb(0,0,0,0.9);
+	background: rgb(0,0,0,0.8);
 	left: -235px;
 	transition: all 500ms linear;
 	z-index: 1;
@@ -147,8 +163,8 @@ header {
 	background:  #f44336 ;
 }
 .btn-default {
-	color: #111;
-	background: #cacfd2;
+	color: #fff;
+	background: #5DADE2;
 }
 .btn-sm{
 	border:none;
@@ -283,8 +299,13 @@ header {
   font-size: 12px;
   font-family: arial;
   list-style: none;
-  border-bottom: 2px solid rgb(229, 115, 115);
+  border-bottom: 2px solid rgb(98, 160, 160);
 }
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color:#fff;
+    opacity: 1; /* Firefox */
+    font-size:14px;
+  }
 .success{
 	color: green;
 	font-weight: bolder;
@@ -361,9 +382,9 @@ header {
   text-transform: uppercase;
   border-top: 2px solid rgb(229, 115, 115);
 }
-.list-account a:hover{
+/* .list-account a:hover{
 	background-color: rgb(  255, 171, 145 );
-}
+} */
 .status {
 	width: auto;
 	padding-left: 5px;
@@ -500,7 +521,7 @@ footer p{
 	top: 73px;
 	width: 200px;
 	height: 700px;
-	background: rgb(0,0,0,.9);
+	background: rgb(0,0,0,.7);
 	left: 0px;
 	border-top: 1px solid white;
 }
@@ -541,15 +562,10 @@ footer p{
 .sidebar ul{
 	padding-left: 0px;
 }
+
 .sidebar ul li {
-	margin: 0;
-	color: #fff;
-	font-size: 16px;
-	font-weight: 500;
-	list-style: none;
-	padding: 15px;
-	text-align: left;
-	border-bottom: 1px solid rgb(100,100,100,.3);
+	display: block;
+	text-align: center;
 }
 .sidebar .toggle-btn {
 	display: none;
