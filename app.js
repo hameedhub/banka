@@ -32,7 +32,7 @@ app.use('/api/v1/transactions', transRoute);
 app.use('/',(req, res)=>{
   res.status(200).json({
     status: 200,
-    message: 'Welcome to Banka API'
+    message: `Welcome to Banka API. Sorry no endpoint to this request ${req.url}`
   })
 });
 // error handler

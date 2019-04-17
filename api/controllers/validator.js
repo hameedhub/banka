@@ -5,9 +5,11 @@ class Validator {
   static details(data) {
     const schema = {
       email: Joi.string().email({ minDomainAtoms: 2 }),
-      firstName: Joi.string().min(3).max(30).required(),
-      lastName: Joi.string().min(3).max(30).required(),
+      firstname: Joi.string().min(3).max(30).required(),
+      lastname: Joi.string().min(3).max(30).required(),
       password: Joi.string().min(4).max(50).required(),
+      type: Joi.string().required(),
+      isAdmin: Joi.boolean().required()
     };
     return Joi.validate(data, schema);
   }
