@@ -3,44 +3,50 @@
 <head>
 	<title>Sign Up - Banka </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+	<!-- <link rel="stylesheet" type="text/css" href="../assets/css/style.css"> -->
+	<link rel="stylesheet" type="text/css" href="../assets/css/home.css">
 </head>
 <body>
 	<header>
-		<a href="index.html" class="header-brand">Banka</a>
+		<a class="logo" href="index.html">Banka</a>
+			<input id="nav" type="checkbox">
+				<label for="nav"></label>
+		<nav>
+			<ul>
+				<li><a href="login.html">LOGIN</a></li>
+				<li><a href="signup.html">SIGN UP</a></li>
+			</ul>
+		</nav> 
 	</header>
-	<main>
+	<main class="home">
+		<div class="overlay">
 		<section class="container">
 			<div class="form-box">
-				<h3>Registration</h3>
-				<p>Provide the following details, let's setup your account swiftly..</p><hr>
-				<form>
+				<h1>Registration</h1>
+				<form action="login.html" method="post">
 					<div class="form-input">
-						<input type="text" name="firstName" required >
-						<label>First Name</label>
+						<input type="text" name="firstName" placeholder="First Name" required >
+						
 					</div>
 					<div class="form-input">
-						<input type="text" name="lastName" required >
-						<label>Last Name</label>
+						<input type="text" name="lastName" placeholder="Last Name" required >
 					</div>
 					<div class="form-input">
-						<input type="email" name="email" required >
-						<label>Email Address</label>
+						<input type="email" name="email" placeholder="Email Address" required >
 					</div>
 					<div class="form-input">
-						<input type="password" name="password" required >
-						<label>Password</label>
+						<input type="password" name="password" placeholder="Enter password" required >
 					</div>
 					<div class="form-input">
-						<input onkeyup="validatePass()" type="password" name="rpassword" required ><span id="msg"></span>
-						<label>Repeat Password</label>
+						<input onkeyup="validatePass()" type="password" placeholder="Repeat Password" name="rpassword" required ><span id="msg"></span>
 					</div>
-					<input class="btn btn-danger" type="submit" name="submit" value="Sign Up">
+					<input class="btn btn-default" type="submit" name="submit" value="Sign Up">
 				</form>
 				<p id="notify"></p>
 				<p>Do you have an account already? <a href="login.html"> Login</a></p>
 			</div>
 		</section>
+	</div>
 	</main>
 	<footer><p>&copy; Copyright 2019 Banka Software. All Rights Reserved.</p>
 	</footer>

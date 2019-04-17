@@ -1,11 +1,27 @@
 body {
-	background-image: url(../images/bg.jpg);
 	font-family:corbel;
+	height:100%;
+	width:100%;
 	padding: 0;
 	margin: 0;
+	background-image: url(../images/bg\ next.jpg);
+	background-size:cover;
 }
+.overlay{
+	position: absolute;
+    width: inherit;
+    height: inherit;
+    top:0%;
+    left: 0%;
+    background-color:rgb(0,0,0,.2);
+}
+
 a{
 	text-decoration: none;
+	color: #fff;
+}
+p{
+	font-size: 14px;
 	color: #fff;
 }
 h3, h4 {
@@ -54,7 +70,7 @@ header {
 	position: fixed;
 	width: 235px;
 	height: 100%;
-	background: rgb(0,0,0,0.9);
+	background: rgb(0,0,0,0.8);
 	left: -235px;
 	transition: all 500ms linear;
 	z-index: 1;
@@ -147,8 +163,8 @@ header {
 	background:  #f44336 ;
 }
 .btn-default {
-	color: #111;
-	background: #cacfd2;
+	color: #fff;
+	background: #5DADE2;
 }
 .btn-sm{
 	border:none;
@@ -245,7 +261,7 @@ header {
 	font-family: verdana;
 }
 .box hr{
-	color: red;
+	color:#1c2833;
 }
 .box-link{
 	padding-right: 15px; 
@@ -280,11 +296,16 @@ header {
   border: none;
   text-align: left;
   outline: none;
-  font-size: 12px;
+  font-size: 17px;
   font-family: arial;
   list-style: none;
-  border-bottom: 2px solid rgb(229, 115, 115);
+  border-bottom: 2px solid rgb(98, 160, 160);
 }
+::placeholder { 
+    color:#fff;
+    opacity: 1;
+    font-size:14px;
+  }
 .success{
 	color: green;
 	font-weight: bolder;
@@ -296,15 +317,15 @@ header {
 }
 
 .activeCol, .collapsible:hover {
-  background-color: rgb(  255, 171, 145 );
-  color: #fff;
+  /* background-color: rgb(  255, 171, 145 ); */
+  /* color: #fff; */
 }
 .content {
   padding: 0 18px;
   display: none;
   overflow: hidden;
   background-color: #f1f1f1;
-  border-bottom: 2px solid rgb(229, 115, 115);
+  border-bottom: 2px solid rgb(57, 155, 158);
 }
 .content p{
   font-size: 12px;
@@ -361,9 +382,9 @@ header {
   text-transform: uppercase;
   border-top: 2px solid rgb(229, 115, 115);
 }
-.list-account a:hover{
+/* .list-account a:hover{
 	background-color: rgb(  255, 171, 145 );
-}
+} */
 .status {
 	width: auto;
 	padding-left: 5px;
@@ -390,7 +411,7 @@ header {
 
 }
 .list-staff a:hover{
-	background-color: rgb(  255, 171, 145 );
+	/* background-color: rgb(  255, 171, 145 ); */
 }
 /*List of accounts ends here..*/
 .recent-trans{
@@ -500,7 +521,7 @@ footer p{
 	top: 73px;
 	width: 200px;
 	height: 700px;
-	background: rgb(0,0,0,.9);
+	background: rgb(0,0,0,.7);
 	left: 0px;
 	border-top: 1px solid white;
 }
@@ -541,15 +562,10 @@ footer p{
 .sidebar ul{
 	padding-left: 0px;
 }
+
 .sidebar ul li {
-	margin: 0;
-	color: #fff;
-	font-size: 16px;
-	font-weight: 500;
-	list-style: none;
-	padding: 15px;
-	text-align: left;
-	border-bottom: 1px solid rgb(100,100,100,.3);
+	display: block;
+	text-align: center;
 }
 .sidebar .toggle-btn {
 	display: none;
@@ -576,12 +592,12 @@ footer p{
 	background:  #f44336 ;
 }
 .btn-default {
-	color: #111;
-	background: #cacfd2;
+	color: #fff;
+	background: #5DADE2;
 }
 .form-box {
 	margin-left: 20%;
-	width: 50%;
+	width: 90%;
 	background: rgb(0,0,0,.7);
 	padding: 20px;
 	box-sizing: border-box;
@@ -668,6 +684,11 @@ footer p{
 	border-style: none;
 	padding-left:10px;
 }
+.search::placeholder { 
+    color:#444;
+    opacity: 1;
+    font-size:14px;
+  }
 .collapsible {
   cursor: pointer;
   padding: 10px;
@@ -679,7 +700,7 @@ footer p{
   font-family: arial;
   font-weight: 600;
   list-style: none;
-  border-bottom: 2px solid rgb(229, 115, 115);
+  border-bottom: 2px solid rgb(37, 169, 179);
 }
 .content p{
   font-size: 15px;
