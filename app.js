@@ -29,10 +29,10 @@ app.use((req, res, next) => {
 app.use('/api/v1/auth', usersRoute);
 app.use('/api/v1/accounts', accountRoute);
 app.use('/api/v1/transactions', transRoute);
-app.use('/',(req, res)=>{
+app.get('/', (req, res)=>{
   res.status(200).json({
     status: 200,
-    message: `Welcome to Banka API. Sorry no endpoint to this request ${req.url}`
+    message: `Welcome to Banka API.`
   })
 });
 // error handler

@@ -1,8 +1,10 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import users from '../model/user';
 import validation from './validator';
 
+dotenv.config();
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -16,7 +18,7 @@ class UserController {
     const token = jwt.sign({
       id:users.length+1,
       email: req.body.email
-    }, 'andela',{expiresIn: '24h'});
+    }, process.env.JWT_KEY,{expiresIn: '24h'});
     const user = {
       token,
       id: users.length + 1,
@@ -54,7 +56,7 @@ class UserController {
     const token = jwt.sign({
       id:users.length+1,
       email: userDetails.email
-    }, 'andela',{expiresIn: '24h'});
+    }, process.env.JWT_KEY,{expiresIn: '24h'});
     return res.status(200).json({
       status: 200,
       data: {
