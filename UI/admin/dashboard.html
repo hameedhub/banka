@@ -3,39 +3,28 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Create Admin/Staff - Dashboard</title>
-	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../assets/css/home.css">
 </head>
 <body>
 	<header>
-	<div class="sidebar"><a href="#">
-		<div class="toggle-btn" onclick="toggle()">
-			<span></span>
-			<span></span>
-			<span></span>
-		</div></a>
-		<div class="avatar">
-			<div class="avatar-content" >
-				<table>
-					<tr><td>ADMIN ID:</td><td>01</td></tr>
-					<tr><td>NAME:</td><td>HAMEED</td></tr>
-					<tr><td>STATUS:</td><td>ACTIVE</td></tr>
-				</table>
-			</div>
-		</div>
-		<ul>
-			<li><a class="active" href="dashboard.html">Dashboard</a></li>
-			<li><a href="view-account.html">View Accounts</a></li>
-			<li><a href="#">Logout</a></li>
-		</ul>
-	</div>
-	<a class="header-brand"> Banka</a>
-	</header>
-	<main>
-		<section class="container dashboard">
-			<h3>ADMIN ID | <span> 01</span></h3>
+			<a class="logo" href="index.html">Banka</a>
+				<input id="nav" type="checkbox">
+					<label for="nav"></label>
+			<nav>
+				<ul><li><a  href="dashboard.html">Dashboard</a></li>
+					<li><a href="view-account.html">View Accounts</a></li>
+					<li><a href="view-users.html">View Users</a></li>
+					<li><a href="../user/login.html">Logout</a></li>
+				</ul>
+			</nav> 			
+</header>
+<main class="home">
+	<div class="overlay">
+	<section class="container dashboard">
+		<h3>ADMIN | <span> LUKMAN </span></h3>
 			<div class="box">
 				<div class="trans-panel">
-				<b>Register Admin/Staff </b><hr>
+				<b>Create Staff</b><hr>
 				<form>
 					<label>Email</label>
 					<input type="email" name="email" required>
@@ -52,11 +41,12 @@
 						<option>Admin</option>
 					</select>
 					
-					<a href="#" class="btn btn-default">Submit</a>
+					<a href="#" class="btn btn-default">Create</a>
 				</form>
 				</div>
 			</div>			
 		</section>
+		</div>
 	</main>
 <script src="../assets/js/widgets.js"></script>
 </body>
