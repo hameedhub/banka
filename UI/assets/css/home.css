@@ -389,6 +389,20 @@ footer p{
       font-family: verdana;
       font-size: 13px;
     }
+    .search{
+      width: 93%;
+      height: 40px;
+      border-radius: 5px;
+      border-color: #fff;
+      font-size: 14px;
+      border-style: none;
+      padding-left:10px;
+    }
+    .search::placeholder { 
+        color:#444;
+        opacity: 1;
+        font-size:14px;
+      }
   }
 
   
