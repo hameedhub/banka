@@ -3,37 +3,28 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>//FullName - Dashboard</title>
-	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../assets/css/home.css">
+	<!-- <link rel="stylesheet" type="text/css" href="../assets/css/style.css"> -->
 </head>
 <body>
-	<header>
-	<div class="sidebar">
-		<div class="toggle-btn" onclick="toggle()">
-			<span></span>
-			<span></span>
-			<span></span>
-		</div>
-		<div class="avatar">
-			<div class="avatar-img">
-				<img src="../assets/images/avatar.jpg" alt="avatar">
-			</div>
-			<div class="avatar-content">
-				<p>Hameed Abdulrahaman</p>
-			</div>
-		</div>
-		<ul>
-			<li><a class="active" href="dashboard.html">Dashboard</a></li>
-			<li><a href="create-account.html">Create Account</a></li>
-			<li><a href="transactions.html">Transactions</a></li>
-			<li><a href="#">Logout</a></li>
-		</ul>
-	</div>
-	<a class="header-brand"> Banka</a>
-	</header>
-	<main class="overlay">
-		<section class="container dashboard">
-			<h3>Welcome, <span>HAMEED</span></h3>
+		<header>
+				<a class="logo" href="index.html">Banka</a>
+					<input id="nav" type="checkbox">
+						<label for="nav"></label>
+				<nav>
+					<ul><li><a class="active" href="dashboard.html">Dashboard</a></li>
+						<li><a href="create-account.html">Create Account</a></li>
+						<li><a href="transactions.html">Transactions</a></li>
+						<li><a href="#">Logout</a></li>
+					</ul>
+				</nav> 
+			</header>
+
+	
+			<main class="home">
+					<div class="overlay">
+					<section class="container ">
+			<h2>Welcome, <span>HAMEED</span></h2>
 
 			<div class="box">
 				<span>Available Balance</span>
@@ -41,9 +32,9 @@
 				<span>Account Number: </span><span>21801280</span>
 			</div>
 		</section>
-		<section class="container dashboard">
+		<section class="container">
 			<div class="recent-trans">
-				<h4>Recent Transactions</h4>
+				<h3>Recent Transactions</h3>
 				<ul class="box trans" id="myUL">
 				 <li class="collapsible"><b class="danger"><<</b><a> Debit! | 19 March 2019 | Desc: Withdrawal | NGN 4000 | TransID 28791</a></li>
 					<div class="content">
@@ -56,9 +47,9 @@
 				</ul>
 			</div>
 		</section>
-		
+		</div>
 	</main>
-<script src="../assets/js/widgets.js"></script>
 </div>
+<script src="../assets/js/widgets.js"></script>
 </body>
 </html>

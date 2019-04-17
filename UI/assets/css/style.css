@@ -4,7 +4,7 @@ body {
 	width:100%;
 	padding: 0;
 	margin: 0;
-	background-image: url(../images/bg4.jpg);
+	background-image: url(../images/bg\ next.jpg);
 	background-size:cover;
 }
 .overlay{
@@ -261,7 +261,7 @@ header {
 	font-family: verdana;
 }
 .box hr{
-	color: red;
+	color:#1c2833;
 }
 .box-link{
 	padding-right: 15px; 
@@ -296,14 +296,14 @@ header {
   border: none;
   text-align: left;
   outline: none;
-  font-size: 12px;
+  font-size: 17px;
   font-family: arial;
   list-style: none;
   border-bottom: 2px solid rgb(98, 160, 160);
 }
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+::placeholder { 
     color:#fff;
-    opacity: 1; /* Firefox */
+    opacity: 1;
     font-size:14px;
   }
 .success{
@@ -317,15 +317,15 @@ header {
 }
 
 .activeCol, .collapsible:hover {
-  background-color: rgb(  255, 171, 145 );
-  color: #fff;
+  /* background-color: rgb(  255, 171, 145 ); */
+  /* color: #fff; */
 }
 .content {
   padding: 0 18px;
   display: none;
   overflow: hidden;
   background-color: #f1f1f1;
-  border-bottom: 2px solid rgb(229, 115, 115);
+  border-bottom: 2px solid rgb(57, 155, 158);
 }
 .content p{
   font-size: 12px;
@@ -411,7 +411,7 @@ header {
 
 }
 .list-staff a:hover{
-	background-color: rgb(  255, 171, 145 );
+	/* background-color: rgb(  255, 171, 145 ); */
 }
 /*List of accounts ends here..*/
 .recent-trans{
@@ -592,12 +592,12 @@ footer p{
 	background:  #f44336 ;
 }
 .btn-default {
-	color: #111;
-	background: #cacfd2;
+	color: #fff;
+	background: #5DADE2;
 }
 .form-box {
 	margin-left: 20%;
-	width: 50%;
+	width: 90%;
 	background: rgb(0,0,0,.7);
 	padding: 20px;
 	box-sizing: border-box;
@@ -684,6 +684,11 @@ footer p{
 	border-style: none;
 	padding-left:10px;
 }
+.search::placeholder { 
+    color:#444;
+    opacity: 1;
+    font-size:14px;
+  }
 .collapsible {
   cursor: pointer;
   padding: 10px;
@@ -695,7 +700,7 @@ footer p{
   font-family: arial;
   font-weight: 600;
   list-style: none;
-  border-bottom: 2px solid rgb(229, 115, 115);
+  border-bottom: 2px solid rgb(37, 169, 179);
 }
 .content p{
   font-size: 15px;
