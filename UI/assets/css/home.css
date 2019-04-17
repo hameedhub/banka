@@ -8,8 +8,14 @@ h1{
     color:#fff;
     font-family: broadway;
 }
-h2, h3, h4{
+h2, h3{
   color:#fff;
+}
+h4{
+  padding: 0;
+  font-size: 17px;
+  font-weight: 600;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 p{
     font-size: 20px;
@@ -135,7 +141,7 @@ header {
 	background: rgba(14, 13, 13, 0.4);
 	padding: 20px;
 	box-sizing: border-box;
-	box-shadow: 0 20px 25px rgb(0,0,0,.5);
+	box-shadow: 0 20px 25px rgb(0,0,0,.8);
 	border-radius: 6px;
 }
 .form-box h1 {
@@ -381,7 +387,7 @@ footer p{
       font-weight: bolder;
       color: #1c2833;
       font-family: verdana;
-      font-size: 23px;
+      font-size: 13px;
     }
   }
 

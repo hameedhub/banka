@@ -4,37 +4,26 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>//FullName - Create Account</title>
 
-	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../assets/css/home.css">
 </head>
 <body>
-	<header>
-	<div class="sidebar">
-		<div class="toggle-btn" onclick="toggle()">
-			<span></span>
-			<span></span>
-			<span></span>
-		</div>
-		<div class="avatar">
-			<div class="avatar-img">
-				<img src="../assets/images/avatar.jpg" alt="avatar">
-			</div>
-			<div class="avatar-content">
-				<p>Hameed Abdulrahaman</p>
-			</div>
-		</div>
-		<ul>
-			<li><a href="dashboard.html">Dashboard</a></li>
-			<li><a class="active" href="create-account.html">Create Account</a></li>
-			<li><a href="transactions.html">Transactions</a></li>
-			<li><a href="#">Logout</a></li>
-		</ul>
-	</div>
-	<a class="header-brand" href="dashboard.html"> Banka</a>
-	</header>
-	<main>
-		<section class="container dashboard">
+		<header>
+				<a class="logo" href="index.html">Banka</a>
+					<input id="nav" type="checkbox">
+						<label for="nav"></label>
+				<nav>
+					<ul><li><a  href="dashboard.html">Dashboard</a></li>
+						<li><a class="active" href="create-account.html">Create Account</a></li>
+						<li><a href="transactions.html">Transactions</a></li>
+						<li><a href="login.html">Logout</a></li>
+					</ul>
+				</nav> 
+			</header>
+	<main class="home">
+		<div class="overlay">
+		<section class="container">
 			<div class="form-box fb-big">
-				<h3>Create Account</h3><hr>
+				<h1>Create Account</h1><hr>
 				<form>
 					<div class="form-input">
 						<input type="text" name="firstName"  disabled value="Hameed" >
@@ -57,5 +46,7 @@
 		</section>
 	</main>
 	<script src="../assets/js/widgets.js"></script>
+	<footer><p>&copy; Copyright 2019 Banka Software. All Rights Reserved.</p>
+	</footer>
 </body>
 </html>
