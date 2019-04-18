@@ -3,8 +3,8 @@ const users = [
   {
     id: 1,
     email: 'hameed@gmail.com',
-    firstName: 'Hameed',
-    lastName: 'Abdulrahaman',
+    firstname: 'Hameed',
+    lastname: 'Abdulrahaman',
     password: '$2b$10$YM5OqQ3vw2ZhsfOa4XqP8uRDwr8Zv52j15HLPC80/UkHSlvexyPde',
     type: 'admin',
     isAdmin: true,
@@ -12,8 +12,8 @@ const users = [
   {
     id: 2,
     email: 'ayo@gmail.com',
-    firstName: 'Ayobami',
-    lastName: 'Daniel',
+    firstname: 'Ayobami',
+    lastname: 'Daniel',
     password: '12345n',
     type: 'staff',
     isAdmin: false,
@@ -21,8 +21,8 @@ const users = [
   {
     id: 3,
     email: 'micheal@gmail.com',
-    firstName: 'Micheal',
-    lastName: 'Seyi',
+    firstname: 'Micheal',
+    lastname: 'Seyi',
     password: '12345n',
     type: 'client',
     isAdmin: false,
@@ -30,8 +30,8 @@ const users = [
   {
     id: 4,
     email: 'youngds2u@gmail.com',
-    firstName: 'John',
-    lastName: 'Dove',
+    firstname: 'John',
+    lastname: 'Dove',
     password: '12345n',
     type: 'client',
     isAdmin: false,
