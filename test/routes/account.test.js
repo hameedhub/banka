@@ -5,32 +5,44 @@ import app from '../../app';
 
 chai.use(chaiHttp);
 
-describe('POST/ Create Account', ()=>{
+describe('Account Test', ()=>{
+ 
+  let token;
+  before('Login staff before test runs', (done)=> {
+    chai.request(app)
+    .post('/api/v1/auth/signin')
+    .send({
+      email: 'hameed@gmail.com',
+      password: '12345n'
+      })
+      .end((err, res)=> {
+      token =res.body.data.token;
+        done();
+      });
+  });
   it('should be able to create account and get response', (done)=>{
     chai.request(app).post('/api/v1/accounts')
       .send({
         accountNumber: 3908080304,
         owner: 1,
-        type: "savings",
-        openingBalance:  100
+        type: 'savings',
+        openingBalance:  100,
       })
+      .set('authorization', `Bearer ${token}`)
       .end((err, res)=>{
         expect(res).to.have.status(201);
         expect(res.body).to.be.an('object');
         expect(res.body.status).to.eql(201);
         expect(res.body.data).to.be.an('object');
         expect(res.body.data).to.have.property('accountNumber');
-        expect(res.body.data).to.have.property('firstName');
-        expect(res.body.data).to.have.property('lastName');
+        expect(res.body.data).to.have.property('firstname');
+        expect(res.body.data).to.have.property('lastname');
         expect(res.body.data).to.have.property('email');
         expect(res.body.data).to.have.property('type');
         expect(res.body.data).to.have.property('openingBalance');
         done();
       });
   });
-});
-
-describe('PATCH/ Account Status', ()=>{
   it('should be able to change account status', (done)=>{
     const accNum = {
       id: 1,
@@ -41,6 +53,7 @@ describe('PATCH/ Account Status', ()=>{
     chai.request(app)
       .patch('/api/v1/accounts/'+accNum.accountNumber)
       .send(accNum)
+      .set('authorization', `Bearer ${token}`)
       .end((err, res)=>{
         expect(res).to.have.status(200);
         expect(res.body.status).to.eql(200);
@@ -49,9 +62,7 @@ describe('PATCH/ Account Status', ()=>{
         expect(res.body.data).to.have.property('status');
         done();
       })
-  })
-})
-describe('DELETE/ Account', ()=>{
+  });
   it('should delete account',(done)=>{
     const accNum = {
       id: 1,
@@ -65,6 +76,7 @@ describe('DELETE/ Account', ()=>{
     chai.request(app)
       .delete('/api/v1/accounts/'+accNum.accountNumber)
       .send(accNum)
+      .set('authorization', `Bearer ${token}`)
       .end((err, res)=>{
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
@@ -74,4 +86,4 @@ describe('DELETE/ Account', ()=>{
         done();
       })
   })
-})
+});

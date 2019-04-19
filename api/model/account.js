@@ -30,7 +30,7 @@ const accounts = [
     id: 4,
     accountNumber: 77865765880,
     createdOn: '2015-04-06T21:43:27.124Z',
-    owner: 2,
+    owner: 4,
     type: 'savings',
     status: 'active',
     balance: 6000.00,

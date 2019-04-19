@@ -3,34 +3,23 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>//FullName - Transactions</title>
-	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../assets/css/home.css">
 </head>
 <body>
-	<header>
-	<div class="sidebar">
-		<div class="toggle-btn" onclick="toggle()">
-			<span></span>
-			<span></span>
-			<span></span>
-		</div>
-		<div class="avatar">
-			<div class="avatar-img">
-				<img src="../assets/images/avatar.jpg" alt="avatar">
-			</div>
-			<div class="avatar-content">
-				<p>Hameed Abdulrahaman</p>
-			</div>
-		</div>
-		<ul>
-			<li><a href="dashboard.html">Dashboard</a></li>
-			<li><a href="profile.html">Profile</a></li>
-			<li><a class="active" href="transactions.html">Transactions</a></li>
-			<li><a href="#">Logout</a></li>
-		</ul>
-	</div>
-	<a class="header-brand"> Banka</a>
-	</header>
-	<main>
+		<header>
+				<a class="logo" >Banka</a>
+					<input id="nav" type="checkbox">
+						<label for="nav"></label>
+				<nav>
+					<ul><li><a  href="dashboard.html">Dashboard</a></li>
+						<li><a class="active" href="create-account.html">Create Account</a></li>
+						<li><a href="transactions.html">Transactions</a></li>
+						<li><a href="login.html">Logout</a></li>
+					</ul>
+				</nav> 
+			</header>
+	<main class="home">
+		<div class="overlay">
 		<section class="container dashboard">
 			<input class="search" type="text" id="myInput" onkeyup="search()" placeholder="Search filter.. e.g date">
 			<ul class="box trans" id="myUL">
@@ -44,6 +33,7 @@
 					</div> 
 			</ul>
 		</section>
+	</div>
 	</main>
 	<script src="../assets/js/widgets.js"></script>
 </body>

@@ -1,36 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Staff Login - Banka</title>
+	<title>Banka - Andela</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../assets/css/home.css">
 </head>
 <body>
-	<header>
-		<a href="index.html" class="header-brand">Banka</a>
-	</header>
-	<main>
-		<section class="container">
-			<h3>Welcome,</h3>
-				<p>Enter your Email and password..</p>
+		<header>
+				<a class="logo" href="../../index.html">Banka</a>
+					<input id="nav" type="checkbox">
+						<label for="nav"></label>
+				<nav>
+					<ul>
+						<li><a href="../../index.html">HOME</a></li>
+						<li><a href="login.html">LOGIN</a></li>
+					</ul>
+				</nav> 
+			</header>
+	<main class="home">
+		<div class="overlay">
+		<section class="container ">
 			<div class="form-box">
-				<h3>LOGIN (Staff)</h3><hr>
-					<form method="post" action="#">
+				<h1>LOGIN</h1><hr>
+					<form action="dashboard.html">
 						<div class="form-input">
-							<input type="email" name="email" required>
-							<label>Email</label>
+							<input placeholder="Email Address" type="email" name="email" required>
 						</div>
 						<div class="form-input">
-							<input type="password" name="password" required>
-							<label>Password</label>
+							<input placeholder="Password" type="password" name="password" required>
 						</div>
-						<input class="btn btn-danger" type="submit" value="Login">
+						<!-- <span><a href="#"><u>Forgot password?</u></a></span> -->
+						<input class="btn btn-default" type="submit" name="" value="Login">
 					</form>
 			</div>
-
 		</section>
+	</div>
 	</main>
 	<footer><p>&copy; Copyright 2019 Banka Software. All Rights Reserved.</p>
 	</footer>
+	<script type="text/javascript" src="../assets/js/widgets.js"></script>
 </body>
 </html>
