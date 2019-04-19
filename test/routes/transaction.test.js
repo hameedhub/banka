@@ -4,8 +4,20 @@ import app from '../../app';
 
 chai.use(chaiHttp);
 
-let BearerToken = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJoYW1lZWRAZ21haWwuY29tIiwiaWF0IjoxNTU1NTkwMzg1LCJleHAiOjE1NTU2NzY3ODV9.4FJKArXeMbrF7BhQbo9Nw533TUPjvt9VYSJ2nqH6Fww`;  
-describe('POST/ Debit Transaction', ()=>{
+describe('Transaction Test', ()=>{
+  let token
+  before('Login cashier before the transaction', (done)=>{
+    chai.request(app)
+    .post('/api/v1/auth/signin')
+    .send({
+      email: 'ayo@gmail.com',
+      password: '12345n'
+      })
+      .end((err, res)=> {
+      token =res.body.data.token;
+        done();
+      });
+  })
   it('should be able to debit account', (done)=>{
     const accNum = 58897676867;
     const data = {
@@ -14,7 +26,7 @@ describe('POST/ Debit Transaction', ()=>{
     }
     chai.request(app)    
       .post(`/api/v1/transactions/${accNum}/debit`)
-      .set('authorization', BearerToken)
+      .set('authorization', `Bearer ${token}`)
       .send(data)
       .end((err, res)=>{
         expect(res).to.have.status(201);
@@ -28,9 +40,6 @@ describe('POST/ Debit Transaction', ()=>{
         done();
       })
   })
-})
-
-describe('POST/ Credit Transaction', ()=>{
   it('should be able to credit account', (done)=>{
     const accNum = 58897676867;
     const data = {
@@ -40,7 +49,7 @@ describe('POST/ Credit Transaction', ()=>{
     chai.request(app)    
       .post(`/api/v1/transactions/${accNum}/credit`)
       .send(data)
-      .set('authorization', BearerToken)
+      .set('authorization', `Bearer ${token}`)
       .end((err, res)=>{
         expect(res).to.have.status(201);
         expect(res.body.status).to.eql(201);

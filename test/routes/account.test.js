@@ -5,13 +5,21 @@ import app from '../../app';
 
 chai.use(chaiHttp);
 
-const login = {
-  email: 'hameed@gmail.com',
-  password: '12345n',
-};
-let BearerToken = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJoYW1lZWRAZ21haWwuY29tIiwiaWF0IjoxNTU1NTkwMzg1LCJleHAiOjE1NTU2NzY3ODV9.4FJKArXeMbrF7BhQbo9Nw533TUPjvt9VYSJ2nqH6Fww`;   
-
-describe('POST/ Create Account', ()=>{
+describe('Account Test', ()=>{
+ 
+  let token;
+  before('Login staff before test runs', (done)=> {
+    chai.request(app)
+    .post('/api/v1/auth/signin')
+    .send({
+      email: 'hameed@gmail.com',
+      password: '12345n'
+      })
+      .end((err, res)=> {
+      token =res.body.data.token;
+        done();
+      });
+  });
   it('should be able to create account and get response', (done)=>{
     chai.request(app).post('/api/v1/accounts')
       .send({
@@ -20,7 +28,7 @@ describe('POST/ Create Account', ()=>{
         type: 'savings',
         openingBalance:  100,
       })
-      .set('authorization', BearerToken)
+      .set('authorization', `Bearer ${token}`)
       .end((err, res)=>{
         expect(res).to.have.status(201);
         expect(res.body).to.be.an('object');
@@ -35,9 +43,6 @@ describe('POST/ Create Account', ()=>{
         done();
       });
   });
-});
-
-describe('PATCH/ Account Status', ()=>{
   it('should be able to change account status', (done)=>{
     const accNum = {
       id: 1,
@@ -48,7 +53,7 @@ describe('PATCH/ Account Status', ()=>{
     chai.request(app)
       .patch('/api/v1/accounts/'+accNum.accountNumber)
       .send(accNum)
-      .set('authorization', BearerToken)
+      .set('authorization', `Bearer ${token}`)
       .end((err, res)=>{
         expect(res).to.have.status(200);
         expect(res.body.status).to.eql(200);
@@ -57,9 +62,7 @@ describe('PATCH/ Account Status', ()=>{
         expect(res.body.data).to.have.property('status');
         done();
       })
-  })
-})
-describe('DELETE/ Account', ()=>{
+  });
   it('should delete account',(done)=>{
     const accNum = {
       id: 1,
@@ -73,7 +76,7 @@ describe('DELETE/ Account', ()=>{
     chai.request(app)
       .delete('/api/v1/accounts/'+accNum.accountNumber)
       .send(accNum)
-      .set('authorization', BearerToken)
+      .set('authorization', `Bearer ${token}`)
       .end((err, res)=>{
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
@@ -83,4 +86,4 @@ describe('DELETE/ Account', ()=>{
         done();
       })
   })
-})
+});
