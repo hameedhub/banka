@@ -6,17 +6,16 @@ import app from '../../app';
 chai.use(chaiHttp);
 
 describe('Account Test', ()=>{
- 
   let token;
   before('Login staff before test runs', (done)=> {
     chai.request(app)
-    .post('/api/v1/auth/signin')
-    .send({
-      email: 'hameed@gmail.com',
-      password: '12345n'
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'hameed@gmail.com',
+        password: '12345n'
       })
       .end((err, res)=> {
-      token =res.body.data.token;
+        token =res.body.data.token;
         done();
       });
   });
@@ -60,6 +59,21 @@ describe('Account Test', ()=>{
         expect(res.body).to.be.an('object');
         expect(res.body.data).to.have.property('accountNumber');
         expect(res.body.data).to.have.property('status');
+        done();
+      })
+  });
+  it('should be able to get account transactions', (done)=>{
+    const accNum = {
+      accountNumber: 3812381012,
+    }
+    chai.request(app)
+      .get(`/api/v1/accounts/${accNum.accountNumber}/transactions`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.eql(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.data).to.have.an('array');
         done();
       })
   });

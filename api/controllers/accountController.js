@@ -1,6 +1,7 @@
 import accounts from '../model/account';
 import users from '../model/user';
 import validation from './validator';
+import check from '../helper/checkField';
 
 class AccountController {
   static createAccount(req, res) {
@@ -49,49 +50,74 @@ class AccountController {
   }
 
   static accountStatus(req, res) {
-    if (req.userData.isAdmin != true) {return res.status(401).json({
-      status: 401,
-      error: 'Unauthorized token for this session'
-    });}
-    const account = accounts.find((accNum => accNum.accountNumber === parseInt(req.params.accountNumber)));
-    if (!account) { 
+    if (req.userData.isAdmin != true) {
+      return res.status(401).json({
+        status: 401,
+        error: 'Unauthorized token for this session',
+      });
+    }
+    const find = check.accNum(req.params.accountNumber);
+    if (!find) {
+      return res.json({
+        status: 204,
+        error: 'Account number not found',
+      });
+    }
+    if (!req.body.status) {
       return res.status(404).json({
         status: 404,
-        error: 'Account number not found' 
+        error: 'status is required',
       }); 
     }
-    if (!req.body.status) return res.status(404).json({
-      status: 404,
-      error: 'status is required'
-    });
-    account.status = req.body.status;
+    find.status = req.body.status;
     return res.status(200).json({
       status: 200,
       data: {
-        accountNumber: account.accountNumber,
-        status: account.status,
+        accountNumber: find.accountNumber,
+        status: find.status,
       },
     });
   }
 
   static deleteAccount(req, res) {
-    if (req.userData.isAdmin != true) {return res.status(401).json({
-      status: 401,
-      error: 'Unauthorized token for this session'
-    });}
-    const account = accounts.find((accNum => accNum.accountNumber === parseInt(req.params.accountNumber)));
-    if (!account) { 
-      return res.status(404).json({
-        status: 404,
-        error: 'Account number not found' 
-      }); 
+    if (req.userData.isAdmin != true) {
+      return res.status(401).json({
+        status: 401,
+        error: 'Unauthorized token for this session',
+      });
     }
-    const accIndex = accounts.indexOf(account);
+    const find = check.accNum(req.params.accountNumber);
+    if (!find) {
+      return res.json({
+        status: 204,
+        error: 'Account number not found',
+      });
+    }
+    const accIndex = accounts.indexOf(find);
     accounts.splice(accIndex, 1);
     return res.json({
       status: 204,
       message: 'Account successfully deleted',
     }).status(204);
+  }
+
+  static getTrans(req, res) {
+    const find = check.accNum(req.params.accountNumber);
+    if (!find) {
+      return res.json({
+        status: 204,
+        error: 'Account number not found',
+      });
+    }
+    const trans = check.trans(req.params.accountNumber);
+    if (!trans) return res.json({
+      status: 200,
+      message: 'No transaction found on this account'
+    })
+    return res.json({
+      status: 200,
+      data: trans,
+    });
   }
 }
 
