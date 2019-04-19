@@ -7,6 +7,10 @@ import users from '../model/user';
 class TransController {
 
   static debitTrans(req, res) {
+    if(req.userData.type != 'staff') return res.status(401).json({
+      status: 401,
+      error: 'Unauthorized token for this session'
+    });
     const account = accounts.find((acc => acc.accountNumber === parseInt(req.params.accountNumber)));
     if (!account) {
       return res.status(404).json({
@@ -57,6 +61,10 @@ class TransController {
   }
 
   static creditTrans(req, res) {
+    if(req.userData.type != 'staff') return res.status(401).json({
+      status: 401,
+      error: 'Unauthorized token for this session'
+    });
     const account = accounts.find((acc => acc.accountNumber === parseInt(req.params.accountNumber)));
     if (!account) {
       return res.status(404).json({

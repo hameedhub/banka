@@ -1,4 +1,3 @@
-/* eslint-disable no-tabs */
 const users = [
   {
     id: 1,
@@ -14,7 +13,7 @@ const users = [
     email: 'ayo@gmail.com',
     firstname: 'Ayobami',
     lastname: 'Daniel',
-    password: '12345n',
+    password: '$2b$10$YM5OqQ3vw2ZhsfOa4XqP8uRDwr8Zv52j15HLPC80/UkHSlvexyPde',
     type: 'staff',
     isAdmin: false,
   },
@@ -23,7 +22,7 @@ const users = [
     email: 'micheal@gmail.com',
     firstname: 'Micheal',
     lastname: 'Seyi',
-    password: '12345n',
+    password: '$2b$10$YM5OqQ3vw2ZhsfOa4XqP8uRDwr8Zv52j15HLPC80/UkHSlvexyPde',
     type: 'client',
     isAdmin: false,
   },
@@ -32,7 +31,7 @@ const users = [
     email: 'youngds2u@gmail.com',
     firstname: 'John',
     lastname: 'Dove',
-    password: '12345n',
+    password: '$2b$10$YM5OqQ3vw2ZhsfOa4XqP8uRDwr8Zv52j15HLPC80/UkHSlvexyPde',
     type: 'client',
     isAdmin: false,
   },

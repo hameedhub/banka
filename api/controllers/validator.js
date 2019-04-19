@@ -9,7 +9,7 @@ class Validator {
       lastname: Joi.string().min(3).max(30).required(),
       password: Joi.string().min(4).max(50).required(),
       type: Joi.string().required(),
-      isAdmin: Joi.boolean().required()
+      isAdmin: Joi.required()
     };
     return Joi.validate(data, schema);
   }

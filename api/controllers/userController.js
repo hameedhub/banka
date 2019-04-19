@@ -17,7 +17,9 @@ class UserController {
     if (userEmail) return res.json({ error: 'Email already in use' });
     const token = jwt.sign({
       id:users.length+1,
-      email: req.body.email
+      email: req.body.email,
+      type: req.body.type,
+      isAdmin: req.body.isAdmin
     }, process.env.JWT_KEY,{expiresIn: '24h'});
     const user = {
       token,
@@ -55,7 +57,9 @@ class UserController {
     });
     const token = jwt.sign({
       id:users.length+1,
-      email: userDetails.email
+      email: userDetails.email,
+      type: userDetails.type,
+      isAdmin: userDetails.isAdmin
     }, process.env.JWT_KEY,{expiresIn: '24h'});
     return res.status(200).json({
       status: 200,
