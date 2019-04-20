@@ -67,7 +67,7 @@ class AccountController {
       return res.status(404).json({
         status: 404,
         error: 'status is required',
-      }); 
+      });
     }
     find.status = req.body.status;
     return res.status(200).json({
@@ -110,15 +110,28 @@ class AccountController {
       });
     }
     const trans = check.trans(req.params.accountNumber);
-    if (!trans) return res.json({
+    if (!trans) {return res.json({
       status: 200,
       message: 'No transaction found on this account'
-    })
-    return res.json({
+    })};
+    return res.status(200).json({
       status: 200,
       data: trans,
     });
   }
+
+  static getDetails(req, res) {
+    const account = check.accNum(req.params.accountNumber);
+    if (!account) {return res.status(404).json({
+      status: 404,
+      error: 'Invalied account'
+    })};
+    return res.status(200).json({
+      status: 200,
+      data: account,
+    });
+  }
+
 }
 
 export default AccountController;
