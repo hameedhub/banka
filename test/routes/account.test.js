@@ -23,9 +23,8 @@ describe('Account Test', ()=>{
     chai.request(app).post('/api/v1/accounts')
       .send({
         accountNumber: 3908080304,
-        owner: 1,
         type: 'savings',
-        openingBalance:  100,
+        openingBalance:  1000
       })
       .set('authorization', `Bearer ${token}`)
       .end((err, res)=>{
@@ -39,6 +38,17 @@ describe('Account Test', ()=>{
         expect(res.body.data).to.have.property('email');
         expect(res.body.data).to.have.property('type');
         expect(res.body.data).to.have.property('openingBalance');
+        done();
+      });
+  });
+  it('should be able to get all users account', (done)=>{
+    chai.request(app).get('/api/v1/accounts')
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.status).to.eql(200);
+        expect(res.body.data).to.be.an('array');
         done();
       });
   });

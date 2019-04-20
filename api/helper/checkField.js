@@ -3,29 +3,34 @@ import transaction from '../model/transaction';
 import users from '../model/user';
 
 class Check {
-  static accNum(data) {
-    const account = accounts.find(acc => acc.accountNumber === +data);
+  static accNum(accountNumber) {
+    const account = accounts.find(acc => acc.accountNumber === +accountNumber);
     return account;
   }
 
-  static trans(data) {
-    const trans = transaction.filter(tran => tran.accountNumber === +data);
+  static trans(accountNumber) {
+    const trans = transaction.filter(tran => tran.accountNumber === +accountNumber);
     return trans;
   }
 
-  static accEmail(data) {
-    const acc = accounts.filter(account => account.ownerEmail === data);
+  static accEmail(email) {
+    const acc = accounts.filter(account => account.ownerEmail === email);
     return acc;
   }
 
-  static userId(data) {
-    const userId = users.find(user => user.id === +data);
+  static userId(id) {
+    const userId = users.find(user => user.id === +id);
     return userId;
   }
 
-  static email(data) {
-    const userEmail = users.find(user => user.email === data);
+  static email(email) {
+    const userEmail = users.find(user => user.email === email);
     return userEmail;
+  }
+
+  static data(id) {
+    const userDetails = users.find(user => user.id === +id);
+    return userDetails;
   }
 
 }

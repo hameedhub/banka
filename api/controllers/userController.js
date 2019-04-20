@@ -57,7 +57,7 @@ class UserController {
       error: 'Incorrect Password'
     });}
     const token = jwt.sign({
-      id: users.length + 1,
+      id: userDetails.id,
       email: userDetails.email,
       type: userDetails.type,
       isAdmin: userDetails.isAdmin,
