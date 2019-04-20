@@ -1,17 +1,32 @@
 import transaction from '../model/transaction';
-import accounts from '../model/account';
+import check from '../helper/checkField';
 import validate from './validator';
 import Mail from './mailController';
-import users from '../model/user';
 
 class TransController {
+  static getTransById(req, res) {
+    const trans = transaction.find(tran => tran.id === +req.params.id);
+    if (!trans) {
+      return res.json({
+        status: 404,
+        error: 'Transaction Id does not exist',
+      });
+    }
+    return res.json({
+      status: 200,
+      data: trans,
+    });
+
+  }
 
   static debitTrans(req, res) {
-    if(req.userData.type != 'staff') return res.status(401).json({
-      status: 401,
-      error: 'Unauthorized token for this session'
-    });
-    const account = accounts.find((acc => acc.accountNumber === parseInt(req.params.accountNumber)));
+    if (req.userData.type != 'staff') {
+      return res.status(401).json({
+        status: 401,
+        error: 'Unauthorized token for this session',
+      });
+    }
+    const account = check.accNum(req.params.accountNumber);
     if (!account) {
       return res.status(404).json({
         status: 404,
@@ -25,13 +40,13 @@ class TransController {
         error: val.error.details[0].message,
       });
     }
-    if (account.balance < req.body.amount) {
+    if (+account.balance < +req.body.amount) {
       return res.status(400).json({
         status: 400,
         error: 'Insufficient fund',
       });
     }
-    const accountBal = parseFloat(account.balance) - parseFloat(req.body.amount);
+    const accountBal = account.balance - +req.body.amount;
     transaction.push({
       id: transaction.length + 1,
       createdOn: new Date(),
@@ -42,11 +57,7 @@ class TransController {
       oldBalance: account.balance,
       newBalance: accountBal,
     });
-    const userMail = users.find(user => user.id === parseInt(account.owner));
-    const subject = `Debit alert of ${req.body.amount}`;
-    const message = `You have been debited N${req.body.amount} at ${new Date()} and your balance is N${accountBal}.`;
-    const mail = new Mail(userMail.email, subject, message);
-    mail.send().catch(console.error);
+    Mail.composer(account.owner, 'debit', req.body.amount, accountBal);
     return res.status(201).json({
       status: 201,
       data: {
@@ -61,11 +72,13 @@ class TransController {
   }
 
   static creditTrans(req, res) {
-    if(req.userData.type != 'staff') return res.status(401).json({
-      status: 401,
-      error: 'Unauthorized token for this session'
-    });
-    const account = accounts.find((acc => acc.accountNumber === parseInt(req.params.accountNumber)));
+    if (req.userData.type != 'staff') {
+      return res.status(401).json({
+        status: 401,
+        error: 'Unauthorized token for this session',
+      });
+    }
+    const account = check.accNum(req.params.accountNumber);
     if (!account) {
       return res.status(404).json({
         status: 404,
@@ -79,22 +92,18 @@ class TransController {
         error: val.error.details[0].message,
       });
     }
-    const accountBal = parseFloat(account.balance) + parseFloat(req.body.amount);
+    const accountBal = account.balance + +req.body.amount;
     transaction.push({
       id: transaction.length + 1,
       createdOn: new Date(),
       type: 'credit',
       accountNumber: req.params.accountNumber,
       cashier: req.body.cashier,
-      amount: req.body.account,
+      amount: req.body.amount,
       oldBalance: account.balance,
       newBalance: accountBal,
     });
-    const userMail = users.find(user => user.id === parseInt(account.owner));
-    const subject = `Credit alert of ${req.body.amount}`;
-    const message = `You have been credited N${req.body.amount} at ${new Date()} and your balance is N${accountBal}.`;
-    const mail = new Mail(userMail.email, subject, message);
-    mail.send().catch(console.error);
+    Mail.composer(account.owner, 'credit', req.body.amount, accountBal);
     return res.status(201).json({
       status: 201,
       data: {
