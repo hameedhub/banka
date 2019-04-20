@@ -112,10 +112,29 @@ describe('Account Test', ()=>{
         expect(res.body.accounts).to.have.an('array');
         expect(res.body.accounts[0]).to.have.property('accountNumber');
         expect(res.body.accounts[0]).to.have.property('createdOn');
-        expect(res.body.accounts[0]).to.have.property('owner');
+        expect(res.body.accounts[0]).to.have.property('ownerEmail');
         expect(res.body.accounts[0]).to.have.property('type');
         expect(res.body.accounts[0]).to.have.property('status');
         expect(res.body.accounts[0]).to.have.property('balance');
+        done();
+      })
+  });
+  it('should be able view account details', (done)=>{
+    const account = 58897676867;
+    chai.request(app)
+      .get(`/api/v1/accounts/${account}`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.eql(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.data).to.have.an('object');
+        expect(res.body.data).to.have.property('accountNumber');
+        expect(res.body.data).to.have.property('createdOn');
+        expect(res.body.data).to.have.property('ownerEmail');
+        expect(res.body.data).to.have.property('type');
+        expect(res.body.data).to.have.property('status');
+        expect(res.body.data).to.have.property('balance');
         done();
       })
   });

@@ -14,8 +14,7 @@ class Check {
   }
 
   static accEmail(data) {
-    const userId = users.find(user => user.email === data);
-    const acc = accounts.filter(account => account.owner === +userId.id);
+    const acc = accounts.filter(account => account.ownerEmail === data);
     return acc;
   }
 
