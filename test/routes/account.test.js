@@ -100,4 +100,23 @@ describe('Account Test', ()=>{
         done();
       })
   })
+  it('should be able view all accounts by specific user', (done)=>{
+    const email = 'youngds2u@gmail.com'
+    chai.request(app)
+      .get(`/api/v1/user/${email}/accounts`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.eql(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.accounts).to.have.an('array');
+        expect(res.body.accounts[0]).to.have.property('accountNumber');
+        expect(res.body.accounts[0]).to.have.property('createdOn');
+        expect(res.body.accounts[0]).to.have.property('owner');
+        expect(res.body.accounts[0]).to.have.property('type');
+        expect(res.body.accounts[0]).to.have.property('status');
+        expect(res.body.accounts[0]).to.have.property('balance');
+        done();
+      })
+  });
 });

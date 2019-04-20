@@ -12,10 +12,23 @@ class Check {
     const trans = transaction.filter(tran => tran.accountNumber === +data);
     return trans;
   }
-  static userId(data){
-   const userId = users.find(user => user.id === +data);
-   return userId;
+
+  static accEmail(data) {
+    const userId = users.find(user => user.email === data);
+    const acc = accounts.filter(account => account.owner === +userId.id);
+    return acc;
   }
+
+  static userId(data) {
+    const userId = users.find(user => user.id === +data);
+    return userId;
+  }
+
+  static email(data) {
+    const userEmail = users.find(user => user.email === data);
+    return userEmail;
+  }
+
 }
 
 export default Check;
