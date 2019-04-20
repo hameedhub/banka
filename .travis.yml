@@ -8,5 +8,4 @@ before-script: npm install
 script: mocha test/**/*.js --require @babel/register --exit
 
 after_success:
-- npm run coverage
 - npm run coveralls
