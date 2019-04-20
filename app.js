@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/api/v1/', usersRoute);
-app.use('/api/v1/accounts', accountRoute);
+app.use('/api/v1/', accountRoute);
 app.use('/api/v1/transactions', transRoute);
 app.get('/', (req, res)=>{
   res.status(200).json({

@@ -33,6 +33,11 @@ class Check {
     return userDetails;
   }
 
+  static status(status) {
+    const accStatus = accounts.filter(acc => acc.status === status);
+    return accStatus;
+    }
+
 }
 
 export default Check;

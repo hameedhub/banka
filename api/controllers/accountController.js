@@ -10,6 +10,17 @@ class AccountController {
         error: 'Unauthorized token for this session',
       });
     }
+    if (req.query.status) {
+      const status = check.status(req.query.status);
+      if (status.length === 0) return res.status(404).json({
+        status: 404,
+        error: 'Invalied query string'
+      });
+      return res.status(200).json({
+        status: 200,
+        data: status
+      })
+    }
     return res.status(200).json({
       status: 200,
       data: accounts,
@@ -148,7 +159,6 @@ class AccountController {
       data: account,
     });
   }
-
 }
 
 export default AccountController;

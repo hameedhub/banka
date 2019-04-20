@@ -148,4 +148,40 @@ describe('Account Test', ()=>{
         done();
       })
   });
+  it('should be able view active account', (done)=>{
+    chai.request(app)
+      .get(`/api/v1/accounts?status=active`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.eql(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.data).to.have.an('array');
+        expect(res.body.data[0]).to.have.property('accountNumber');
+        expect(res.body.data[0]).to.have.property('createdOn');
+        expect(res.body.data[0]).to.have.property('ownerEmail');
+        expect(res.body.data[0]).to.have.property('type');
+        expect(res.body.data[0]).to.have.property('status');
+        expect(res.body.data[0]).to.have.property('balance');
+        done();
+      })
+  });
+  it('should be able view dormant account', (done)=>{
+    chai.request(app)
+      .get(`/api/v1/accounts?status=dormant`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.eql(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.data).to.have.an('array');
+        expect(res.body.data[0]).to.have.property('accountNumber');
+        expect(res.body.data[0]).to.have.property('createdOn');
+        expect(res.body.data[0]).to.have.property('ownerEmail');
+        expect(res.body.data[0]).to.have.property('type');
+        expect(res.body.data[0]).to.have.property('status');
+        expect(res.body.data[0]).to.have.property('balance');
+        done();
+      })
+  });
 });

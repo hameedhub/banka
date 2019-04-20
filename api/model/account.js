@@ -14,7 +14,7 @@ const accounts = [
     createdOn: '2019-01-06T21:43:27.124Z',
     ownerEmail: 1,
     type: 'youngds2u@gmail.com',
-    status: 'active',
+    status: 'dormant',
     balance: 15000.00,
   },
   {
