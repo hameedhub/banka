@@ -26,7 +26,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/v1/auth', usersRoute);
+app.use('/api/v1/', usersRoute);
 app.use('/api/v1/accounts', accountRoute);
 app.use('/api/v1/transactions', transRoute);
 app.get('/', (req, res)=>{
