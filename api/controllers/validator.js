@@ -16,7 +16,6 @@ class Validator {
 
   static accValildation(data) {
     const schema = {
-      accountNumber: Joi.number().min(8).required(),
       type: Joi.string().required(),
       openingBalance: Joi.number().required()
     };
@@ -26,7 +25,6 @@ class Validator {
   static trans(data) {
     const schema = {
       amount: Joi.number().required(),
-      cashier: Joi.number().required()
     };
     return Joi.validate(data, schema);
   }

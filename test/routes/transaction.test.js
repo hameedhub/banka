@@ -3,15 +3,15 @@ import chaiHttp from 'chai-http';
 import app from '../../app';
 
 chai.use(chaiHttp);
-
+const accNum = 7248551420;
 describe('Transaction Test', ()=>{
   let token
   before('Login cashier before the transaction', (done)=>{
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'ayo@gmail.com',
-        password: '12345n'
+        email: 'test@staff.com',
+        password: '12345'
       })
       .end((err, res)=> {
         token =res.body.data.token;
@@ -27,22 +27,21 @@ describe('Transaction Test', ()=>{
         expect(res).to.have.status(200);
         expect(res.body.status).to.eql(200);
         expect(res.body).to.be.an('object');
-        expect(res.body.data).to.have.property('createdOn');
+        expect(res.body.data).to.have.property('createdon');
         expect(res.body.data).to.have.property('type');
-        expect(res.body.data).to.have.property('accountNumber');
+        expect(res.body.data).to.have.property('accountnumber');
         expect(res.body.data).to.have.property('cashier');
         expect(res.body.data).to.have.property('amount');
-        expect(res.body.data).to.have.property('oldBalance');
-        expect(res.body.data).to.have.property('newBalance');
+        expect(res.body.data).to.have.property('oldbalance');
+        expect(res.body.data).to.have.property('newbalance');
         done();
       })
   })
 
   it('should be able to debit account', (done)=>{
-    const accNum = 58897676867;
+    
     const data = {
       amount: 100,
-      cashier: 1
     }
     chai.request(app)    
       .post(`/api/v1/transactions/${accNum}/debit`)
@@ -52,6 +51,7 @@ describe('Transaction Test', ()=>{
         expect(res).to.have.status(201);
         expect(res.body.status).to.eql(201);
         expect(res.body).to.be.an('object');
+        expect(res.body.data).to.have.property('transactionId');
         expect(res.body.data).to.have.property('accountNumber');
         expect(res.body.data).to.have.property('amount');
         expect(res.body.data).to.have.property('cashier');
@@ -61,10 +61,8 @@ describe('Transaction Test', ()=>{
       })
   })
   it('should be able to credit account', (done)=>{
-    const accNum = 58897676867;
     const data = {
       amount: 100,
-      cashier: 1
     }
     chai.request(app)    
       .post(`/api/v1/transactions/${accNum}/credit`)
@@ -74,6 +72,7 @@ describe('Transaction Test', ()=>{
         expect(res).to.have.status(201);
         expect(res.body.status).to.eql(201);
         expect(res.body).to.be.an('object');
+        expect(res.body.data).to.have.property('transactionId');
         expect(res.body.data).to.have.property('accountNumber');
         expect(res.body.data).to.have.property('amount');
         expect(res.body.data).to.have.property('cashier');

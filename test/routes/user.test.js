@@ -6,12 +6,12 @@ import app from '../../app';
 chai.use(chaiHttp);
 
 describe('POST/ User sign up', () => {
-  it('should POST user data', (done) => {
+  it('should reject POST data if registered already', (done) => {
     const user = {
-      firstname: 'Hameed',
-      lastname: 'Abdul',
-      email: 'h@gmail.com',
-      password: '12345n',
+      firstname: 'Test',
+      lastname: 'Test',
+      email: 'test@test.com',
+      password: '12345',
       type: 'client',
       isAdmin: true,
     };
@@ -20,11 +20,8 @@ describe('POST/ User sign up', () => {
       .send(user)
       .end((err, res) => {
         expect(res.body).to.be.an('object');
-        expect(res).to.have.status(201);
-        expect(res.body.status).to.equal(201);
-        expect(res.body.data).to.have.property('firstname');
-        expect(res.body.data).to.have.property('lastname');
-        expect(res.body.data).to.have.property('email');
+        expect(res).to.have.status(400);
+        expect(res.body.status).to.equal(400);
         done();
       });
   });
@@ -36,8 +33,8 @@ describe('POST/ User Signin', () => {
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'hameed@gmail.com',
-        password: '12345n'
+        email: 'test@client.com',
+        password: '12345'
       })
       .end((err, res) => {
         expect(res.body).to.be.an('object');
