@@ -10,8 +10,8 @@ describe('Transaction Test', ()=>{
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'ayo@gmail.com',
-        password: '12345n'
+        email: 'test@staff.com',
+        password: '12345'
       })
       .end((err, res)=> {
         token =res.body.data.token;

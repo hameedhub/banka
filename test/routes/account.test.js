@@ -11,8 +11,8 @@ describe('Account Test', ()=>{
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'hameed@gmail.com',
-        password: '12345n'
+        email: 'test@admin.com',
+        password: '12345'
       })
       .end((err, res)=> {
         token =res.body.data.token;

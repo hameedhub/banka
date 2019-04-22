@@ -1,6 +1,7 @@
 import accounts from '../model/account';
 import transaction from '../model/transaction';
 import users from '../model/user';
+import pool from '../model/database';
 
 class Check {
   static accNum(accountNumber) {
@@ -28,15 +29,10 @@ class Check {
     return userEmail;
   }
 
-  static data(id) {
-    const userDetails = users.find(user => user.id === +id);
-    return userDetails;
-  }
-
   static status(status) {
     const accStatus = accounts.filter(acc => acc.status === status);
     return accStatus;
-    }
+  }
 
 }
 
