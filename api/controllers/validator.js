@@ -25,7 +25,6 @@ class Validator {
   static trans(data) {
     const schema = {
       amount: Joi.number().required(),
-      cashier: Joi.number().required()
     };
     return Joi.validate(data, schema);
   }

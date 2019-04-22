@@ -7,7 +7,7 @@
   "description": "Banking Application",
   "main": "app.js",
   "scripts": {
-    "test": "nyc mocha test/**/*.js --require @babel/register --exit",
+    "test": "nyc mocha --timeout 20000 test/**/*.js --require @babel/register --exit",
     "heroku-postbuild": "npm install",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
@@ -61,7 +61,6 @@
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.0.0",
     "pg": "^7.10.0",
-    "pg-connection-string": "^2.0.0",
-    "uuid": "^3.3.2"
+    "pg-connection-string": "^2.0.0"
   }
 }

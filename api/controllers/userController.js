@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import validation from './validator';
-import check from '../helper/checkField';
 import pool from '../model/database';
 
 
@@ -37,7 +36,7 @@ class UserController {
             });
           }
           return res.status(500).json({
-            status: 400,
+            status: 500,
             error: err,
           });
         }

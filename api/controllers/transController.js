@@ -1,36 +1,28 @@
-import transaction from '../model/transaction';
-import check from '../helper/checkField';
 import validate from './validator';
 import Mail from './mailController';
+import pool from '../model/database';
 
 class TransController {
   static getTransById(req, res) {
-    const trans = transaction.find(tran => tran.id === +req.params.id);
-    if (!trans) {
+    pool.query('SELECT * FROM transactions WHERE id = $1', [req.params.id], (err, result)=>{
+      if (result.rowCount === 0) {
+        return res.json({
+          status: 404,
+          error: 'Transaction not found',
+        });
+      }
       return res.json({
-        status: 404,
-        error: 'Transaction Id does not exist',
+        status: 200,
+        data: result.rows[0]
       });
-    }
-    return res.json({
-      status: 200,
-      data: trans,
-    });
-
+    })
   }
 
   static debitTrans(req, res) {
-    if (req.userData.type != 'staff') {
+    if (req.userData.type !== 'staff') {
       return res.status(401).json({
         status: 401,
         error: 'Unauthorized token for this session',
-      });
-    }
-    const account = check.accNum(req.params.accountNumber);
-    if (!account) {
-      return res.status(404).json({
-        status: 404,
-        error: 'Account not found',
       });
     }
     const val = validate.trans(req.body);
@@ -40,49 +32,71 @@ class TransController {
         error: val.error.details[0].message,
       });
     }
-    if (+account.balance < +req.body.amount) {
-      return res.status(400).json({
+    pool.query('SELECT * FROM accounts WHERE accountnumber = $1', [req.params.accountNumber], (err, result) => {
+      if (typeof result === 'undefined') {return res.status(400).json({
         status: 400,
-        error: 'Insufficient fund',
-      });
-    }
-    const accountBal = account.balance - +req.body.amount;
-    transaction.push({
-      id: transaction.length + 1,
-      createdOn: new Date(),
-      type: 'debit',
-      accountNumber: req.params.accountNumber,
-      cashier: req.body.cashier,
-      amount: req.body.account,
-      oldBalance: account.balance,
-      newBalance: accountBal,
-    });
-    Mail.composer(account.owner, 'debit', req.body.amount, accountBal);
-    return res.status(201).json({
-      status: 201,
-      data: {
-        transactionId: transaction.length + 1,
+        error: 'Invalid account number'
+      })};
+      if (result.rowCount === 0) { 
+        return res.status(404).json({
+          status: 404,
+          error: 'Account not found',
+        }); 
+      }
+      const accountEmail = result.rows[0].owneremail;
+      const oldBalance = result.rows[0].balance;
+      if (oldBalance < +req.body.amount) {
+        return res.status(400).json({
+          status: 400,
+          error: 'Insufficient fund',
+        });
+      }
+      const newBalance = oldBalance - +req.body.amount;
+      const transaction = {
+        createdOn: new Date(),
+        type: 'debit',
         accountNumber: req.params.accountNumber,
+        cashier: req.userData.id,
         amount: req.body.amount,
-        cashier: req.body.cashier,
-        transactionType: 'debit',
-        accountBalance: accountBal,
-      },
+        oldBalance,
+        newBalance,
+      };
+      pool.connect((err, client, done) => {
+        const query = `INSERT INTO transactions ( createdOn, type, accountnumber, cashier, amount, oldBalance, newBalance)
+      VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+        const values = Object.values(transaction);
+        client.query(query, values, (err, data) => {
+          done();
+          if (err) {
+            return res.status(500).json({
+              status: 500,
+              error: err,
+            });
+          }
+          const { ...tranData } = data.rows[0];
+          pool.query('UPDATE accounts SET balance = $1 WHERE accountnumber = $2', [tranData.newbalance, tranData.accountnumber], error => error);
+          Mail.composer(accountEmail, tranData.type, tranData.amount, tranData.newbalance);
+          return res.status(201).json({
+            status: 201,
+            data: {
+              transactionId: tranData.id,
+              accountNumber: tranData.accountnumber,
+              amount: tranData.amount,
+              cashier: tranData.cashier,
+              transactionType: tranData.type,
+              accountBalance: tranData.newbalance.toFixed(2),
+            },
+          });
+        });
+      });
     });
   }
 
   static creditTrans(req, res) {
-    if (req.userData.type != 'staff') {
+    if (req.userData.type !== 'staff') {
       return res.status(401).json({
         status: 401,
         error: 'Unauthorized token for this session',
-      });
-    }
-    const account = check.accNum(req.params.accountNumber);
-    if (!account) {
-      return res.status(404).json({
-        status: 404,
-        error: 'Account not found',
       });
     }
     const val = validate.trans(req.body);
@@ -92,30 +106,60 @@ class TransController {
         error: val.error.details[0].message,
       });
     }
-    const accountBal = account.balance + +req.body.amount;
-    transaction.push({
-      id: transaction.length + 1,
-      createdOn: new Date(),
-      type: 'credit',
-      accountNumber: req.params.accountNumber,
-      cashier: req.body.cashier,
-      amount: req.body.amount,
-      oldBalance: account.balance,
-      newBalance: accountBal,
-    });
-    Mail.composer(account.owner, 'credit', req.body.amount, accountBal);
-    return res.status(201).json({
-      status: 201,
-      data: {
-        transactionId: transaction.length + 1,
+    pool.query('SELECT * FROM accounts WHERE accountnumber = $1', [req.params.accountNumber], (err, result) => {
+      if (typeof result === 'undefined') {return res.status(400).json({
+        status: 400,
+        error: 'Invalid account number'
+      })};
+      if (result.rowCount === 0) { 
+        return res.status(404).json({
+          status: 404,
+          error: 'Account not found',
+        }); 
+      }
+      const accountEmail = result.rows[0].owneremail;
+      const oldBalance = result.rows[0].balance;
+      const newBalance = oldBalance + +req.body.amount;
+      const transaction = {
+        createdOn: new Date(),
+        type: 'credit',
         accountNumber: req.params.accountNumber,
+        cashier: req.userData.id,
         amount: req.body.amount,
-        cashier: req.body.cashier,
-        transactionType: 'credit',
-        accountBalance: accountBal,
-      },
+        oldBalance,
+        newBalance,
+      };
+      pool.connect((err, client, done) => {
+        const query = `INSERT INTO transactions ( createdOn, type, accountnumber, cashier, amount, oldBalance, newBalance)
+      VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+        const values = Object.values(transaction);
+        client.query(query, values, (err, data) => {
+          done();
+          if (err) {
+            return res.status(500).json({
+              status: 500,
+              error: err,
+            });
+          }
+          const { ...tranData } = data.rows[0];
+          pool.query('UPDATE accounts SET balance = $1 WHERE accountnumber = $2', [tranData.newbalance, tranData.accountnumber], error => error);
+          Mail.composer(accountEmail, tranData.type, tranData.amount, tranData.newbalance);
+          return res.status(201).json({
+            status: 201,
+            data: {
+              transactionId: tranData.id,
+              accountNumber: tranData.accountnumber,
+              amount: tranData.amount,
+              cashier: tranData.cashier,
+              transactionType: tranData.type,
+              accountBalance: tranData.newbalance.toFixed(2),
+            },
+          });
+        });
+      });
     });
   }
+  //class ends here..
 }
 
 export default TransController;

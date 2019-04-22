@@ -1,5 +1,4 @@
 import validation from './validator';
-import check from '../helper/checkField';
 import pool from '../model/database';
 
 class AccountController {
@@ -10,33 +9,31 @@ class AccountController {
         error: 'Unauthorized token for this session',
       });
     }
-    if (!req.query.status) {
-      pool.query('SELECT * FROM accounts', (err, result) => res.status(200).json({
-        status: 200,
-        data: result.rows,
-      }));
-    }
-    if (req.query.status !== 'active' && req.query.status !== 'dormant') {
-      return res.status(404).json({
-        status: 404,
-        error: 'Invailed query string',
-      });
-    }
-    pool.query('SELECT * FROM accounts WHERE status = $1', [req.query.status], (err, result) =>{ 
-      return res.status(200).json({
-        status: 200,
-        data: result.rows,
+    if (typeof req.query.status === 'undefined' || req.query.status === null) {
+      pool.query('SELECT * FROM accounts', (err, result) => {
+        return res.status(200).json({
+          status: 200,
+          data: result.rows,
+        })
       })
-    });
+    } else {
+      pool.query('SELECT * FROM accounts WHERE status = $1', [req.query.status], (err, result) => {
+        if(result.rows.length === 0){
+          return res.status(404).json({
+            status: 404,
+            error: 'Resource not found'
+          })
+        }
+        return res.status(200).json({
+          status: 200,
+          data: result.rows,
+        })
+      })
+    }
+
   }
 
   static createAccount(req, res) {
-    if (req.userData.type !== 'client') {
-      return res.status(401).json({
-        status: 401,
-        error: 'Unauthorized token for this session',
-      });
-    }
     const accNum = Math.floor(100000 + Math.random() * 9000000000);
     const result = validation.accValildation(req.body);
     if (result.error) {
@@ -98,7 +95,7 @@ class AccountController {
     if (req.body.status !== 'active' && req.body.status !== 'dormant') {
       return res.status(404).json({
         status: 404,
-        error: 'Invailed status property',
+        error: 'Invalid status property',
       });
     }
     pool.query('UPDATE accounts SET status = $1 WHERE accountnumber = $2 RETURNING *', [req.body.status, req.params.accountNumber], (err, result) => {
@@ -141,40 +138,35 @@ class AccountController {
   }
 
   static getTrans(req, res) {
-    const find = check.accNum(req.params.accountNumber);
-    if (!find) {
-      return res.json({
-        status: 204,
-        error: 'Account number not found',
-      });
-    }
-    const trans = check.trans(req.params.accountNumber);
-    if (!trans) {
+    pool.query('SELECT * FROM transactions WHERE accountnumber = $1', [req.params.accountNumber], (err, result)=>{
+      if (result.rowCount === 0) {
+        return res.json({
+          status: 404,
+          error: 'No transaction found on this acccount',
+        });
+      }
       return res.json({
         status: 200,
-        message: 'No transaction found on this account',
+        data: result.rows[0]
       });
-    }
-    return res.status(200).json({
-      status: 200,
-      data: trans,
-    });
+    })
   }
 
   static getDetails(req, res) {
-    const account = check.accNum(req.params.accountNumber);
-    if (!account) {
-      return res.status(404).json({
-        status: 404,
-        error: 'Invalied account',
-      })
-      ;
-    }
-    return res.status(200).json({
-      status: 200,
-      data: account,
-    });
+    pool.query('SELECT createdon, accountnumber, owneremail, type, status, balance FROM accounts WHERE accountnumber = $1', [req.params.accountNumber], (err, result)=>{
+      if (result.rowCount === 0) {
+        return res.json({
+          status: 404,
+          error: 'Account not found',
+        });
+      }
+      return res.status(200).json({
+        status: 200,
+        data: result.rows[0]
+      });
+    })
   }
+
 }
 
 export default AccountController;
