@@ -1,9 +1,6 @@
 language: node_js
 node_js: 
   - "stable"
-cache:
-  directories:
-    - "node_modules"
 before-script: npm install 
 script: mocha test/**/*.js --require @babel/register --exit
 

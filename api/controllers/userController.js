@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import pool from '../model/database';
+import Model from '../model/Model';
 
 
 dotenv.config();
@@ -9,8 +10,8 @@ dotenv.config();
 const salt = bcrypt.genSaltSync(10);
 
 class UserController {
-
-  static signUp(req, res) {
+  static async signUp(req, res) {
+    try {
     const user = {
       email: req.body.email,
       firstName: req.body.firstname,
@@ -19,87 +20,81 @@ class UserController {
       type: req.body.type,
       isAdmin: req.body.isAdmin,
     };
-    pool.connect((err, client, done) => {
-      const query = `INSERT INTO users( email, firstname, lastname, password, type, isAdmin)
-                      VALUES($1, $2, $3, $4, $5, $6) RETURNING *`;
-      const values = Object.values(user);
-      client.query(query, values, (err, data) => {
-        done();
-        if (err) {
-          if (err.code === '23505') {
-            return res.status(400).json({
-              status: 400,
-              error: 'Email already in use',
-            });
-          }
-          return res.status(500).json({
-            status: 500,
-            error: err,
-          });
-        }
-        const { ...userData } = data.rows[0];
-        const token = jwt.sign({
-          id: user.id,
-          firstName: userData.firstname,
-          lastName: userData.lastname,
-          email: userData.email,
-          type: userData.type,
-          isAdmin: userData.isadmin,
-        }, process.env.JWT_KEY);
-        return res.status(201).json({
-          status: 201,
-          token,
-          data: {
-            id: userData.id,
-            firstName: userData.firstname,
-            lastName: userData.lastname,
-            email: userData.email,
-          },
-        });
-      });
-    });
-  }
+    const table = new Model();
+    const query = `INSERT INTO users( email, firstname, lastname, password, type, isAdmin)
+    VALUES($1, $2, $3, $4, $5, $6) RETURNING *`;
+    const values = Object.values(user);
+    const response = await table.query(query, values);
 
-  static signIn(req, res) { 
-    pool.connect((err, client, done) => {
-      const query = 'SELECT * FROM users  WHERE email = $1';
-      client.query(query, [req.body.email], (err, data) => {
-        done();
-        if(data.rows.length === 0) return res.status(404).json({
+    const { ...userData } = response.rows[0];
+    const token = jwt.sign({
+      id: user.id,
+      firstName: userData.firstname,
+      lastName: userData.lastname,
+      email: userData.email,
+      type: userData.type,
+      isAdmin: userData.isadmin,
+    }, process.env.JWT_KEY);
+    return res.status(201).json({
+      status: 201,
+      token,
+      data: {
+        id: userData.id,
+        firstName: userData.firstname,
+        lastName: userData.lastname,
+        email: userData.email,
+      },
+    });
+  }catch(e){
+    return res.status(400).json({
+      status: 400,
+      error: e
+    })
+  }
+}
+
+  static async signIn(req, res) {     
+    try{ 
+    const query = 'SELECT * FROM users  WHERE email = $1';
+    const table = new Model();
+    const values = [req.body.email];
+    const user = await table.query(query, values);
+      if (user.rows.length === 0) {return res.status(404).json({
+        status: 404,
+        error: 'Email address does not exist',
+      });}
+      const compare = bcrypt.compareSync(req.body.password, user.rows[0].password);
+      if (compare === false) {
+        return res.status(404).json({
           status: 404,
-          error: 'Email address does not exist',
+          error: 'Incorrect Password',
         });
-        const userData = data.rows[0];
-        const compare = bcrypt.compareSync(req.body.password, userData.password);
-        if (compare === false) {
-          return res.status(404).json({
-            status: 404,
-            error: 'Incorrect Password',
-          });
-        }
-        const token = jwt.sign({
+      }
+      const userData = user.rows[0];
+      const token = jwt.sign({
+        id: userData.id,
+        email: userData.email,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        type: userData.type,
+        isAdmin: userData.isadmin,
+      }, process.env.JWT_KEY, { expiresIn: '24h' });
+      return res.status(200).json({
+        status: 200,
+        data: {
+          token,
           id: userData.id,
-          email: userData.email,
           firstname: userData.firstname,
           lastname: userData.lastname,
-          type: userData.type,
-          isAdmin: userData.isadmin,
-        }, process.env.JWT_KEY, { expiresIn: '24h' });
-        return res.status(200).json({
-          status: 200,
-          data: {
-            token,
-            id: userData.id,
-            firstname: userData.firstname,
-            lastname: userData.lastname,
-            email: userData.email,
-          },
-        });
-        
-      });
-    });
-    
-
+          email: userData.email,
+        },
+      })
+    }catch(e){
+      return res.status(400).json({
+        status: 400,
+        error: e
+      })
+    }
   }
 
   static getAccounts(req, res) {
@@ -110,10 +105,12 @@ class UserController {
       });
     }
     pool.query('SELECT * FROM accounts WHERE owneremail = $1', [req.params.email], (err, result) => {
-      if (result.rowCount === 0) {return res.status(404).json({
-        status: 404,
-        error: 'No account records',
-      }); };
+      if (result.rowCount === 0) {
+        return res.status(404).json({
+          status: 404,
+          error: 'No account records',
+        }); 
+      }
       const accountRows = result.rows;
       return res.status(200).json({
         status: 200,
