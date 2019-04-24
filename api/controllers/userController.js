@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import validation from './validator';
 import pool from '../model/database';
 
 
@@ -12,8 +11,6 @@ const salt = bcrypt.genSaltSync(10);
 class UserController {
 
   static signUp(req, res) {
-    const result = validation.details(req.body);
-    if (result.error) return res.status(404).json({ status: 404, error: result.error.details[0].message });
     const user = {
       email: req.body.email,
       firstName: req.body.firstname,
