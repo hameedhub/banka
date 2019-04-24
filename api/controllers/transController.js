@@ -1,4 +1,3 @@
-import validate from './validator';
 import Mail from './mailController';
 import pool from '../model/database';
 
@@ -23,13 +22,6 @@ class TransController {
       return res.status(401).json({
         status: 401,
         error: 'Unauthorized token for this session',
-      });
-    }
-    const val = validate.trans(req.body);
-    if (val.error) {
-      return res.status(400).json({
-        status: 400,
-        error: val.error.details[0].message,
       });
     }
     pool.query('SELECT * FROM accounts WHERE accountnumber = $1', [req.params.accountNumber], (err, result) => {
@@ -97,13 +89,6 @@ class TransController {
       return res.status(401).json({
         status: 401,
         error: 'Unauthorized token for this session',
-      });
-    }
-    const val = validate.trans(req.body);
-    if (val.error) {
-      return res.status(400).json({
-        status: 400,
-        error: val.error.details[0].message,
       });
     }
     pool.query('SELECT * FROM accounts WHERE accountnumber = $1', [req.params.accountNumber], (err, result) => {

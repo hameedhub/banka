@@ -1,20 +1,24 @@
-import pool from './database';
+import { Pool } from 'pg';
 
-const modelObj = {
-    async sql(query, values) {
-        try {
-          return (async () => {
-            const client = await pool.connect();
-            try {
-              return await client.query(query, values);
-            } finally {
-              client.release();
-            }
-          })();
-        } catch (e) {
-          return console.log(e);
-        }
-      }
+const pool = new Pool({
+  connectionString: 'postgres://bfvbzggj:kT9e4RXweJwaqqGGJJxxYyDW0H72QnHT@isilo.db.elephantsql.com:5432/bfvbzggj',
+});
 
-};
-export default modelObj;
+class Model {
+  constructor() {
+
+    this.pool = pool;
+  }
+
+  async query(query, values) {
+    try {
+      const req = await this.pool.query(query, values);
+      return req;
+    } catch(err) {
+      console.log(err.message);
+    }
+  }
+
+}
+
+export default Model;

@@ -1,4 +1,3 @@
-import validation from './validator';
 import pool from '../model/database';
 
 class AccountController {
@@ -34,14 +33,6 @@ class AccountController {
   }
 
   static createAccount(req, res) {
-    const accNum = Math.floor(100000 + Math.random() * 9000000000);
-    const result = validation.accValildation(req.body);
-    if (result.error) {
-      return res.status(404).json({
-        status: 404,
-        error: result.error.details[0].message,
-      });
-    }
     const tokenData = req.userData;
     if (tokenData === undefined) {
       return res.status(401).json({
@@ -49,6 +40,7 @@ class AccountController {
         error: 'Session closed for this token, login again',
       });
     }
+    const accNum = Math.floor(100000 + Math.random() * 9000000000);
     const account = {
       accountNumber: accNum,
       createdOn: new Date(),
