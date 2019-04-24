@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import pool from '../model/database';
 import Model from '../model/Model';
 
 
@@ -11,6 +10,12 @@ const salt = bcrypt.genSaltSync(10);
 
 class UserController {
   static async signUp(req, res) {
+    if (req.body !== 'staff' || req.body.type !== 'client') {
+      return res.status(400).json({
+        status: 400,
+        error: 'User should either be a staff or client',
+      });
+    }
     try {
       const user = {
         email: req.body.email,
@@ -99,26 +104,34 @@ class UserController {
     }
   }
 
-  static getAccounts(req, res) {
+  static async getAccounts(req, res) {
     if (req.userData.isAdmin !== true) {
       return res.status(401).json({
         status: 401,
         error: 'Unauthorized token for this session',
       });
     }
-    pool.query('SELECT * FROM accounts WHERE owneremail = $1', [req.params.email], (err, result) => {
-      if (result.rowCount === 0) {
+    try {
+      const values = [req.params.email];
+      const table = new Model();
+      const response = await table.query('SELECT * FROM accounts WHERE owneremail = $1', values);
+      if (response.rowCount === 0) {
         return res.status(404).json({
           status: 404,
           error: 'No account records',
         });
       }
-      const accountRows = result.rows;
+      const accountRows = response.rows;
       return res.status(200).json({
         status: 200,
         accounts: accountRows,
       });
-    });
+    } catch (e) {
+      return res.status(400).json({
+        status: 400,
+        error: e,
+      });
+    }
   }
 }
 
