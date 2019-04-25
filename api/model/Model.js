@@ -14,8 +14,8 @@ class Model {
     try {
       const req = await this.pool.query(query, values);
       return req;
-    } catch(err) {
-      console.log(err.message);
+    } catch (err) {
+      return console.log(err);
     }
   }
 
