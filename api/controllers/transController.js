@@ -51,7 +51,7 @@ class TransController {
       if (oldBalance < +req.body.amount) {
         return res.status(400).json({
           status: 400,
-          error: 'Sorry you have Insufficient fund to carry out this transaction',
+          error: 'Insufficient fund',
         });
       }
       const newBalance = oldBalance - +req.body.amount;

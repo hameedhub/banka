@@ -151,7 +151,7 @@ class AccountController {
       const table = new Model();
       const response = await table.query('SELECT * FROM transactions WHERE accountnumber = $1', [req.params.accountNumber]);
       if (response.rowCount === 0) {
-        return res.json({
+        return res.status(404).json({
           status: 404,
           error: 'No transaction found on this acccount',
         });
@@ -173,7 +173,7 @@ class AccountController {
       const table = new Model();
       const response = await table.query('SELECT createdon, accountnumber, owneremail, type, status, balance FROM accounts WHERE accountnumber = $1', [req.params.accountNumber]);
       if (response.rowCount === 0) {
-        return res.json({
+        return res.status(404).json({
           status: 404,
           error: 'Account not found',
         });
