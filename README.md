@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hameedhub/banka.svg?branch=develop)](https://travis-ci.org/hameedhub/banka) [![![Coverage Status](https://coveralls.io/repos/github/hameedhub/banka/badge.svg?branch=develop)](https://coveralls.io/github/hameedhub/banka?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/68b3330f4e7128e27401/maintainability)](https://codeclimate.com/github/hameedhub/hameedhub.github.io/maintainability)  [![Test Coverage](https://api.codeclimate.com/v1/badges/68b3330f4e7128e27401/test_coverage)](https://codeclimate.com/github/hameedhub/hameedhub.github.io/test_coverage)
+[![Build Status](https://travis-ci.org/hameedhub/banka.svg?branch=develop)](https://travis-ci.org/hameedhub/banka) [![Coverage Status](https://coveralls.io/repos/github/hameedhub/banka/badge.svg?branch=develop)](https://coveralls.io/github/hameedhub/banka?branch=develop)  [![Maintainability](https://api.codeclimate.com/v1/badges/68b3330f4e7128e27401/maintainability)](https://codeclimate.com/github/hameedhub/hameedhub.github.io/maintainability)  
 
 # Banka
 > A light weight banking application
