@@ -10,11 +10,11 @@ describe('Transaction Test', ()=>{
     chai.request(app)
       .post('/api/v1/auth/signin')
       .send({
-        email: 'test@staff.com',
+        email: 'test@admin.com',
         password: '12345'
       })
       .end((err, res)=> {
-        token =res.body.data.token;
+        token =res.body.data[0].token;
         done();
       });
   })
@@ -27,13 +27,13 @@ describe('Transaction Test', ()=>{
         expect(res).to.have.status(200);
         expect(res.body.status).to.eql(200);
         expect(res.body).to.be.an('object');
-        expect(res.body.data).to.have.property('createdon');
-        expect(res.body.data).to.have.property('type');
-        expect(res.body.data).to.have.property('accountnumber');
-        expect(res.body.data).to.have.property('cashier');
-        expect(res.body.data).to.have.property('amount');
-        expect(res.body.data).to.have.property('oldbalance');
-        expect(res.body.data).to.have.property('newbalance');
+        expect(res.body.data[0]).to.have.property('createdon');
+        expect(res.body.data[0]).to.have.property('type');
+        expect(res.body.data[0]).to.have.property('accountnumber');
+        expect(res.body.data[0]).to.have.property('cashier');
+        expect(res.body.data[0]).to.have.property('amount');
+        expect(res.body.data[0]).to.have.property('oldbalance');
+        expect(res.body.data[0]).to.have.property('newbalance');
         done();
       })
   })
@@ -50,12 +50,12 @@ describe('Transaction Test', ()=>{
         expect(res).to.have.status(201);
         expect(res.body.status).to.eql(201);
         expect(res.body).to.be.an('object');
-        expect(res.body.data).to.have.property('transactionId');
-        expect(res.body.data).to.have.property('accountNumber');
-        expect(res.body.data).to.have.property('amount');
-        expect(res.body.data).to.have.property('cashier');
-        expect(res.body.data).to.have.property('transactionType');
-        expect(res.body.data).to.have.property('accountBalance');
+        expect(res.body.data[0]).to.have.property('transactionId');
+        expect(res.body.data[0]).to.have.property('accountNumber');
+        expect(res.body.data[0]).to.have.property('amount');
+        expect(res.body.data[0]).to.have.property('cashier');
+        expect(res.body.data[0]).to.have.property('transactionType');
+        expect(res.body.data[0]).to.have.property('accountBalance');
         done();
       })
   })
@@ -71,12 +71,12 @@ describe('Transaction Test', ()=>{
         expect(res).to.have.status(201);
         expect(res.body.status).to.eql(201);
         expect(res.body).to.be.an('object');
-        expect(res.body.data).to.have.property('transactionId');
-        expect(res.body.data).to.have.property('accountNumber');
-        expect(res.body.data).to.have.property('amount');
-        expect(res.body.data).to.have.property('cashier');
-        expect(res.body.data).to.have.property('transactionType');
-        expect(res.body.data).to.have.property('accountBalance');
+        expect(res.body.data[0]).to.have.property('transactionId');
+        expect(res.body.data[0]).to.have.property('accountNumber');
+        expect(res.body.data[0]).to.have.property('amount');
+        expect(res.body.data[0]).to.have.property('cashier');
+        expect(res.body.data[0]).to.have.property('transactionType');
+        expect(res.body.data[0]).to.have.property('accountBalance');
         done();
       })
   })

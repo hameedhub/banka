@@ -10,10 +10,10 @@ const salt = bcrypt.genSaltSync(10);
 
 class UserController {
   static async signUp(req, res) {
-    if (req.body !== 'staff' || req.body.type !== 'client') {
+    if (req.body.type !== 'client' || req.body.isAdmin !== false) {
       return res.status(400).json({
         status: 400,
-        error: 'User should either be a staff or client',
+        error: 'Not allowed type or isAdmin',
       });
     }
     try {
@@ -30,7 +30,12 @@ class UserController {
     VALUES($1, $2, $3, $4, $5, $6) RETURNING *`;
       const values = Object.values(user);
       const response = await table.query(query, values);
-
+      if (response.code === '23505') {
+        return res.status(404).json({
+          status: 404,
+          error: 'Email already exists',
+        });
+      }
       const { ...userData } = response.rows[0];
       const token = jwt.sign({
         id: user.id,
@@ -43,7 +48,7 @@ class UserController {
       return res.status(201).json({
         status: 201,
         token,
-        data:[{
+        data: [{
           id: userData.id,
           firstName: userData.firstname,
           lastName: userData.lastname,
@@ -59,7 +64,7 @@ class UserController {
   }
 
   static async signUpAdmin(req, res) {
-    if (req.body.isAdmin === false) {
+    if (req.userData.isAdmin !== true) {
       return res.status(400).json({
         status: 400,
         error: 'Admin accesss authentication failed',
@@ -79,7 +84,12 @@ class UserController {
     VALUES($1, $2, $3, $4, $5, $6) RETURNING *`;
       const values = Object.values(user);
       const response = await table.query(query, values);
-
+      if (response.code === '23505') {
+        return res.status(404).json({
+          status: 404,
+          error: 'Email already exists',
+        });
+      }
       const { ...staffData } = response.rows[0];
       const token = jwt.sign({
         id: user.id,
@@ -92,7 +102,7 @@ class UserController {
       return res.status(201).json({
         status: 201,
         token,
-        data:[{
+        data: [{
           id: staffData.id,
           firstName: staffData.firstname,
           lastName: staffData.lastname,
@@ -154,7 +164,7 @@ class UserController {
   }
 
   static async getAccounts(req, res) {
-    if (req.userData.isAdmin !== true) {
+    if (req.userData.isAdmin !== true || req.userData.type !== 'staff') {
       return res.status(401).json({
         status: 401,
         error: 'Unauthorized token for this session',

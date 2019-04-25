@@ -31,6 +31,12 @@ class TransController {
         error: 'Unauthorized token for this session',
       });
     }
+    if (req.userData.id === null) {
+      return res.status(401).json({
+        status: 401,
+        error: 'Login again, to contine',
+      });
+    }
     try {
       const table = new Model();
       const response = await table.query('SELECT * FROM accounts WHERE accountnumber = $1', [req.params.accountNumber]);
@@ -44,6 +50,12 @@ class TransController {
         return res.status(404).json({
           status: 404,
           error: 'Account not found',
+        });
+      }
+      if (response.rows[0].status === 'dormant') {
+        return res.status(404).json({
+          status: 404,
+          error: 'Acount is dormant, operation can not be performed',
         });
       }
       const accountEmail = response.rows[0].owneremail;
@@ -96,6 +108,12 @@ class TransController {
       return res.status(401).json({
         status: 401,
         error: 'Unauthorized token for this session',
+      });
+    }
+    if (req.userData.id == null) {
+      return res.status(401).json({
+        status: 401,
+        error: 'Login again, to contine',
       });
     }
     try {
