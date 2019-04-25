@@ -136,9 +136,9 @@ describe('POST/ User Signin', () => {
         expect(res.body).to.be.an('object');
         expect(res).to.have.status(200);
         expect(res.body.status).to.equal(200);
-        expect(res.body.data).to.have.property('firstname');
-        expect(res.body.data).to.have.property('lastname');
-        expect(res.body.data).to.have.property('email');
+        expect(res.body.data[0]).to.have.property('firstname');
+        expect(res.body.data[0]).to.have.property('lastname');
+        expect(res.body.data[0]).to.have.property('email');
         done();
       });
   });

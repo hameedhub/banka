@@ -3,7 +3,7 @@ import Model from '../model/Model';
 class AccountController {
 
   static async getAllAccount(req, res) {
-    if (req.userData.type !== 'staff') {
+    if (req.userData.type !== 'staff'|| req.userData.isAdmin === false) {
       return res.status(401).json({
         status: 401,
         error: 'Unauthorized token for this session',
@@ -63,14 +63,14 @@ class AccountController {
       const { ...accountData } = response.rows[0];
       return res.status(201).json({
         status: 201,
-        data: {
+        data: [{
           accountNumber: accountData.accountnumber,
           firstname: tokenData.firstname,
           lastname: tokenData.lastname,
           email: tokenData.email,
           type: req.body.type,
           openingBalance: req.body.openingBalance,
-        },
+        }],
       });
     } catch (error) {
       return res.status(400).json({
@@ -105,10 +105,10 @@ class AccountController {
       const accountData = response.rows[0];
       return res.status(200).json({
         status: 200,
-        data: {
+        data: [{
           accountNumber: accountData.accountnumber,
           status: accountData.status,
-        },
+        }],
       });
     } catch (error) {
       return res.status(400).json({
@@ -158,7 +158,7 @@ class AccountController {
       }
       return res.json({
         status: 200,
-        data: response.rows[0],
+        data: response.rows,
       });
     } catch (error) {
       return res.status(400).json({
@@ -180,7 +180,7 @@ class AccountController {
       }
       return res.status(200).json({
         status: 200,
-        data: response.rows[0],
+        data: response.rows,
       });
     } catch (error) {
       return res.status(400).json({

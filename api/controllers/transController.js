@@ -14,7 +14,7 @@ class TransController {
       }
       return res.json({
         status: 200,
-        data: response.rows[0],
+        data: response.rows,
       });
     } catch (error) {
       return res.status(400).json({
@@ -64,6 +64,7 @@ class TransController {
         oldBalance,
         newBalance,
       };
+      
       const query = `INSERT INTO transactions ( createdOn, type, accountnumber, cashier, amount, oldBalance, newBalance)
       VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
       const values = Object.values(transaction);
@@ -73,14 +74,14 @@ class TransController {
       Mail.composer(accountEmail, transactionData.type, transactionData.amount, transactionData.newbalance);
       return res.status(201).json({
         status: 201,
-        data: {
+        data: [{
           transactionId: transactionData.id,
           accountNumber: transactionData.accountnumber,
           amount: transactionData.amount,
           cashier: transactionData.cashier,
           transactionType: transactionData.type,
           accountBalance: transactionData.newbalance.toFixed(2),
-        },
+        }],
       });
     } catch (error) {
       return res.status(400).json({
@@ -134,14 +135,14 @@ class TransController {
       Mail.composer(accountEmail, transactionData.type, transactionData.amount, transactionData.newbalance);
       return res.status(201).json({
         status: 201,
-        data: {
+        data: [{
           transactionId: transactionData.id,
           accountNumber: transactionData.accountnumber,
           amount: transactionData.amount,
           cashier: transactionData.cashier,
           transactionType: transactionData.type,
           accountBalance: transactionData.newbalance.toFixed(2),
-        },
+        }],
       });
     } catch (error) {
       return res.status(400).json({

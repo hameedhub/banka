@@ -43,12 +43,61 @@ class UserController {
       return res.status(201).json({
         status: 201,
         token,
-        data: {
+        data:[{
           id: userData.id,
           firstName: userData.firstname,
           lastName: userData.lastname,
           email: userData.email,
-        },
+        }],
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        error,
+      });
+    }
+  }
+
+  static async signUpAdmin(req, res) {
+    if (req.body.isAdmin === false) {
+      return res.status(400).json({
+        status: 400,
+        error: 'Admin accesss authentication failed',
+      });
+    }
+    try {
+      const user = {
+        email: req.body.email,
+        firstName: req.body.firstname,
+        lastName: req.body.lastname,
+        password: bcrypt.hashSync(req.body.password, salt),
+        type: req.body.type,
+        isAdmin: req.body.isAdmin,
+      };
+      const table = new Model();
+      const query = `INSERT INTO users( email, firstname, lastname, password, type, isAdmin)
+    VALUES($1, $2, $3, $4, $5, $6) RETURNING *`;
+      const values = Object.values(user);
+      const response = await table.query(query, values);
+
+      const { ...staffData } = response.rows[0];
+      const token = jwt.sign({
+        id: user.id,
+        firstName: staffData.firstname,
+        lastName: staffData.lastname,
+        email: staffData.email,
+        type: staffData.type,
+        isAdmin: staffData.isadmin,
+      }, process.env.JWT_KEY);
+      return res.status(201).json({
+        status: 201,
+        token,
+        data:[{
+          id: staffData.id,
+          firstName: staffData.firstname,
+          lastName: staffData.lastname,
+          email: staffData.email,
+        }],
       });
     } catch (error) {
       return res.status(400).json({
@@ -88,13 +137,13 @@ class UserController {
       }, process.env.JWT_KEY, { expiresIn: '24h' });
       return res.status(200).json({
         status: 200,
-        data: {
+        data: [{
           token,
           id: userData.id,
           firstname: userData.firstname,
           lastname: userData.lastname,
           email: userData.email,
-        },
+        }],
       });
     } catch (error) {
       return res.status(400).json({
