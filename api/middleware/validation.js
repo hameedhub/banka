@@ -23,8 +23,8 @@ class Validation {
     return next();
   }
 
-  static transData(req, res, next) {
-    const result = validation.trans(req.body);
+  static transactionData(req, res, next) {
+    const result = validation.transaction(req.body);
     if (result.error) { return res.status(404).json({ status: 404, error: result.error.details[0].message });
     }
     return next();

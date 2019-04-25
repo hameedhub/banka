@@ -2,7 +2,7 @@ import Mail from './mailController';
 import Model from '../model/Model';
 
 class TransController {
-  static async getTransById(req, res) {
+  static async getTransactionById(req, res) {
     try {
       const table = new Model();
       const response = await table.query('SELECT * FROM transactions WHERE id = $1', [req.params.id]);
@@ -16,15 +16,15 @@ class TransController {
         status: 200,
         data: response.rows[0],
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e,
+        error,
       });
     }
   }
 
-  static async debitTrans(req, res) {
+  static async debitTransaction(req, res) {
     if (req.userData.type !== 'staff') {
       return res.status(401).json({
         status: 401,
@@ -68,29 +68,29 @@ class TransController {
       VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
       const values = Object.values(transaction);
       const data = await table.query(query, values);
-      const { ...tranData } = data.rows[0];
-      await table.query('UPDATE accounts SET balance = $1 WHERE accountnumber = $2', [tranData.newbalance, tranData.accountnumber]);
-      Mail.composer(accountEmail, tranData.type, tranData.amount, tranData.newbalance);
+      const { ...transactionData } = data.rows[0];
+      await table.query('UPDATE accounts SET balance = $1 WHERE accountnumber = $2', [transactionData.newbalance, transactionData.accountnumber]);
+      Mail.composer(accountEmail, transactionData.type, transactionData.amount, transactionData.newbalance);
       return res.status(201).json({
         status: 201,
         data: {
-          transactionId: tranData.id,
-          accountNumber: tranData.accountnumber,
-          amount: tranData.amount,
-          cashier: tranData.cashier,
-          transactionType: tranData.type,
-          accountBalance: tranData.newbalance.toFixed(2),
+          transactionId: transactionData.id,
+          accountNumber: transactionData.accountnumber,
+          amount: transactionData.amount,
+          cashier: transactionData.cashier,
+          transactionType: transactionData.type,
+          accountBalance: transactionData.newbalance.toFixed(2),
         },
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e,
+        error,
       });
     }
   }
 
-  static async creditTrans(req, res) {
+  static async creditTransaction(req, res) {
     if (req.userData.type !== 'staff') {
       return res.status(401).json({
         status: 401,
@@ -129,24 +129,24 @@ class TransController {
       VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
       const values = Object.values(transaction);
       const data = await table.query(query, values);
-      const { ...tranData } = data.rows[0];
-      await table.query('UPDATE accounts SET balance = $1 WHERE accountnumber = $2', [tranData.newbalance, tranData.accountnumber]);
-      Mail.composer(accountEmail, tranData.type, tranData.amount, tranData.newbalance);
+      const { ...transactionData } = data.rows[0];
+      await table.query('UPDATE accounts SET balance = $1 WHERE accountnumber = $2', [transactionData.newbalance, transactionData.accountnumber]);
+      Mail.composer(accountEmail, transactionData.type, transactionData.amount, transactionData.newbalance);
       return res.status(201).json({
         status: 201,
         data: {
-          transactionId: tranData.id,
-          accountNumber: tranData.accountnumber,
-          amount: tranData.amount,
-          cashier: tranData.cashier,
-          transactionType: tranData.type,
-          accountBalance: tranData.newbalance.toFixed(2),
+          transactionId: transactionData.id,
+          accountNumber: transactionData.accountnumber,
+          amount: transactionData.amount,
+          cashier: transactionData.cashier,
+          transactionType: transactionData.type,
+          accountBalance: transactionData.newbalance.toFixed(2),
         },
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e
+        error,
       });
     }
   }

@@ -50,10 +50,10 @@ class UserController {
           email: userData.email,
         },
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e,
+        error,
       });
     }
   }
@@ -96,10 +96,10 @@ class UserController {
           email: userData.email,
         },
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e,
+        error,
       });
     }
   }
@@ -126,10 +126,10 @@ class UserController {
         status: 200,
         accounts: accountRows,
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e,
+        error,
       });
     }
   }
