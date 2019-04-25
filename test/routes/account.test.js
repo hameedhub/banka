@@ -33,6 +33,7 @@ describe('Account Test', ()=>{
         done();
       });
   });
+  
   it('should be able to change account status', (done)=>{
     chai.request(app)
       .patch(`/api/v1/accounts/${accNum}`)
@@ -51,11 +52,23 @@ describe('Account Test', ()=>{
   });
   it('should be able to get account transactions', (done)=>{
     chai.request(app)
-      .get(`/api/v1/accounts/${accNum}/transactions`)
+      .get(`/api/v1/accounts/7248551420/transactions`)
       .set('authorization', `Bearer ${token}`)
       .end((err, res)=>{
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
+        done();
+      })
+  });
+  it('should send error without any transactions', (done)=>{
+    chai.request(app)
+      .get(`/api/v1/accounts/00/transactions`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('error');
         done();
       })
   });
@@ -95,6 +108,19 @@ describe('Account Test', ()=>{
         done();
       })
   });
+  it('should throw error without correct account number', (done)=>{
+    chai.request(app)
+      .get(`/api/v1/accounts/000000`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('error');
+        done();
+      })
+  });
+  
   it('should be able view active account', (done)=>{
     chai.request(app)
       .get(`/api/v1/accounts?status=active`)
@@ -131,6 +157,19 @@ describe('Account Test', ()=>{
         done();
       })
   });
+  it('should send error if status is not correct', (done)=>{
+    chai.request(app)
+      .get(`/api/v1/accounts?status=dorma`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(404);
+        expect(res.body.status).to.eql(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('error');
+        done();
+      })
+  });
   it('should be able to create account and get response', (done)=>{
     chai.request(app).post('/api/v1/accounts')
       .send({
@@ -153,6 +192,34 @@ describe('Account Test', ()=>{
         done();
       });
   });
+  it('should provide account type', (done)=>{
+    chai.request(app).post('/api/v1/accounts')
+      .send({
+        openingBalance:  1000
+      })
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body.status).to.eql(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('error');
+        done();
+      });
+  });
+  it('should not be found without correct account number',(done)=>{
+    chai.request(app)
+      .delete(`/api/v1/accounts/`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body.status).to.eql(404);
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('error');
+        done();
+      })
+  })
   it('should delete account',(done)=>{
     chai.request(app)
       .delete(`/api/v1/accounts/${createAccount}`)

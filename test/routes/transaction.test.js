@@ -39,7 +39,6 @@ describe('Transaction Test', ()=>{
   })
 
   it('should be able to debit account', (done)=>{
-    
     const data = {
       amount: 100,
     }
@@ -78,6 +77,35 @@ describe('Transaction Test', ()=>{
         expect(res.body.data).to.have.property('cashier');
         expect(res.body.data).to.have.property('transactionType');
         expect(res.body.data).to.have.property('accountBalance');
+        done();
+      })
+  })
+  it('should send error if no amount', (done)=>{
+    const data = {}
+    chai.request(app)    
+      .post(`/api/v1/transactions/${accNum}/credit`)
+      .send(data)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res)=>{
+        expect(res).to.have.status(404);
+        expect(res.body.status).to.eql(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('error');
+        done();
+      })
+  })
+  it('should not have access without token', (done)=>{
+    const data = {
+      amount: 100,
+    }
+    chai.request(app)    
+      .post(`/api/v1/transactions/${accNum}/credit`)
+      .send(data)
+      .end((err, res)=>{
+        expect(res).to.have.status(401);
+        expect(res.body.status).to.eql(401);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('message');
         done();
       })
   })

@@ -34,22 +34,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-//  CORS errors
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, GET, DELETE');
-    return res.status(200).json({});
-  }
-  next();
-});
-// swagger route
-app.get('/swagger.json', (req, res)=> {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpec);
-});
+// Routes
 app.use('/api/v1/', usersRoute);
 app.use('/api/v1/', accountRoute);
 app.use('/api/v1/transactions', transRoute);
