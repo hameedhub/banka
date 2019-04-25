@@ -30,7 +30,7 @@ class Validator {
     return Joi.validate(data, schema);
   }
 
-  static trans(data) {
+  static transaction(data) {
     const schema = {
       amount: Joi.number().required(),
     };

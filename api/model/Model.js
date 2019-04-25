@@ -6,7 +6,6 @@ const pool = new Pool({
 
 class Model {
   constructor() {
-
     this.pool = pool;
   }
 
@@ -14,8 +13,8 @@ class Model {
     try {
       const req = await this.pool.query(query, values);
       return req;
-    } catch (err) {
-      return console.log(err);
+    } catch (error) {
+      return console.log(error);
     }
   }
 

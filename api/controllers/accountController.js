@@ -1,8 +1,8 @@
 import Model from '../model/Model';
 
 class AccountController {
-  
-  static async getAll(req, res) {
+
+  static async getAllAccount(req, res) {
     if (req.userData.type !== 'staff') {
       return res.status(401).json({
         status: 401,
@@ -24,15 +24,15 @@ class AccountController {
           status: 404,
           error: 'Resource not found',
         });
-      }
+      };
       return res.status(200).json({
         status: 200,
         data: response.rows,
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e,
+        error,
       });
     }
   }
@@ -45,9 +45,9 @@ class AccountController {
         error: 'Session closed for this token, login again',
       });
     }
-    const accNum = Math.floor(100000 + Math.random() * 9000000000);
+    const accountNumber = Math.floor(100000 + Math.random() * 9000000000);
     const account = {
-      accountNumber: accNum,
+      accountNumber,
       createdOn: new Date(),
       ownerEmail: tokenData.email,
       type: req.body.type,
@@ -72,10 +72,10 @@ class AccountController {
           openingBalance: req.body.openingBalance,
         },
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e,
+        error,
       });
     }
   }
@@ -110,10 +110,10 @@ class AccountController {
           status: accountData.status,
         },
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e,
+        error,
       });
     }
   }
@@ -138,15 +138,15 @@ class AccountController {
         status: 204,
         message: 'Account successfully deleted',
       }).status(204);
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        err: e,
+        error,
       });
     }
   }
 
-  static async getTrans(req, res) {
+  static async getTransaction(req, res) {
     try {
       const table = new Model();
       const response = await table.query('SELECT * FROM transactions WHERE accountnumber = $1', [req.params.accountNumber]);
@@ -160,10 +160,10 @@ class AccountController {
         status: 200,
         data: response.rows[0],
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e,
+        error,
       });
     }
   }
@@ -182,10 +182,10 @@ class AccountController {
         status: 200,
         data: response.rows[0],
       });
-    } catch (e) {
+    } catch (error) {
       return res.status(400).json({
         status: 400,
-        error: e,
+        error,
       });
     }
   }
