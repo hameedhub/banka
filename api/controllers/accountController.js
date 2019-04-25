@@ -6,7 +6,7 @@ class AccountController {
     if (req.userData.type !== 'staff') {
       return res.status(401).json({
         status: 401,
-        error: 'Unauthorized toke for this session',
+        error: 'Unauthorized token for this session',
       });
     }
     try {
