@@ -1,0 +1,483 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/api/v1/auth/signup": {
+      "post": {
+        "summary": "User signup route (client)",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": []
+      }
+    },
+    "/api/v1/auth/signin": {
+      "post": {
+        "summary": "Users sign route",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 200
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "123abc"
+                    },
+                    "id": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "firstname": {
+                      "type": "string",
+                      "example": "John"
+                    },
+                    "lastname": {
+                      "type": "string",
+                      "example": "Micheal"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "test@banka.com"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/{email}/accounts": {
+      "get": {
+        "summary": "(Get user accounts by email)",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 200
+                },
+                "accounts": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "accountnumber": {
+                        "type": "string"
+                      },
+                      "createdon": {
+                        "type": "string"
+                      },
+                      "owneremail": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "balance": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": 33,
+                      "accountnumber": "2625414032",
+                      "createdon": "2019-04-21T15:49:03.909-07:00",
+                      "owneremail": "test@banka.com",
+                      "type": "savings",
+                      "status": "dormant",
+                      "balance": 10000
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts": {
+      "post": {
+        "summary": "(Get all accounts)",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "400": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 400
+                },
+                "error": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          },
+          "404": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 404
+                },
+                "error": {
+                  "type": "string",
+                  "example": "\"type\" is required"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{accountNumber}": {
+      "patch": {
+        "summary": "/api/v1/accounts/{accountNumber}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 200
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "accountNumber": {
+                      "type": "string",
+                      "example": "7444872889"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "active"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "/api/v1/accounts/{accountNumber}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "400": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 400
+                },
+                "error": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "/api/v1/accounts/{accountNumber}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 200
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "createdon": {
+                      "type": "string",
+                      "example": "2019-04-21T15:48:23.351-07:00"
+                    },
+                    "accountnumber": {
+                      "type": "string",
+                      "example": "7444872889"
+                    },
+                    "owneremail": {
+                      "type": "string",
+                      "example": "test@client.com"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "savings"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "active"
+                    },
+                    "balance": {
+                      "type": "number",
+                      "example": 100000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 404
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Account not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{accountNumber}/transactions": {
+      "get": {
+        "summary": "/api/v1/accounts/{accountNumber}/transactions",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 200
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "example": 1
+                    },
+                    "createdon": {
+                      "type": "string",
+                      "example": "2019-04-22T00:32:55.969-07:00"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "debit"
+                    },
+                    "accountnumber": {
+                      "type": "string",
+                      "example": "7248551420"
+                    },
+                    "cashier": {
+                      "type": "number",
+                      "example": 2
+                    },
+                    "amount": {
+                      "type": "number",
+                      "example": 5000
+                    },
+                    "oldbalance": {
+                      "type": "number",
+                      "example": 500000
+                    },
+                    "newbalance": {
+                      "type": "number",
+                      "example": 495000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 404
+                },
+                "error": {
+                  "type": "string",
+                  "example": "No transaction found on this acccount"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/": {
+      "get": {
+        "summary": "/api/v1/accounts/",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": []
+      }
+    },
+    "/api/v1/transactions/{accountNumber}/debit": {
+      "post": {
+        "summary": "/api/v1/transactions/{accountNumber}/debit",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/api/v1/transactions/{accountNumber}/credit": {
+      "post": {
+        "summary": "/api/v1/transactions/{accountNumber}/credit",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/api/v1/transactions/{id}": {
+      "get": {
+        "summary": "/api/v1/transactions/{id}",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "/",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": []
+      }
+    }
+  },
+  "info": {
+    "title": "banka",
+    "version": "1.0.0",
+    "license": {
+      "name": "ISC"
+    },
+    "description": "[Specification JSON](/api-spec)\n\nBanking Application"
+  }
+}
