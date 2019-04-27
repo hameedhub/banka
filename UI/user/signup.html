@@ -4,7 +4,6 @@
 <head>
     <title>Sign Up - Banka </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" type="text/css" href="../assets/css/style.css"> -->
     <link rel="stylesheet" type="text/css" href="../assets/css/home.css">
 </head>
 
@@ -39,11 +38,12 @@
                             <input type="password" name="password" placeholder="Enter password" required>
                         </div>
                         <div class="form-input">
-                            <input onkeyup="validatePass()" type="password" placeholder="Repeat Password" name="rpassword" required><span id="msg"></span>
+                            <input onkeyup="validatePassword()" type="password" placeholder="Repeat Password" name="repeatPassword" required>
+                            <p id="notify"></p>
                         </div>
-                        <button class="btn btn-default" type="submit">Sign Up </button>
+                       
+                        <button class="btn btn-default" type="submit">Register</button>
                     </form>
-                    <p id="notify"></p>
                     <p>Do you have an account already? <a href="login.html"> Login</a></p>
                 </div>
             </section>
@@ -52,8 +52,8 @@
     <footer>
         <p>&copy; Copyright 2019 Banka Software. All Rights Reserved.</p>
     </footer>
-    <script type="text/javascript" src="../../scripts/path.js"></script>
-    <script type="text/javascript" src="../../scripts/signup.js"></script>
+    <script type="text/javascript" src="../../../../scripts/path.js"></script>
+    <script type="text/javascript" src="../../../../scripts/auth/signup.js"></script>
 </body>
 
 </html>
