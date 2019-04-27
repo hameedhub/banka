@@ -2,6 +2,7 @@ import Mail from './mailController';
 import Model from '../model/Model';
 
 class TransController {
+  // GET transaction by ID
   static async getTransactionById(req, res) {
     try {
       const table = new Model();
@@ -9,9 +10,10 @@ class TransController {
       if (response.rowCount === 0) {
         return res.json({
           status: 404,
-          error: 'Transaction not found',
+          error: 'No transaction found',
         });
       }
+      // specified return data
       return res.json({
         status: 200,
         data: response.rows,
@@ -24,17 +26,12 @@ class TransController {
     }
   }
 
+  // Debit Transaction only staff
   static async debitTransaction(req, res) {
-    if (req.userData.type !== 'staff') {
+    if (req.userData.type !== 'staff' || req.userData.isAdmin === true) {
       return res.status(401).json({
         status: 401,
-        error: 'Unauthorized token for this session',
-      });
-    }
-    if (req.userData.id === null) {
-      return res.status(401).json({
-        status: 401,
-        error: 'Login again, to contine',
+        error: 'Unauthorized token, you have to login as staff to carry out this transaction',
       });
     }
     try {
@@ -49,13 +46,13 @@ class TransController {
       if (response.rowCount === 0) {
         return res.status(404).json({
           status: 404,
-          error: 'Account not found',
+          error: 'Account number not found',
         });
       }
       if (response.rows[0].status === 'dormant') {
         return res.status(404).json({
           status: 404,
-          error: 'Acount is dormant, operation can not be performed',
+          error: `The user account is ${response.rows[0].status} , you can't perform this transaction`,
         });
       }
       const accountEmail = response.rows[0].owneremail;
@@ -76,16 +73,16 @@ class TransController {
         oldBalance,
         newBalance,
       };
-      
       const query = `INSERT INTO transactions ( createdOn, type, accountnumber, cashier, amount, oldBalance, newBalance)
       VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
       const values = Object.values(transaction);
       const data = await table.query(query, values);
       const { ...transactionData } = data.rows[0];
       await table.query('UPDATE accounts SET balance = $1 WHERE accountnumber = $2', [transactionData.newbalance, transactionData.accountnumber]);
+      // mail composer
       Mail.composer(accountEmail, transactionData.type, transactionData.amount, transactionData.newbalance);
-      return res.status(201).json({
-        status: 201,
+      return res.status(200).json({
+        status: 200,
         data: [{
           transactionId: transactionData.id,
           accountNumber: transactionData.accountnumber,
@@ -98,22 +95,18 @@ class TransController {
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        error,
+        error: 'Something went wrong',
       });
     }
   }
 
+  // Credit account transaction
   static async creditTransaction(req, res) {
-    if (req.userData.type !== 'staff') {
+    // Check if user is staff
+    if (req.userData.type !== 'staff' && req.userData.isAdmin === false) {
       return res.status(401).json({
         status: 401,
-        error: 'Unauthorized token for this session',
-      });
-    }
-    if (req.userData.id == null) {
-      return res.status(401).json({
-        status: 401,
-        error: 'Login again, to contine',
+        error: 'Unauthorized token, you have to login as staff to perform this transaction',
       });
     }
     try {
@@ -131,6 +124,12 @@ class TransController {
           error: 'Account not found',
         });
       }
+      if (response.rows[0].status === 'dormant' || response.rows[0].status === 'draft') {
+        return res.status(404).json({
+          status: 404,
+          error: `The user account is ${response.rows[0].status} , you can't perform this transaction`,
+        });
+      }
       const accountEmail = response.rows[0].owneremail;
       const oldBalance = response.rows[0].balance;
       const newBalance = oldBalance + +req.body.amount;
@@ -143,16 +142,17 @@ class TransController {
         oldBalance,
         newBalance,
       };
-
       const query = `INSERT INTO transactions ( createdOn, type, accountnumber, cashier, amount, oldBalance, newBalance)
       VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
       const values = Object.values(transaction);
       const data = await table.query(query, values);
       const { ...transactionData } = data.rows[0];
+      // update account balance
       await table.query('UPDATE accounts SET balance = $1 WHERE accountnumber = $2', [transactionData.newbalance, transactionData.accountnumber]);
+      // mail composer
       Mail.composer(accountEmail, transactionData.type, transactionData.amount, transactionData.newbalance);
-      return res.status(201).json({
-        status: 201,
+      return res.status(200).json({
+        status: 200,
         data: [{
           transactionId: transactionData.id,
           accountNumber: transactionData.accountnumber,
@@ -165,7 +165,7 @@ class TransController {
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        error,
+        error: 'Something went wrong'
       });
     }
   }

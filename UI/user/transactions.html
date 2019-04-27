@@ -1,40 +1,46 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>//FullName - Transactions</title>
-	<link rel="stylesheet" type="text/css" href="../assets/css/home.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>//FullName - Transactions</title>
+    <link rel="stylesheet" type="text/css" href="../assets/css/home.css">
 </head>
+
 <body>
-		<header>
-				<a class="logo" >Banka</a>
-					<input id="nav" type="checkbox">
-						<label for="nav"></label>
-				<nav>
-					<ul><li><a  href="dashboard.html">Dashboard</a></li>
-						<li><a class="active" href="create-account.html">Create Account</a></li>
-						<li><a href="transactions.html">Transactions</a></li>
-						<li><a href="login.html">Logout</a></li>
-					</ul>
-				</nav> 
-			</header>
-	<main class="home">
-		<div class="overlay">
-		<section class="container dashboard">
-			<input class="search" type="text" id="myInput" onkeyup="search()" placeholder="Search filter.. e.g date">
-			<ul class="box trans" id="myUL">
-				 <li class="collapsible"><b class="danger"><<</b><a> Debit! | 19 March 2019 | Desc: Withdrawal | NGN 4000 | TransID 28791</a></li>
-					<div class="content">
-					  <p>Debit Alert# on Account Number: 030980382<br> Description: Nip-GTbank/Transfer Out/Abdulrahaman Hameed<br>Date/Time: 19 March 2019 @ 9:01am <br>Amount: NGN 4000<br> Avail. Bal: NGN59293<br> Enquiries? mail banka@banka.com</p>
-					</div> 
-				<li class="collapsible"><b class="success">>></b><a> Credit! | 14 August 2019 | Desc: Payment | N5000 | TransID 42422</a></li>
-					<div class="content">
-					  <p>Credit Alert# on Account Number: 030980382<br> Description: Nip-GTbank/Transfer Out/Abdulrahaman Hameed<br>Date/Time: 19 March 2019 @ 9:01am <br>Amount: NGN 4000<br> Avail. Bal: NGN59293<br> Enquiries? mail banka@banka.com</p>
-					</div> 
-			</ul>
-		</section>
-	</div>
-	</main>
-	<script src="../assets/js/widgets.js"></script>
+    <header>
+        <a class="logo">Banka</a>
+        <input id="nav" type="checkbox">
+        <label for="nav"></label>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a class="active" href="create-account.html">Create Account</a></li>
+                <li><a href="transactions.html">Transactions</a></li>
+                <li><a href="login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="home">
+        <div class="overlay">
+            <section class="container dashboard">
+                <input class="search" type="text" id="myInput" onkeyup="search()" placeholder="Search filter.. e.g date">
+                <ul class="box trans" id="myUL">
+                    <li class="collapsible"><b class="danger"><<</b><a> Debit! | 19 March 2019
+								| Desc: Withdrawal | NGN 4000 | TransID 28791</a></li>
+                    <div class="content">
+                        <p>Debit Alert# on Account Number: 030980382<br> Description: Nip-GTbank/Transfer Out/Abdulrahaman Hameed<br>Date/Time: 19 March 2019 @ 9:01am <br>Amount: NGN 4000<br> Avail. Bal: NGN59293<br> Enquiries? mail banka@banka.com</p>
+                    </div>
+                    <li class="collapsible"><b class="success">>></b><a> Credit! | 14 August
+								2019 | Desc: Payment | N5000 | TransID 42422</a></li>
+                    <div class="content">
+                        <p>Credit Alert# on Account Number: 030980382<br> Description: Nip-GTbank/Transfer Out/Abdulrahaman Hameed<br>Date/Time: 19 March 2019 @ 9:01am <br>Amount: NGN 4000<br> Avail. Bal: NGN59293<br> Enquiries? mail banka@banka.com</p>
+                    </div>
+                </ul>
+            </section>
+        </div>
+    </main>
+    <script src="../assets/js/widgets.js"></script>
 </body>
+
 </html>

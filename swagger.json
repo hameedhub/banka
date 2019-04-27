@@ -1,18 +1,24 @@
 {
   "swagger": "2.0",
+  "tags":[
+    {
+    "name":"Auth",
+    "description": "Authentication routes"
+  },
+  {
+    "name":"Account",
+    "description": "Account routes"
+  },
+  {
+    "name":"Transaction",
+    "description": "Transaction routes"
+  }
+],
   "paths": {
     "/api/v1/auth/signup": {
       "post": {
-        "summary": "User signup route (client)",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": []
-      }
-    },
-    "/api/v1/auth/signin": {
-      "post": {
-        "summary": "Users sign route",
+        "tags": ["Auth"],
+        "summary": "(User signup route)",
         "consumes": [
           "application/json"
         ],
@@ -30,29 +36,148 @@
                   "example": 200
                 },
                 "data": {
-                  "type": "object",
-                  "properties": {
-                    "token": {
-                      "type": "string",
-                      "example": "123abc"
-                    },
-                    "id": {
-                      "type": "number",
-                      "example": 2
-                    },
-                    "firstname": {
-                      "type": "string",
-                      "example": "John"
-                    },
-                    "lastname": {
-                      "type": "string",
-                      "example": "Micheal"
-                    },
-                    "email": {
-                      "type": "string",
-                      "example": "test@banka.com"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "number"
+                      },
+                      "firstname": {
+                        "type": "string"
+                      },
+                      "lastname": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
                     }
-                  }
+                  },
+                  "example": [
+                    {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0QGFkbWluLmNvbSIsImZpcnN0bmFtZSI6IlRlc3QiLCJsYXN0bmFtZSI6IlRlc3QiLCJ0eXBlIjoic3RhZmYiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NTYyNzA5MTMsImV4cCI6MTU1NjM1NzMxM30.rZkz6cGSXIgwIjU9JEMeX98qa4_tEEUaGQsiTAFQm_8",
+                      "id": 3,
+                      "firstname": "Test",
+                      "lastname": "Test",
+                      "email": "test@admin.com"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 400
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Not allowed type or isAdmin"
+                }
+              }
+            }
+          },
+          "404": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 404
+                },
+                "error": {
+                  "type": "string",
+                  "example": "\"firstname\" length must be at least 3 characters long"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/signupadmin": {
+      "post": {
+        "summary": "/api/v1/auth/signupadmin",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": []
+      }
+    },
+    "/api/v1/auth/signin": {
+      "post": {
+        "tags":["Auth"],
+        "summary": "(User Signin route)",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 200
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      },
+                      "id": {
+                        "type": "number"
+                      },
+                      "firstname": {
+                        "type": "string"
+                      },
+                      "lastname": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0QGFkbWluLmNvbSIsImZpcnN0bmFtZSI6IlRlc3QiLCJsYXN0bmFtZSI6IlRlc3QiLCJ0eXBlIjoic3RhZmYiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NTYyNzA5MTMsImV4cCI6MTU1NjM1NzMxM30.rZkz6cGSXIgwIjU9JEMeX98qa4_tEEUaGQsiTAFQm_8",
+                      "id": 3,
+                      "firstname": "Test",
+                      "lastname": "Test",
+                      "email": "test@admin.com"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 404
+                },
+                "error": {
+                  "type": "string",
+                  "example": "\"email\" must be a valid email"
                 }
               }
             }
@@ -62,7 +187,8 @@
     },
     "/api/v1/user/{email}/accounts": {
       "get": {
-        "summary": "(Get user accounts by email)",
+        "tags":["Account"],
+        "summary": "(User Accounts by email parameter",
         "consumes": [
           "application/json"
         ],
@@ -111,17 +237,35 @@
                       "balance": {
                         "type": "number"
                       }
-                    }
+                    },
+                    "required": [
+                      "id",
+                      "accountnumber",
+                      "createdon",
+                      "owneremail",
+                      "type",
+                      "status",
+                      "balance"
+                    ]
                   },
                   "example": [
+                    {
+                      "id": 138,
+                      "accountnumber": "5769362003",
+                      "createdon": "2019-04-25T14:45:49.848+01:00",
+                      "owneremail": "test@staff.com",
+                      "type": "savings",
+                      "status": "active",
+                      "balance": 1000
+                    },
                     {
                       "id": 33,
                       "accountnumber": "2625414032",
                       "createdon": "2019-04-21T15:49:03.909-07:00",
-                      "owneremail": "test@banka.com",
+                      "owneremail": "test@staff.com",
                       "type": "savings",
                       "status": "dormant",
-                      "balance": 10000
+                      "balance": 27791
                     }
                   ]
                 }
@@ -133,7 +277,8 @@
     },
     "/api/v1/accounts": {
       "post": {
-        "summary": "(Get all accounts)",
+        "tags":["Account"],
+        "summary": "(Create an Account)",
         "consumes": [
           "application/json"
         ],
@@ -142,17 +287,49 @@
           "application/json"
         ],
         "responses": {
-          "400": {
+          "201": {
             "schema": {
               "type": "object",
               "properties": {
                 "status": {
                   "type": "number",
-                  "example": 400
+                  "example": 201
                 },
-                "error": {
-                  "type": "object",
-                  "properties": {}
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "accountNumber": {
+                        "type": "string"
+                      },
+                      "firstname": {
+                        "type": "string"
+                      },
+                      "lastname": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "openingBalance": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "accountNumber": "1263736934",
+                      "firstname": "Test",
+                      "lastname": "Test",
+                      "email": "test@admin.com",
+                      "type": "savings",
+                      "openingBalance": 1000
+                    }
+                  ]
                 }
               }
             }
@@ -177,7 +354,8 @@
     },
     "/api/v1/accounts/{accountNumber}": {
       "patch": {
-        "summary": "/api/v1/accounts/{accountNumber}",
+        "tags": ["Account"],
+        "summary": "(Change Account Status)",
         "consumes": [
           "application/json"
         ],
@@ -201,17 +379,39 @@
                   "example": 200
                 },
                 "data": {
-                  "type": "object",
-                  "properties": {
-                    "accountNumber": {
-                      "type": "string",
-                      "example": "7444872889"
-                    },
-                    "status": {
-                      "type": "string",
-                      "example": "active"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "accountNumber": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      }
                     }
-                  }
+                  },
+                  "example": [
+                    {
+                      "accountNumber": "4323575979",
+                      "status": "active"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 404
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Invalid status property"
                 }
               }
             }
@@ -219,7 +419,8 @@
         }
       },
       "delete": {
-        "summary": "/api/v1/accounts/{accountNumber}",
+        "tags":["Account"],
+        "summary": "(Delete users account)",
         "consumes": [
           "application/json"
         ],
@@ -234,17 +435,17 @@
           "application/json"
         ],
         "responses": {
-          "400": {
+          "200": {
             "schema": {
               "type": "object",
               "properties": {
                 "status": {
                   "type": "number",
-                  "example": 400
+                  "example": 204
                 },
-                "error": {
-                  "type": "object",
-                  "properties": {}
+                "message": {
+                  "type": "string",
+                  "example": "Account successfully deleted"
                 }
               }
             }
@@ -252,7 +453,8 @@
         }
       },
       "get": {
-        "summary": "/api/v1/accounts/{accountNumber}",
+        "summary": "(Get Account details)",
+        "tags": ["Account"],
         "consumes": [
           "application/json"
         ],
@@ -276,33 +478,40 @@
                   "example": 200
                 },
                 "data": {
-                  "type": "object",
-                  "properties": {
-                    "createdon": {
-                      "type": "string",
-                      "example": "2019-04-21T15:48:23.351-07:00"
-                    },
-                    "accountnumber": {
-                      "type": "string",
-                      "example": "7444872889"
-                    },
-                    "owneremail": {
-                      "type": "string",
-                      "example": "test@client.com"
-                    },
-                    "type": {
-                      "type": "string",
-                      "example": "savings"
-                    },
-                    "status": {
-                      "type": "string",
-                      "example": "active"
-                    },
-                    "balance": {
-                      "type": "number",
-                      "example": 100000
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "createdon": {
+                        "type": "string"
+                      },
+                      "accountnumber": {
+                        "type": "string"
+                      },
+                      "owneremail": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "status": {
+                        "type": "string"
+                      },
+                      "balance": {
+                        "type": "number"
+                      }
                     }
-                  }
+                  },
+                  "example": [
+                    {
+                      "createdon": "2019-04-22T07:18:05.614-07:00",
+                      "accountnumber": "4323575979",
+                      "owneremail": "client@client.com",
+                      "type": "savings",
+                      "status": "active",
+                      "balance": 1000
+                    }
+                  ]
                 }
               }
             }
@@ -327,7 +536,7 @@
     },
     "/api/v1/accounts/{accountNumber}/transactions": {
       "get": {
-        "summary": "/api/v1/accounts/{accountNumber}/transactions",
+        "summary": "(Transaction on an Account Number)",
         "consumes": [
           "application/json"
         ],
@@ -351,41 +560,1128 @@
                   "example": 200
                 },
                 "data": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number",
-                      "example": 1
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "createdon": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "accountnumber": {
+                        "type": "string"
+                      },
+                      "cashier": {
+                        "type": "number"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "oldbalance": {
+                        "type": "number"
+                      },
+                      "newbalance": {
+                        "type": "number"
+                      }
                     },
-                    "createdon": {
-                      "type": "string",
-                      "example": "2019-04-22T00:32:55.969-07:00"
+                    "required": [
+                      "id",
+                      "createdon",
+                      "type",
+                      "accountnumber",
+                      "cashier",
+                      "amount",
+                      "oldbalance",
+                      "newbalance"
+                    ]
+                  },
+                  "example": [
+                    {
+                      "id": 1,
+                      "createdon": "2019-04-22T00:32:55.969-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 500000,
+                      "newbalance": 495000
                     },
-                    "type": {
-                      "type": "string",
-                      "example": "debit"
+                    {
+                      "id": 2,
+                      "createdon": "2019-04-22T00:37:24.431-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 500000,
+                      "newbalance": 495000
                     },
-                    "accountnumber": {
-                      "type": "string",
-                      "example": "7248551420"
+                    {
+                      "id": 3,
+                      "createdon": "2019-04-22T00:37:40.044-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 500000,
+                      "newbalance": 495000
                     },
-                    "cashier": {
-                      "type": "number",
-                      "example": 2
+                    {
+                      "id": 4,
+                      "createdon": "2019-04-22T01:06:58.693-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 500000,
+                      "newbalance": 495000
                     },
-                    "amount": {
-                      "type": "number",
-                      "example": 5000
+                    {
+                      "id": 5,
+                      "createdon": "2019-04-22T01:07:02.032-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 495000,
+                      "newbalance": 490000
                     },
-                    "oldbalance": {
-                      "type": "number",
-                      "example": 500000
+                    {
+                      "id": 6,
+                      "createdon": "2019-04-22T01:07:05.455-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 490000,
+                      "newbalance": 485000
                     },
-                    "newbalance": {
-                      "type": "number",
-                      "example": 495000
+                    {
+                      "id": 7,
+                      "createdon": "2019-04-22T01:07:08.168-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 485000,
+                      "newbalance": 480000
+                    },
+                    {
+                      "id": 8,
+                      "createdon": "2019-04-22T01:11:36.602-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 0,
+                      "oldbalance": 480000,
+                      "newbalance": 480000
+                    },
+                    {
+                      "id": 9,
+                      "createdon": "2019-04-22T01:11:59.725-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5.04,
+                      "oldbalance": 480000,
+                      "newbalance": 479994.96
+                    },
+                    {
+                      "id": 10,
+                      "createdon": "2019-04-22T01:13:50.877-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 10000,
+                      "oldbalance": 479994.96,
+                      "newbalance": 469994.96
+                    },
+                    {
+                      "id": 11,
+                      "createdon": "2019-04-22T01:14:07.871-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 10000,
+                      "oldbalance": 469994.96,
+                      "newbalance": 459994.96
+                    },
+                    {
+                      "id": 12,
+                      "createdon": "2019-04-22T01:14:27.889-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 459994,
+                      "oldbalance": 459994.96,
+                      "newbalance": 0.960000000020955
+                    },
+                    {
+                      "id": 13,
+                      "createdon": "2019-04-22T01:15:14.011-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 0.96,
+                      "oldbalance": 0.960000000020955,
+                      "newbalance": 2.095501550059e-11
+                    },
+                    {
+                      "id": 14,
+                      "createdon": "2019-04-22T01:28:56.066-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 2e-29,
+                      "oldbalance": 2.095501550059e-11,
+                      "newbalance": 2.095501550059e-11
+                    },
+                    {
+                      "id": 27,
+                      "createdon": "2019-04-22T03:30:25.160-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 2.095501550059e-11,
+                      "newbalance": 5000.00000000002
+                    },
+                    {
+                      "id": 28,
+                      "createdon": "2019-04-22T03:32:02.540-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 5000.00000000002,
+                      "newbalance": 10000
+                    },
+                    {
+                      "id": 29,
+                      "createdon": "2019-04-22T03:32:18.217-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 10000,
+                      "newbalance": 5000
+                    },
+                    {
+                      "id": 30,
+                      "createdon": "2019-04-22T03:32:32.656-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5,
+                      "oldbalance": 5000,
+                      "newbalance": 4995
+                    },
+                    {
+                      "id": 31,
+                      "createdon": "2019-04-22T03:32:46.986-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 0.0938048,
+                      "oldbalance": 4995,
+                      "newbalance": 4994.9061952
+                    },
+                    {
+                      "id": 32,
+                      "createdon": "2019-04-22T03:35:07.228-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 0.0938048,
+                      "oldbalance": 4994.9061952,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 33,
+                      "createdon": "2019-04-22T03:35:18.978-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 0.0938048,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4994.9061952
+                    },
+                    {
+                      "id": 34,
+                      "createdon": "2019-04-22T03:52:19.071-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 0.0938048,
+                      "oldbalance": 4994.9061952,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 44,
+                      "createdon": "2019-04-22T07:00:18.201-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 45,
+                      "createdon": "2019-04-22T07:00:20.417-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 46,
+                      "createdon": "2019-04-22T07:03:55.739-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 47,
+                      "createdon": "2019-04-22T07:03:58.083-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 48,
+                      "createdon": "2019-04-22T07:05:32.911-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 49,
+                      "createdon": "2019-04-22T07:05:34.546-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 50,
+                      "createdon": "2019-04-22T07:15:50.256-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 51,
+                      "createdon": "2019-04-22T07:15:52.194-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 53,
+                      "createdon": "2019-04-22T07:22:41.351-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 54,
+                      "createdon": "2019-04-22T07:22:43.495-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 55,
+                      "createdon": "2019-04-22T07:29:34.307-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 56,
+                      "createdon": "2019-04-22T07:29:37.767-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 57,
+                      "createdon": "2019-04-22T07:31:39.638-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 58,
+                      "createdon": "2019-04-22T07:31:42.635-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 59,
+                      "createdon": "2019-04-22T07:38:08.662-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 60,
+                      "createdon": "2019-04-22T07:38:10.984-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 61,
+                      "createdon": "2019-04-22T07:39:38.242-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 62,
+                      "createdon": "2019-04-22T07:39:40.305-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 63,
+                      "createdon": "2019-04-22T07:41:45.526-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 64,
+                      "createdon": "2019-04-22T07:41:47.538-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 65,
+                      "createdon": "2019-04-22T07:46:27.267-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 66,
+                      "createdon": "2019-04-22T07:46:29.661-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 67,
+                      "createdon": "2019-04-22T07:48:13.949-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 68,
+                      "createdon": "2019-04-22T07:48:19.530-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 69,
+                      "createdon": "2019-04-22T07:54:13.005-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 70,
+                      "createdon": "2019-04-22T07:54:14.731-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 71,
+                      "createdon": "2019-04-22T08:14:15.819-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 72,
+                      "createdon": "2019-04-22T08:14:17.724-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 73,
+                      "createdon": "2019-04-22T08:27:23.783-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 74,
+                      "createdon": "2019-04-22T08:27:26.243-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 75,
+                      "createdon": "2019-04-22T15:37:19.314+00:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 76,
+                      "createdon": "2019-04-22T15:37:19.542+00:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 77,
+                      "createdon": "2019-04-22T15:37:33.064+00:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 78,
+                      "createdon": "2019-04-22T15:37:33.297+00:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 79,
+                      "createdon": "2019-04-22T15:44:29.902+00:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 80,
+                      "createdon": "2019-04-22T15:44:30.129+00:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 81,
+                      "createdon": "2019-04-22T15:44:44.501+00:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 82,
+                      "createdon": "2019-04-22T15:44:44.738+00:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 83,
+                      "createdon": "2019-04-22T09:05:40.633-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 84,
+                      "createdon": "2019-04-22T09:05:42.521-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 85,
+                      "createdon": "2019-04-22T09:19:39.708-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 86,
+                      "createdon": "2019-04-22T09:19:42.877-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 87,
+                      "createdon": "2019-04-24T01:51:15.426-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 88,
+                      "createdon": "2019-04-24T01:51:18.618-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 89,
+                      "createdon": "2019-04-24T02:01:54.912-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 90,
+                      "createdon": "2019-04-24T02:01:56.860-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 91,
+                      "createdon": "2019-04-24T02:11:23.321-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 105,
+                      "createdon": "2019-04-24T19:34:10.366+00:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 106,
+                      "createdon": "2019-04-24T19:34:10.607+00:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 107,
+                      "createdon": "2019-04-24T19:34:13.396+00:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 108,
+                      "createdon": "2019-04-24T19:34:13.656+00:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 109,
+                      "createdon": "2019-04-24T19:36:26.794+00:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 110,
+                      "createdon": "2019-04-24T19:36:27.055+00:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 111,
+                      "createdon": "2019-04-24T19:36:34.917+00:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 112,
+                      "createdon": "2019-04-24T19:36:35.153+00:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 113,
+                      "createdon": "2019-04-24T13:06:12.303-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 114,
+                      "createdon": "2019-04-24T13:06:14.121-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 115,
+                      "createdon": "2019-04-24T13:21:12.103-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 116,
+                      "createdon": "2019-04-24T13:21:13.757-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 117,
+                      "createdon": "2019-04-24T13:47:58.758-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 118,
+                      "createdon": "2019-04-24T13:48:00.149-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4994.8123904
+                    },
+                    {
+                      "id": 119,
+                      "createdon": "2019-04-24T14:04:06.516-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4994.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 120,
+                      "createdon": "2019-04-24T14:06:54.859-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4794.8123904
+                    },
+                    {
+                      "id": 121,
+                      "createdon": "2019-04-24T14:06:56.393-07:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4794.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 122,
+                      "createdon": "2019-04-24T14:43:50.949-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4794.8123904
+                    },
+                    {
+                      "id": 180,
+                      "createdon": "2019-04-25T08:40:15.693+01:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4794.8123904
+                    },
+                    {
+                      "id": 181,
+                      "createdon": "2019-04-25T08:40:18.005+01:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4794.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 182,
+                      "createdon": "2019-04-25T08:46:27.559+01:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4894.8123904,
+                      "newbalance": 4794.8123904
+                    },
+                    {
+                      "id": 183,
+                      "createdon": "2019-04-25T08:46:29.359+01:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 100,
+                      "oldbalance": 4794.8123904,
+                      "newbalance": 4894.8123904
+                    },
+                    {
+                      "id": 324,
+                      "createdon": "2019-04-26T10:22:06.222+01:00",
+                      "type": "credit",
+                      "accountnumber": "7248551420",
+                      "cashier": 3,
+                      "amount": 100,
+                      "oldbalance": 4794.8123904,
+                      "newbalance": 4894.8123904
                     }
-                  }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/": {
+      "get": {
+        "summary": "(Get all accounts)",
+        "tags":["Account"],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": []
+      }
+    },
+    "/api/v1/transactions/{accountNumber}/debit": {
+      "post": {
+        "summary": "(Debit Account Transaction)",
+        "tags":["Transaction"],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 201
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "transactionId": {
+                        "type": "number"
+                      },
+                      "accountNumber": {
+                        "type": "string"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "cashier": {
+                        "type": "number"
+                      },
+                      "transactionType": {
+                        "type": "string"
+                      },
+                      "accountBalance": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "transactionId": 325,
+                      "accountNumber": "7248551420",
+                      "amount": 100,
+                      "cashier": 3,
+                      "transactionType": "debit",
+                      "accountBalance": "4794.81"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/transactions/{accountNumber}/credit": {
+      "post": {
+        "summary": "(Credit Account Transaction)",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 201
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "transactionId": {
+                        "type": "number"
+                      },
+                      "accountNumber": {
+                        "type": "string"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "cashier": {
+                        "type": "number"
+                      },
+                      "transactionType": {
+                        "type": "string"
+                      },
+                      "accountBalance": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "transactionId": 326,
+                      "accountNumber": "7248551420",
+                      "amount": 100,
+                      "cashier": 3,
+                      "transactionType": "credit",
+                      "accountBalance": "4894.81"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Authorization failed"
                 }
               }
             }
@@ -400,7 +1696,7 @@
                 },
                 "error": {
                   "type": "string",
-                  "example": "No transaction found on this acccount"
+                  "example": "\"amount\" is required"
                 }
               }
             }
@@ -408,48 +1704,10 @@
         }
       }
     },
-    "/api/v1/accounts/": {
-      "get": {
-        "summary": "/api/v1/accounts/",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": []
-      }
-    },
-    "/api/v1/transactions/{accountNumber}/debit": {
-      "post": {
-        "summary": "/api/v1/transactions/{accountNumber}/debit",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "accountNumber",
-            "in": "path",
-            "required": true
-          }
-        ]
-      }
-    },
-    "/api/v1/transactions/{accountNumber}/credit": {
-      "post": {
-        "summary": "/api/v1/transactions/{accountNumber}/credit",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "accountNumber",
-            "in": "path",
-            "required": true
-          }
-        ]
-      }
-    },
     "/api/v1/transactions/{id}": {
       "get": {
-        "summary": "/api/v1/transactions/{id}",
+        "tags":["Transaction"],
+        "summary": "(Get transaction by ID)",
         "consumes": [
           "application/json"
         ],
@@ -459,16 +1717,96 @@
             "in": "path",
             "required": true
           }
-        ]
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 200
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "createdon": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "accountnumber": {
+                        "type": "string"
+                      },
+                      "cashier": {
+                        "type": "number"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "oldbalance": {
+                        "type": "number"
+                      },
+                      "newbalance": {
+                        "type": "number"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": 1,
+                      "createdon": "2019-04-22T00:32:55.969-07:00",
+                      "type": "debit",
+                      "accountnumber": "7248551420",
+                      "cashier": 2,
+                      "amount": 5000,
+                      "oldbalance": 500000,
+                      "newbalance": 495000
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/": {
       "get": {
-        "summary": "/",
+        "summary": "(Welcome Route to the API)",
         "consumes": [
           "application/json"
         ],
-        "parameters": []
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "number",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Welcome to Banka API."
+                }
+              }
+            }
+          }
+        }
       }
     }
   },

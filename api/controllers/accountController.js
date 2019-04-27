@@ -1,12 +1,12 @@
 import Model from '../model/Model';
 
 class AccountController {
-
+  //  get all accounts only staff and admin
   static async getAllAccount(req, res) {
-    if (req.userData.type !== 'staff'|| req.userData.isAdmin === false) {
+    if (req.userData.type !== 'staff' && req.userData.isAdmin === false) {
       return res.status(401).json({
         status: 401,
-        error: 'Unauthorized token for this session',
+        error: 'Unauthorized token, you have to be a staff or admin',
       });
     }
     try {
@@ -24,7 +24,7 @@ class AccountController {
           status: 404,
           error: 'Resource not found',
         });
-      };
+      }
       return res.status(200).json({
         status: 200,
         data: response.rows,
@@ -32,26 +32,33 @@ class AccountController {
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        error,
+        error: 'Something went wrong',
       });
     }
   }
 
+  // creeate account only client
   static async createAccount(req, res) {
-    const tokenData = req.userData;
-    if (tokenData === undefined) {
+    if (req.userData.type !== 'client' && req.userData.isAdmin === true) {
       return res.status(401).json({
         status: 401,
-        error: 'Session closed for this token, login again',
+        error: 'Unauthorized token, you have to be a client or admin',
+      });
+    }
+
+    if (req.body.type !== 'current' && req.body.type !== 'savings') {
+      return res.status(401).json({
+        status: 401,
+        error: 'Account type can only be current or savings',
       });
     }
     const accountNumber = Math.floor(100000 + Math.random() * 9000000000);
     const account = {
       accountNumber,
       createdOn: new Date(),
-      ownerEmail: tokenData.email,
+      ownerEmail: req.userData.email,
       type: req.body.type,
-      status: 'active',
+      status: 'draft',
       balance: req.body.openingBalance,
     };
     try {
@@ -65,9 +72,9 @@ class AccountController {
         status: 201,
         data: [{
           accountNumber: accountData.accountnumber,
-          firstname: tokenData.firstname,
-          lastname: tokenData.lastname,
-          email: tokenData.email,
+          firstname: req.userData.firstname,
+          lastname: req.userData.lastname,
+          email: req.userData.email,
           type: req.body.type,
           openingBalance: req.body.openingBalance,
         }],
@@ -75,22 +82,23 @@ class AccountController {
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        error,
+        error: 'Something went wrong',
       });
     }
   }
 
+  // change account status
   static async accountStatus(req, res) {
-    if (req.userData.isAdmin !== true) {
+    if (req.userData.isAdmin !== true && req.userData.type !== 'staff') {
       return res.status(401).json({
         status: 401,
-        error: 'Unauthorized token for this session',
+        error: 'Unauthorized token, you have to be a staff or admin to carry out this operation',
       });
     }
-    if (req.body.status !== 'active' && req.body.status !== 'dormant') {
+    if (req.body.status !== 'active' && req.body.status !== 'dormant' && req.body.status !== 'draft') {
       return res.status(404).json({
         status: 404,
-        error: 'Invalid status property',
+        error: 'Invalid status property, status can only be active, dormant or draft',
       });
     }
     try {
@@ -99,7 +107,7 @@ class AccountController {
       if (response.rows.length === 0) {
         return res.status(404).json({
           status: 404,
-          error: 'Account not found',
+          error: 'Account number not found not found',
         });
       }
       const accountData = response.rows[0];
@@ -118,11 +126,12 @@ class AccountController {
     }
   }
 
+  // Delete account
   static async deleteAccount(req, res) {
     if (req.userData.isAdmin !== true) {
       return res.status(401).json({
         status: 401,
-        error: 'Unauthorized token for this session',
+        error: 'Unauthorized token, only admin can delete user account',
       });
     }
     try {
@@ -131,7 +140,7 @@ class AccountController {
       if (response.rowCount === 0) {
         return res.status(404).json({
           status: 404,
-          error: 'Account not found',
+          error: 'Account number not found',
         });
       }
       return res.json({
@@ -141,7 +150,7 @@ class AccountController {
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        error,
+        error: 'Something went wrong',
       });
     }
   }
@@ -149,6 +158,17 @@ class AccountController {
   static async getTransaction(req, res) {
     try {
       const table = new Model();
+      // client get transactions
+      if (req.userData.type === 'client') {
+        const { rows } = await table.query('SELECT * FROM accounts WHERE owneremail = $1', [req.userData.email]);
+        const accountDetails = await rows.find(row => row.accountnumber === req.params.accountNumber);
+        if (typeof accountDetails === 'undefined') {
+          return res.status(404).json({
+            status: 404,
+            error: 'You are not allowed to view this account transaction, you have to login as admin or staff to view',
+          });
+        }
+      }
       const response = await table.query('SELECT * FROM transactions WHERE accountnumber = $1', [req.params.accountNumber]);
       if (response.rowCount === 0) {
         return res.status(404).json({
@@ -168,9 +188,24 @@ class AccountController {
     }
   }
 
+  // get account details
   static async getDetails(req, res) {
     try {
       const table = new Model();
+      if (req.userData.type === 'client') {
+        const { rows } = await table.query('SELECT * FROM accounts WHERE owneremail = $1', [req.userData.email]);
+        const account = await rows.find(row => row.accountnumber === req.params.accountNumber);
+        if (typeof account === 'undefined') {
+          return res.status(404).json({
+            status: 404,
+            error: 'You are not allowed to view this account details, you have to login as admin or staff to view',
+          });
+        }
+        return res.status(200).json({
+          status: 200,
+          data: account
+        });
+      }
       const response = await table.query('SELECT createdon, accountnumber, owneremail, type, status, balance FROM accounts WHERE accountnumber = $1', [req.params.accountNumber]);
       if (response.rowCount === 0) {
         return res.status(404).json({
