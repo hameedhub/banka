@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>//FullName - Dashboard</title>
+    <title id="firstname"> - Dashboard</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/home.css">
     <!-- <link rel="stylesheet" type="text/css" href="../assets/css/style.css"> -->
 </head>
@@ -22,31 +22,14 @@
             </ul>
         </nav>
     </header>
-
-
     <main class="home">
         <div class="overlay">
             <section class="container ">
-                <h2>Welcome, <span>HAMEED</span></h2>
-                <div class="box">
-                    <span>Available Balance</span>
-                    <h4>N1000.00</h4>
-                    <hr>
-                    <span>Account Number: </span><span>21801280</span>
-                </div>
-            </section>
-            <section class="container">
+                <h2>Welcome, <span id="firstname"></span></h2>
+                <div id="accounts"></div>       
                 <div class="recent-trans">
                     <h3>Recent Transactions</h3>
                     <ul class="box trans" id="myUL">
-                        <li class="collapsible"><b class="danger"><<</b><a> Debit! | 19 March 2019 | Desc: Withdrawal | NGN 4000 | TransID 28791</a></li>
-                        <div class="content">
-                            <p>Debit Alert# on Account Number: 030980382<br> Description: Nip-GTbank/Transfer Out/Abdulrahaman Hameed<br>Date/Time: 19 March 2019 @ 9:01am <br>Amount: NGN 4000<br> Avail. Bal: NGN59293<br> Enquiries? mail banka@banka.com</p>
-                        </div>
-                        <li class="collapsible"><b class="success">>></b><a> Credit! | 14 August 2019 | Desc: Payment | N5000 | TransID 42422</a></li>
-                        <div class="content">
-                            <p>Credit Alert# on Account Number: 030980382<br> Description: Nip-GTbank/Transfer Out/Abdulrahaman Hameed<br>Date/Time: 19 March 2019 @ 9:01am <br>Amount: NGN 4000<br> Avail. Bal: NGN59293<br> Enquiries? mail banka@banka.com</p>
-                        </div>
                     </ul>
                 </div>
             </section>
@@ -54,10 +37,8 @@
     </main>
     </div>
     <script src="../assets/js/widgets.js"></script>
-    <script>
-    const user = localStorage.getItem('banka-token');
-    console.log({user});
-    </script>
+    <script type="text/javascript" src="../../../../scripts/path.js"></script>
+    <script type="text/javascript" src="../../../../scripts/client/dashboard.js"></script>
 </body>
 
 </html>
