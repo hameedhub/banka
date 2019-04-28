@@ -40,10 +40,20 @@ const signup = (user) => {
         return notify.textContent = res.error;
       }
       notify.textContent = 'Registeration was successful';
-      window.sessionStorage,
-      sessionStorage('token', `Bearer ${res.token}`);
-      // console.log(localStorage.getItem('banka-token'));
-      setTimeout(() =>
-        window.location.href = 'dashboard.html', 3000);
+      sessionStorage.setItem('token', res.token);
+      sessionStorage.setItem('type', res.data[0].type);
+      sessionStorage.setItem('isAdmin', res.data[0].isAdmin);
+      sessionStorage.setItem('email', res.data[0].email);
+      sessionStorage.setItem('firstname', res.data[0].firstname);
+      sessionStorage.setItem('lastname', res.data[0].lastname);
+      const isAdmin = sessionStorage.getItem('isAdmin');
+      const type = sessionStorage.getItem('type');
+      if (isAdmin === true) {
+        window.location.href = '../admin/dashboard.html';
+      } else if (type === 'staff' && isAdmin !== true) {
+        window.location.href = '../staff/dashboard.html';
+      } else {
+        window.location.href = 'dashboard.html';
+      }
     });
 };

@@ -21,9 +21,20 @@ const login = (user) => {
         p.textContent = res.error;
         return false;
       }
-     
-     sessionStorage.setItem('token', res.data);
-     let data = sessionStorage.getItem('token');
-      console.log(res.data[0]);
+      sessionStorage.setItem('token', res.token);
+      sessionStorage.setItem('type', res.data[0].type);
+      sessionStorage.setItem('isAdmin', res.data[0].isAdmin);
+      sessionStorage.setItem('email', res.data[0].email);
+      sessionStorage.setItem('firstname', res.data[0].firstname);
+      sessionStorage.setItem('lastname', res.data[0].lastname);
+      const isAdmin = sessionStorage.getItem('isAdmin');
+      const type = sessionStorage.getItem('type');
+      if (isAdmin === true) {
+        window.location.href = '../admin/dashboard.html';
+      } else if (type === 'staff' && isAdmin !== true) {
+        window.location.href = '../staff/dashboard.html';
+      } else {
+        window.location.href = 'dashboard.html';
+      }
     });
 };
