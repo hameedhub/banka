@@ -24,7 +24,7 @@ fetch(url, { method: 'GET', headers: { 'Content-Type': 'application/json', autho
       div.append(span1);
       // end of the accounts
       fetch(`${API_URL}/api/v1/accounts/${account.accountnumber}/transactions`, { method: 'GET', headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` } }).then(res => res.json()).then((res) => {
-        res.data.slice(-5).forEach((data) => {
+        res.data.slice(-4).forEach((data) => {
           const myUL = document.querySelector('#myUL');
           const li = document.createElement('li');
           const a = document.createElement('a');
