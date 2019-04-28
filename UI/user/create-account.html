@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>//FullName - Create Account</title>
+    <title id="firstname"> - Create Account</title>
 
     <link rel="stylesheet" type="text/css" href="../assets/css/home.css">
 </head>
@@ -31,26 +31,24 @@
                     <hr>
                     <form>
                         <div class="form-input">
-                            <input type="text" name="firstName" disabled value="Hameed">
-
+                            <input type="number" required placeholder="Enter Opening Balance" name="openingbalance">
                         </div>
                         <div class="form-input">
-                            <input type="text" name="lastName" disabled value="Rahaman">
-                        </div>
-                        <div class="form-input">
-                            <input type="number" placeholder="Account Number" name="accountNumber">
-                        </div>
-                        <p>
-                            <input type="checkbox" /><label>Savings</label><br>
-                            <input type="checkbox" /><label>Credit</label>
-                        </p>
-
-                        <input class="btn btn-default" type="submit" name="save" value="Save">
+                                <select id="type" required>
+                                    <option selected disabled>--Please select--</option>
+                                    <option value="savings">Savings</option>
+                                    <option value="current">Current</option>
+                                </select>
+                            </div><br>
+                            <p id="notify"></p>
+                        <button id="submit" class="btn btn-default">Create Account </button>
                     </form>
                 </div>
             </section>
     </main>
     <script src="../assets/js/widgets.js"></script>
+    <script type="text/javascript" src="../../../../scripts/path.js"></script>
+    <script type="text/javascript" src="../../../../scripts/client/createAccount.js"></script>
     <footer>
         <p>&copy; Copyright 2019 Banka Software. All Rights Reserved.</p>
     </footer>

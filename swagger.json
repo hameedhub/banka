@@ -1,1050 +1,774 @@
 {
   "swagger": "2.0",
-  "tags":[
-    {
-    "name":"Auth",
-    "description": "Authentication routes"
+  "info": {
+    "version": "1.0",
+    "title": "BANKA API",
+    "description": "TODO: Add Description",
+    "contact": {}
   },
-  {
-    "name":"Account",
-    "description": "Account routes"
-  },
-  {
-    "name":"Transaction",
-    "description": "Transaction routes"
-  }
-],
+  "host": "hameed-banka-api.herokuapp.com",
+  "basePath": "/api/v1",
+  "securityDefinitions": {},
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
-    "/api/v1/auth/signup": {
+    "/auth/signup": {
       "post": {
-        "tags": ["Auth"],
-        "summary": "(User signup route)",
-        "consumes": [
+        "description": "Users signup endpoint",
+        "summary": "User signup",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "AuthSignupPost",
+        "deprecated": false,
+        "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "firstName",
-            "in": "formData",
-            "description": "firstname",
-            "required": true,
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
             "type": "string"
           },
           {
-            "name": "lastName",
-            "in": "formData",
-            "description": "lastname",
+            "name": "Content-Type",
+            "in": "header",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": ""
           },
           {
-            "name": "email",
-            "in": "formData",
-            "description": "email address",
+            "name": "Body",
+            "in": "body",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "description": "password",
-            "required": true,
-            "type": "string"
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UsersignupRequest"
+            }
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 200
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "token": {
-                        "type": "string"
-                      },
-                      "id": {
-                        "type": "number"
-                      },
-                      "firstname": {
-                        "type": "string"
-                      },
-                      "lastname": {
-                        "type": "string"
-                      },
-                      "email": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0QGFkbWluLmNvbSIsImZpcnN0bmFtZSI6IlRlc3QiLCJsYXN0bmFtZSI6IlRlc3QiLCJ0eXBlIjoic3RhZmYiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NTYyNzA5MTMsImV4cCI6MTU1NjM1NzMxM30.rZkz6cGSXIgwIjU9JEMeX98qa4_tEEUaGQsiTAFQm_8",
-                      "id": 3,
-                      "firstname": "Test",
-                      "lastname": "Test",
-                      "email": "test@admin.com"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 400
-                },
-                "error": {
-                  "type": "string",
-                  "example": "Not allowed type or isAdmin"
-                }
-              }
-            }
-          },
-          "404": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 404
-                },
-                "error": {
-                  "type": "string",
-                  "example": "\"firstname\" length must be at least 3 characters long"
-                }
-              }
-            }
+            "description": "",
+            "headers": {}
           }
         }
       }
     },
-    "/api/v1/auth/signupadmin": {
+    "/auth/signupadmin": {
       "post": {
-        "summary": "/api/v1/auth/signupadmin",
-        "tags":["Auth"],
-        "consumes": [
-          "application/json"
+        "description": "Admin signup staff of staff users",
+        "summary": "Admin signup",
+        "tags": [
+          "Misc"
         ],
-        "parameters": [
-          {
-            "name": "firstName",
-            "in": "formData",
-            "description": "firstname",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "lastName",
-            "in": "formData",
-            "description": "lastname",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in": "formData",
-            "description": "email address",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "description": "password",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "isAdmin",
-            "in": "formData",
-            "description": "isAdmin",
-            "required": true,
-            "type": "boolean"
-          }
-        ]
-      }
-    },
-    "/api/v1/auth/signin": {
-      "post": {
-        "tags":["Auth"],
-        "summary": "(User Signin route)",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "email",
-            "in": "formData",
-            "description": "email address",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "formData",
-            "description": "password",
-            "required": true,
-            "type": "string"
-          }
-        ],
+        "operationId": "AuthSignupadminPost",
+        "deprecated": false,
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AdminsignupRequest"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 200
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "token": {
-                        "type": "string"
-                      },
-                      "id": {
-                        "type": "number"
-                      },
-                      "firstname": {
-                        "type": "string"
-                      },
-                      "lastname": {
-                        "type": "string"
-                      },
-                      "email": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0QGFkbWluLmNvbSIsImZpcnN0bmFtZSI6IlRlc3QiLCJsYXN0bmFtZSI6IlRlc3QiLCJ0eXBlIjoic3RhZmYiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NTYyNzA5MTMsImV4cCI6MTU1NjM1NzMxM30.rZkz6cGSXIgwIjU9JEMeX98qa4_tEEUaGQsiTAFQm_8",
-                      "id": 3,
-                      "firstname": "Test",
-                      "lastname": "Test",
-                      "email": "test@admin.com"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 404
-                },
-                "error": {
-                  "type": "string",
-                  "example": "\"email\" must be a valid email"
-                }
-              }
-            }
+            "description": "",
+            "headers": {}
           }
         }
       }
     },
-    "/api/v1/user/{email}/accounts": {
+    "/auth/signin": {
+      "post": {
+        "description": "Users signin endpoint",
+        "summary": "User signin",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "AuthSigninPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UsersigninRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/accounts": {
+      "post": {
+        "description": "Create an account route for users",
+        "summary": "Create an Account",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "AccountsPost",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CreateanAccountRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
       "get": {
-        "tags":["Account"],
-        "summary": "(User Accounts by email parameter",
-        "consumes": [
+        "description": "Get all accounts endpoint",
+        "summary": "Get all accounts",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "AccountsGet",
+        "deprecated": false,
+        "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "email",
-            "in": "path",
-            "required": true
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 200
-                },
-                "accounts": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "accountnumber": {
-                        "type": "string"
-                      },
-                      "createdon": {
-                        "type": "string"
-                      },
-                      "owneremail": {
-                        "type": "string"
-                      },
-                      "type": {
-                        "type": "string"
-                      },
-                      "status": {
-                        "type": "string"
-                      },
-                      "balance": {
-                        "type": "number"
-                      }
-                    },
-                    "required": [
-                      "id",
-                      "accountnumber",
-                      "createdon",
-                      "owneremail",
-                      "type",
-                      "status",
-                      "balance"
-                    ]
-                  },
-                  "example": [
-                    {
-                      "id": 138,
-                      "accountnumber": "5769362003",
-                      "createdon": "2019-04-25T14:45:49.848+01:00",
-                      "owneremail": "test@staff.com",
-                      "type": "savings",
-                      "status": "active",
-                      "balance": 1000
-                    },
-                    {
-                      "id": 33,
-                      "accountnumber": "2625414032",
-                      "createdon": "2019-04-21T15:49:03.909-07:00",
-                      "owneremail": "test@staff.com",
-                      "type": "savings",
-                      "status": "dormant",
-                      "balance": 27791
-                    }
-                  ]
-                }
-              }
-            }
+            "description": "",
+            "headers": {}
           }
         }
       }
     },
-    "/api/v1/accounts": {
-      "post": {
-        "tags":["Account"],
-        "summary": "(Create an Account)",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "type",
-            "in": "formData",
-            "description": "Current or Savings",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "openingBalance",
-            "in": "formData",
-            "description": "Opening balance of account",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "201": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 201
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "accountNumber": {
-                        "type": "string"
-                      },
-                      "firstname": {
-                        "type": "string"
-                      },
-                      "lastname": {
-                        "type": "string"
-                      },
-                      "email": {
-                        "type": "string"
-                      },
-                      "type": {
-                        "type": "string"
-                      },
-                      "openingBalance": {
-                        "type": "number"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "accountNumber": "1263736934",
-                      "firstname": "Test",
-                      "lastname": "Test",
-                      "email": "test@admin.com",
-                      "type": "savings",
-                      "openingBalance": 1000
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 404
-                },
-                "error": {
-                  "type": "string",
-                  "example": "\"type\" is required"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/accounts/{accountNumber}": {
+    "/accounts/7423890201": {
       "patch": {
-        "tags": ["Account"],
-        "summary": "(Change Account Status)",
-        "consumes": [
+        "description": "Change account status endpoint",
+        "summary": "Change account status",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Accounts7423890201Patch",
+        "deprecated": false,
+        "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "accountNumber",
-            "in": "path",
-            "required": true
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ChangeaccountstatusRequest"
+            }
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 200
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "accountNumber": {
-                        "type": "string"
-                      },
-                      "status": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "accountNumber": "4323575979",
-                      "status": "active"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "404": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 404
-                },
-                "error": {
-                  "type": "string",
-                  "example": "Invalid status property"
-                }
-              }
-            }
+            "description": "",
+            "headers": {}
           }
         }
       },
+      "get": {
+        "description": "Get specific account details endpoint",
+        "summary": "Get specific account details",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Accounts7423890201Get",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/accounts/2625414032": {
       "delete": {
-        "tags":["Account"],
-        "summary": "(Delete users account)",
-        "consumes": [
+        "description": "Delete user account endpoint",
+        "summary": "Delete account",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Accounts2625414032Delete",
+        "deprecated": false,
+        "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "accountNumber",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 204
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Account successfully deleted"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "summary": "(Get Account details)",
-        "tags": ["Account"],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "accountNumber",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 200
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "createdon": {
-                        "type": "string"
-                      },
-                      "accountnumber": {
-                        "type": "string"
-                      },
-                      "owneremail": {
-                        "type": "string"
-                      },
-                      "type": {
-                        "type": "string"
-                      },
-                      "status": {
-                        "type": "string"
-                      },
-                      "balance": {
-                        "type": "number"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "createdon": "2019-04-22T07:18:05.614-07:00",
-                      "accountnumber": "4323575979",
-                      "owneremail": "client@client.com",
-                      "type": "savings",
-                      "status": "active",
-                      "balance": 1000
-                    }
-                  ]
-                }
-              }
-            }
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
           },
-          "404": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 404
-                },
-                "error": {
-                  "type": "string",
-                  "example": "Account not found"
-                }
-              }
-            }
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
           }
         }
       }
     },
-    "/api/v1/accounts/{accountNumber}/transactions": {
+    "/accounts/7423890201/transactions": {
       "get": {
-        "tags":["Transaction"],
-        "summary": "(Transaction on an Account Number)",
-        "consumes": [
+        "description": "Get transaction endpoint",
+        "summary": "Get account transactions",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Accounts7423890201TransactionsGet",
+        "deprecated": false,
+        "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "accountNumber",
-            "in": "path",
-            "required": true
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 200
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "createdon": {
-                        "type": "string"
-                      },
-                      "type": {
-                        "type": "string"
-                      },
-                      "accountnumber": {
-                        "type": "string"
-                      },
-                      "cashier": {
-                        "type": "number"
-                      },
-                      "amount": {
-                        "type": "number"
-                      },
-                      "oldbalance": {
-                        "type": "number"
-                      },
-                      "newbalance": {
-                        "type": "number"
-                      }
-                    },
-                    "required": [
-                      "id",
-                      "createdon",
-                      "type",
-                      "accountnumber",
-                      "cashier",
-                      "amount",
-                      "oldbalance",
-                      "newbalance"
-                    ]
-                  },
-                  "example": [
-                    {
-                      "id": 1,
-                      "createdon": "2019-04-22T00:32:55.969-07:00",
-                      "type": "debit",
-                      "accountnumber": "7248551420",
-                      "cashier": 2,
-                      "amount": 5000,
-                      "oldbalance": 500000,
-                      "newbalance": 495000
-                    },
-                    {
-                      "id": 183,
-                      "createdon": "2019-04-25T08:46:29.359+01:00",
-                      "type": "credit",
-                      "accountnumber": "7248551420",
-                      "cashier": 2,
-                      "amount": 100,
-                      "oldbalance": 4794.8123904,
-                      "newbalance": 4894.8123904
-                    },
-                    {
-                      "id": 324,
-                      "createdon": "2019-04-26T10:22:06.222+01:00",
-                      "type": "credit",
-                      "accountnumber": "7248551420",
-                      "cashier": 3,
-                      "amount": 100,
-                      "oldbalance": 4794.8123904,
-                      "newbalance": 4894.8123904
-                    }
-                  ]
-                }
-              }
-            }
+            "description": "",
+            "headers": {}
           }
         }
       }
     },
-    "/api/v1/accounts/": {
+    "/user/daneil@gmail.com/accounts": {
       "get": {
-        "summary": "(Get all accounts)",
-        "tags":["Account"],
-        "consumes": [
+        "description": "Get user account via email endpoint",
+        "summary": "Get user account via email",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "UserDaneilGmailComAccountsGet",
+        "deprecated": false,
+        "produces": [
           "application/json"
         ],
-        "parameters": []
-      }
-    },
-    "/api/v1/accounts?status=active": {
-      "get": {
-        "summary": "(Get all active accounts)",
-        "tags":["Account"],
-        "consumes": [
-          "application/json"
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
         ],
-        "parameters": []
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
       }
     },
-    "/api/v1/accounts?status=dormant": {
-      "get": {
-        "summary": "(Get all dormant accounts)",
-        "tags":["Account"],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": []
-      }
-    },
-    "/api/v1/transactions/{accountNumber}/debit": {
+    "/transactions/4528373326/debit": {
       "post": {
-        "summary": "(Debit Account Transaction)",
-        "tags":["Transaction"],
-        "consumes": [
+        "description": "Debit transaction endpoint",
+        "summary": "Transaction debit",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Transactions4528373326DebitPost",
+        "deprecated": false,
+        "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "accountNumber",
-            "in": "path",
-            "required": true
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TransactiondebitRequest"
+            }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
-          "201": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 201
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "transactionId": {
-                        "type": "number"
-                      },
-                      "accountNumber": {
-                        "type": "string"
-                      },
-                      "amount": {
-                        "type": "number"
-                      },
-                      "cashier": {
-                        "type": "number"
-                      },
-                      "transactionType": {
-                        "type": "string"
-                      },
-                      "accountBalance": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "transactionId": 325,
-                      "accountNumber": "7248551420",
-                      "amount": 100,
-                      "cashier": 3,
-                      "transactionType": "debit",
-                      "accountBalance": "4794.81"
-                    }
-                  ]
-                }
-              }
-            }
+          "200": {
+            "description": "",
+            "headers": {}
           }
         }
       }
     },
-    
-    "/api/v1/transactions/{accountNumber}/credit": {
+    "/transactions/4528373326/credit": {
       "post": {
-        "summary": "(Credit Account Transaction)",
-        "tags":["Transaction"],
-        "consumes": [
+        "description": "Credit transaction endpoint",
+        "summary": "Transaction credit",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Transactions4528373326CreditPost",
+        "deprecated": false,
+        "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "accountNumber",
-            "in": "path",
-            "required": true
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/TransactioncreditRequest"
+            }
           }
         ],
-        "produces": [
-          "application/json"
-        ],
         "responses": {
-          "201": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 201
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "transactionId": {
-                        "type": "number"
-                      },
-                      "accountNumber": {
-                        "type": "string"
-                      },
-                      "amount": {
-                        "type": "number"
-                      },
-                      "cashier": {
-                        "type": "number"
-                      },
-                      "transactionType": {
-                        "type": "string"
-                      },
-                      "accountBalance": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "transactionId": 326,
-                      "accountNumber": "7248551420",
-                      "amount": 100,
-                      "cashier": 3,
-                      "transactionType": "credit",
-                      "accountBalance": "4894.81"
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 401
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Authorization failed"
-                }
-              }
-            }
-          },
-          "404": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 404
-                },
-                "error": {
-                  "type": "string",
-                  "example": "\"amount\" is required"
-                }
-              }
-            }
+          "200": {
+            "description": "",
+            "headers": {}
           }
         }
       }
     },
-    "/api/v1/transactions/{id}": {
+    "/transactions/1": {
       "get": {
-        "tags":["Transaction"],
-        "summary": "(Get transaction by ID)",
-        "consumes": [
+        "description": "Get transaction by ID endpoint",
+        "summary": "Get transaction by ID",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "Transactions1Get",
+        "deprecated": false,
+        "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
           }
-        ],
-        "produces": [
-          "application/json"
         ],
         "responses": {
           "200": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 200
-                },
-                "data": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "number"
-                      },
-                      "createdon": {
-                        "type": "string"
-                      },
-                      "type": {
-                        "type": "string"
-                      },
-                      "accountnumber": {
-                        "type": "string"
-                      },
-                      "cashier": {
-                        "type": "number"
-                      },
-                      "amount": {
-                        "type": "number"
-                      },
-                      "oldbalance": {
-                        "type": "number"
-                      },
-                      "newbalance": {
-                        "type": "number"
-                      }
-                    }
-                  },
-                  "example": [
-                    {
-                      "id": 1,
-                      "createdon": "2019-04-22T00:32:55.969-07:00",
-                      "type": "debit",
-                      "accountnumber": "7248551420",
-                      "cashier": 2,
-                      "amount": 5000,
-                      "oldbalance": 500000,
-                      "newbalance": 495000
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/": {
-      "get": {
-        "summary": "(Welcome Route to the API)",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "status": {
-                  "type": "number",
-                  "example": 200
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Welcome to Banka API."
-                }
-              }
-            }
+            "description": "",
+            "headers": {}
           }
         }
       }
     }
   },
-  "info": {
-    "title": "Banka API",
-    "version": "1.0.0",
-    "license": {
-      "name": "ISC"
+  "definitions": {
+    "UsersignupRequest": {
+      "title": "UsersignupRequest",
+      "example": {
+        "firstname": "John",
+        "lastname": "Micheal",
+        "email": "john@gmail.com",
+        "password": "12345"
+      },
+      "type": "object",
+      "properties": {
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstname",
+        "lastname",
+        "email",
+        "password"
+      ]
     },
-    "description": "[Specification JSON](/api-spec)\n\nBanking Application"
-  }
+    "AdminsignupRequest": {
+      "title": "AdminsignupRequest",
+      "example": {
+        "firstname": "Adams",
+        "lastname": "Faraday",
+        "email": "admin@banka.com",
+        "password": "12345",
+        "isAdmin": true
+      },
+      "type": "object",
+      "properties": {
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "isAdmin": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "firstname",
+        "lastname",
+        "email",
+        "password",
+        "isAdmin"
+      ]
+    },
+    "UsersigninRequest": {
+      "title": "UsersigninRequest",
+      "example": {
+        "email": "client@client.com",
+        "password": "12345"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "CreateanAccountRequest": {
+      "title": "CreateanAccountRequest",
+      "example": {
+        "type": "savings",
+        "openingBalance": 100000
+      },
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "openingBalance": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "type",
+        "openingBalance"
+      ]
+    },
+    "ChangeaccountstatusRequest": {
+      "title": "ChangeaccountstatusRequest",
+      "example": {
+        "status": "active"
+      },
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "TransactiondebitRequest": {
+      "title": "TransactiondebitRequest",
+      "example": {
+        "amount": 5000
+      },
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "amount"
+      ]
+    },
+    "TransactioncreditRequest": {
+      "title": "TransactioncreditRequest",
+      "example": {
+        "amount": 5000
+      },
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "amount"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Misc",
+      "description": ""
+    }
+  ]
 }
