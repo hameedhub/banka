@@ -150,8 +150,8 @@ class UserController {
       // specified response data
       return res.status(200).json({
         status: 200,
+        token,
         data: [{
-          token,
           id: userData.id,
           firstname: userData.firstname,
           lastname: userData.lastname,

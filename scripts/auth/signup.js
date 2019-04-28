@@ -40,7 +40,8 @@ const signup = (user) => {
         return notify.textContent = res.error;
       }
       notify.textContent = 'Registeration was successful';
-      localStorage.setItem('banka-token', `Bearer ${res.token}`);
+      window.sessionStorage,
+      sessionStorage('token', `Bearer ${res.token}`);
       // console.log(localStorage.getItem('banka-token'));
       setTimeout(() =>
         window.location.href = 'dashboard.html', 3000);
