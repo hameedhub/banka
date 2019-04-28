@@ -57,7 +57,6 @@
     "body-parser": "^1.18.3",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
-    "express-oas-generator": "^1.0.7",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.0.0",

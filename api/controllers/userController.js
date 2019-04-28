@@ -9,21 +9,16 @@ dotenv.config();
 const salt = bcrypt.genSaltSync(10);
 
 class UserController {
+  //  Signup for all users
   static async signUp(req, res) {
-    if (req.body.type !== 'client' || req.body.isAdmin !== false) {
-      return res.status(400).json({
-        status: 400,
-        error: 'Not allowed type or isAdmin',
-      });
-    }
     try {
       const user = {
         email: req.body.email,
         firstName: req.body.firstname,
         lastName: req.body.lastname,
         password: bcrypt.hashSync(req.body.password, salt),
-        type: req.body.type,
-        isAdmin: req.body.isAdmin,
+        type: 'client',
+        isAdmin: false,
       };
       const table = new Model();
       const query = `INSERT INTO users( email, firstname, lastname, password, type, isAdmin)
@@ -37,16 +32,18 @@ class UserController {
         });
       }
       const { ...userData } = response.rows[0];
+      //  Generation of token
       const token = jwt.sign({
-        id: user.id,
+        id: userData.id,
         firstName: userData.firstname,
         lastName: userData.lastname,
         email: userData.email,
         type: userData.type,
         isAdmin: userData.isadmin,
       }, process.env.JWT_KEY);
-      return res.status(201).json({
-        status: 201,
+      // specified response data
+      return res.status(200).json({
+        status: 200,
         token,
         data: [{
           id: userData.id,
@@ -63,11 +60,13 @@ class UserController {
     }
   }
 
+  //  Admin can create staff account
   static async signUpAdmin(req, res) {
+    //  Check if is an admin or staff
     if (req.userData.isAdmin !== true) {
       return res.status(400).json({
         status: 400,
-        error: 'Admin accesss authentication failed',
+        error: 'Unauthorized token, only admin token is allowed',
       });
     }
     try {
@@ -76,7 +75,7 @@ class UserController {
         firstName: req.body.firstname,
         lastName: req.body.lastname,
         password: bcrypt.hashSync(req.body.password, salt),
-        type: req.body.type,
+        type: 'staff',
         isAdmin: req.body.isAdmin,
       };
       const table = new Model();
@@ -84,6 +83,7 @@ class UserController {
     VALUES($1, $2, $3, $4, $5, $6) RETURNING *`;
       const values = Object.values(user);
       const response = await table.query(query, values);
+      // check if email already exist
       if (response.code === '23505') {
         return res.status(404).json({
           status: 404,
@@ -92,15 +92,16 @@ class UserController {
       }
       const { ...staffData } = response.rows[0];
       const token = jwt.sign({
-        id: user.id,
+        id: staffData.id,
         firstName: staffData.firstname,
         lastName: staffData.lastname,
         email: staffData.email,
         type: staffData.type,
         isAdmin: staffData.isadmin,
       }, process.env.JWT_KEY);
-      return res.status(201).json({
-        status: 201,
+      // specified response data
+      return res.status(200).json({
+        status: 200,
         token,
         data: [{
           id: staffData.id,
@@ -112,11 +113,12 @@ class UserController {
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        error,
+        error: 'Something went wrong'
       });
     }
   }
 
+  //  SignIn for users
   static async signIn(req, res) {
     try {
       const query = 'SELECT * FROM users  WHERE email = $1';
@@ -145,6 +147,7 @@ class UserController {
         type: userData.type,
         isAdmin: userData.isadmin,
       }, process.env.JWT_KEY, { expiresIn: '24h' });
+      // specified response data
       return res.status(200).json({
         status: 200,
         data: [{
@@ -158,16 +161,17 @@ class UserController {
     } catch (error) {
       return res.status(400).json({
         status: 400,
-        error,
+        error: 'Something went wrong'
       });
     }
   }
 
+  //  Admin/staff can get accounts by  email params
   static async getAccounts(req, res) {
-    if (req.userData.isAdmin !== true || req.userData.type !== 'staff') {
+    if (req.userData.isAdmin !== true && req.userData.type !== 'staff' && req.params.email !== req.userData.email) {
       return res.status(401).json({
         status: 401,
-        error: 'Unauthorized token for this session',
+        error: 'Unauthorized token, Admin or staff token was expected',
       });
     }
     try {
@@ -177,7 +181,7 @@ class UserController {
       if (response.rowCount === 0) {
         return res.status(404).json({
           status: 404,
-          error: 'No account records',
+          error: `No account records available for ${req.params.email}`,
         });
       }
       const accountRows = response.rows;
