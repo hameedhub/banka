@@ -50,6 +50,8 @@ class UserController {
           firstName: userData.firstname,
           lastName: userData.lastname,
           email: userData.email,
+          type: userData.type,
+          isAdmin: userData.isadmin,
         }],
       });
     } catch (error) {
@@ -108,6 +110,8 @@ class UserController {
           firstName: staffData.firstname,
           lastName: staffData.lastname,
           email: staffData.email,
+          type: staffData.type,
+          isAdmin: staffData.isadmin,
         }],
       });
     } catch (error) {
@@ -156,6 +160,8 @@ class UserController {
           firstname: userData.firstname,
           lastname: userData.lastname,
           email: userData.email,
+          type: userData.type,
+          isAdmin: userData.isadmin,
         }],
       });
     } catch (error) {
