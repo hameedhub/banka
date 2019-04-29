@@ -29,9 +29,11 @@ const login = (user) => {
       sessionStorage.setItem('lastname', res.data[0].lastname);
       const isAdmin = sessionStorage.getItem('isAdmin');
       const type = sessionStorage.getItem('type');
-      if (isAdmin === true) {
+      console.log(isAdmin);
+      if (isAdmin === 'true') {
         window.location.href = '../admin/dashboard.html';
-      } else if (type === 'staff' && isAdmin !== true) {
+      }
+      else if (type === 'staff' && isAdmin === 'false') {
         window.location.href = '../staff/dashboard.html';
       } else {
         window.location.href = 'dashboard.html';

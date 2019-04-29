@@ -45,15 +45,7 @@ const signup = (user) => {
       sessionStorage.setItem('isAdmin', res.data[0].isAdmin);
       sessionStorage.setItem('email', res.data[0].email);
       sessionStorage.setItem('firstname', res.data[0].firstname);
-      sessionStorage.setItem('lastname', res.data[0].lastname);
-      const isAdmin = sessionStorage.getItem('isAdmin');
-      const type = sessionStorage.getItem('type');
-      if (isAdmin === true) {
-        window.location.href = '../admin/dashboard.html';
-      } else if (type === 'staff' && isAdmin !== true) {
-        window.location.href = '../staff/dashboard.html';
-      } else {
+      sessionStorage.setItem('lastname', res.data[0].lastname);      
         window.location.href = 'dashboard.html';
-      }
     });
 };
