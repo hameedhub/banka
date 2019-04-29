@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hameedhub/hameedhub.github.io.svg?branch=develop)](https://travis-ci.org/hameedhub/hameedhub.github.io) [![Coverage Status](https://coveralls.io/repos/github/hameedhub/hameedhub.github.io/badge.svg?branch=develop)](https://coveralls.io/github/hameedhub/hameedhub.github.io?branch=develop)  [![Maintainability](https://api.codeclimate.com/v1/badges/68b3330f4e7128e27401/maintainability)](https://codeclimate.com/github/hameedhub/hameedhub.github.io/maintainability)  [![Test Coverage](https://api.codeclimate.com/v1/badges/68b3330f4e7128e27401/test_coverage)](https://codeclimate.com/github/hameedhub/hameedhub.github.io/test_coverage)
+[![Build Status](https://travis-ci.org/hameedhub/banka.svg?branch=develop)](https://travis-ci.org/hameedhub/banka) [![Coverage Status](https://coveralls.io/repos/github/hameedhub/banka/badge.svg?branch=develop)](https://coveralls.io/github/hameedhub/banka?branch=develop)  [![Maintainability](https://api.codeclimate.com/v1/badges/68b3330f4e7128e27401/maintainability)](https://codeclimate.com/github/hameedhub/hameedhub.github.io/maintainability)  
 
 # Banka
 > A light weight banking application
@@ -51,7 +51,7 @@ npm start
 
 RUN npm start on the clone repo, then babel builds it into later version, which can run in most platforms.
 
-### Deploying / Publishing
+### Deploying / Documentation
 
 In deploying this project to Heroku, install Heroku ci after you might signup. To check if it is properly install RUN ```heroku --version ``` to get the current version in use. To deploy RUN the following command prompt
 
@@ -83,6 +83,10 @@ The user interface (UI/UX) pages include:
 * Admin/staff can delete a specific user account.
 * Admin can create staff and admin user accounts.
 
+## Documentation
+
+* Swagger UI http://hameed-banka-api.herokuapp.com/api-docs/
+* Postman https://documenter.getpostman.com/view/7378427/S1LparbZ
 
 ## Configuration / API Endpoints
 
@@ -226,7 +230,7 @@ Error response
 ```
 
 Heroku Link PATCH
-https://hameed-banka-api.herokuapp.com/api/v1/accounts/<account-number>
+https://hameed-banka-api.herokuapp.com/api/v1/accounts/:account-number
 
 ### Delete a specific account 
 #### DELETE /api/v1/accounts/<account-number>
@@ -252,7 +256,7 @@ Error response
 ```
 
 Heroku Link DELETE
-https://hameed-banka-api.herokuapp.com/api/v1/accounts/<account-number>
+https://hameed-banka-api.herokuapp.com/api/v1/accounts/:account-number
   
 ### Debit a bank account
 #### POST /api/v1/transactions/<account-number>/debit
@@ -284,7 +288,7 @@ Error response
 ```
 
 Heroku Link POST
-https://hameed-banka-api.herokuapp.com/api/v1/transactions/<account-number>/debit
+https://hameed-banka-api.herokuapp.com/api/v1/transactions/:account-number/debit
   
 ### Credit a bank account
 #### POST /api/v1/transactions/<account-number>/debit
@@ -316,7 +320,311 @@ Error response
 ```
 
 Heroku Link POST
-https://hameed-banka-api.herokuapp.com/api/v1/transactions/<account-number>/credit
+https://hameed-banka-api.herokuapp.com/api/v1/transactions/:account-number/credit
+
+### View an account's transaction history
+#### GET /api/v1/account/<account-number>/transaction
+
+Required fields :
+ account-number: `Integar`  
+ Token: `'String` 
+
+On success response
+```shell
+{
+“status” : Integer ,
+“data” : [ {
+“transactionId” : Integer ,
+“createdOn” : DateTime ,
+“type” : String , // credit or debit
+“accountNumber” : Integer ,
+“amount” : Float ,
+“oldBalance” : Float ,
+“newBalance” : Float ,
+},
+{
+“transactionId” : Integer ,
+“createdOn” : DateTime ,
+“type” : String , // credit or debit
+“accountNumber” : Integer ,
+“amount” : Float ,
+“oldBalance” : Float ,
+“newBalance” : Float ,
+} ]
+}
+```
+Error response
+```shell
+{
+    “status” : 404 ,
+    “error” : “relevant-error-message”
+} 
+```
+
+Heroku Link POST
+https://hameed-banka-api.herokuapp.com/api/v1/account/:account-number/transactions
+
+
+### View a specific transaction
+#### GET /api/v1/transactions/:transaction-id
+
+Required fields :
+ transactionId: `Integar`  
+ Token: `'String` 
+
+On success response
+```shell
+{
+“status” : Integer ,
+“data” : {
+“transactionId” : Integer ,
+“createdOn” : DateTime ,
+“type” : String , // credit or debit
+“accountNumber” : Integer ,
+“amount” : Float ,
+“oldBalance” : Float ,
+“newBalance” : Float ,
+}
+}
+```
+Error response
+```shell
+{
+    “status” : 404 ,
+    “error” : “relevant-error-message”
+} 
+```
+
+Heroku Link POST
+https://hameed-banka-api.herokuapp.com/api/v1/transacation/:transactionID
+
+### View all accounts owned by a specific user (client)
+#### GET /api/v1/transactions/:transaction-id
+
+Required fields :
+ user-email: `email`  
+ Token: `'String` 
+
+On success response
+```shell
+{
+“status” : Integer ,
+“accounts” : [ {
+“createdOn” : DateTime ,
+“accountNumber” : Integer ,
+“type” : String , // savings, or current
+“status” : String , // draft, active, or dormant
+“balance” : Float ,
+},
+{
+“createdOn” : DateTime ,
+“accountNumber” : Integer ,
+“type” : String , // savings, or current
+“status” : String , // draft, active, or dormant
+“balance” : Float ,
+}
+}
+```
+Error response
+```shell
+{
+    “status” : 404 ,
+    “error” : “relevant-error-message”
+} 
+```
+
+Heroku Link POST
+https://hameed-banka-api.herokuapp.com/api/v1/user/:email-address/accounts
+
+### View a specific transaction
+#### GET /api/v1/transactions/:transaction-id
+
+Required fields :
+ transactionId: `Integar`  
+ Token: `'String` 
+
+On success response
+```shell
+{
+“status” : Integer ,
+“data” : {
+“transactionId” : Integer ,
+“createdOn” : DateTime ,
+“type” : String , // credit or debit
+“accountNumber” : Integer ,
+“amount” : Float ,
+“oldBalance” : Float ,
+“newBalance” : Float ,
+}
+}
+```
+Error response
+```shell
+{
+    “status” : 404 ,
+    “error” : “relevant-error-message”
+} 
+```
+
+Heroku Link POST
+https://hameed-banka-api.herokuapp.com/api/v1/transacation/:transactionID
+
+### View a specific account's details
+#### GET /api/v1/account/:account-number
+
+Required fields :
+ account-number: `account-number`  
+ Token: `'String` 
+
+On success response
+```shell
+{
+“status” : Integer ,
+“data” : {
+“createdOn” : DateTime ,
+“accountNumber” : Integer ,
+“ownerEmail” : String , // user email
+“type” : String , // savings, current or loan
+“status” : String , // draft, active, or dormant
+“balance” : Float ,
+}
+}
+```
+Error response
+```shell
+{
+    “status” : 404 ,
+    “error” : “relevant-error-message”
+} 
+```
+
+Heroku Link POST
+https://hameed-banka-api.herokuapp.com/api/v1/accounts/:account-number
+
+### View a list of all bank accounts
+#### GET /api/v1/accounts
+
+Required fields :
+
+ Token: `'String` 
+
+On success response
+```shell
+{
+{
+“status” : Integer ,
+“data” : [ {
+“createdOn” : DateTime ,
+“accountNumber” : Integer ,
+“ownerEmail” : String , // user email
+“type” : String , // savings, current or loan
+“status” : String , // draft, active, or dormant
+“balance” : Float ,
+},{
+“createdOn” : DateTime ,
+“accountNumber” : Integer ,
+“ownerEmail” : String , // user email
+“type” : String , // savings, current or loan
+“status” : String , // draft, active, or dormant
+“balance” : Float ,
+} ]
+}
+```
+Error response
+```shell
+{
+    “status” : 404 ,
+    “error” : “relevant-error-message”
+} 
+```
+
+Heroku Link POST
+https://hameed-banka-api.herokuapp.com/api/v1/accounts
+
+### View a list of all active bank accounts
+#### GET /api/v1/accounts?status=active
+
+Required fields :
+
+ Token: `'String` 
+
+On success response
+```shell
+{
+“status” : Integer ,
+“data” : [ {
+“createdOn” : DateTime ,
+“accountNumber” : Integer ,
+“createdOn” : DateTime ,
+“ownerEmail” : String , // user email
+“type” : String , // savings, current or loan
+“status” : String , // draft, active, or dormant
+“balance” : Float ,
+},{
+“createdOn” : DateTime ,
+“accountNumber” : Integer ,
+“createdOn” : DateTime ,
+“ownerEmail” : String , // user email
+“type” : String , // savings, current or loan
+“status” : String , // draft, active, or dormant
+“balance” : Float ,
+} ]
+}
+```
+Error response
+```shell
+{
+    “status” : 404 ,
+    “error” : “relevant-error-message”
+} 
+```
+
+Heroku Link POST
+https://hameed-banka-api.herokuapp.com/api/v1/accounts?status=active
+
+### View a list of all dormant bank accounts
+#### GET /api/v1/accounts?status=dormant
+
+Required fields :
+
+ Token: `'String` 
+
+On success response
+```shell
+{
+{
+“status” : Integer ,
+“data” : [ {
+“createdOn” : DateTime ,
+“accountNumber” : Integer ,
+“createdOn” : DateTime ,
+“ownerEmail” : String , // user email
+“type” : String , // savings, current or loan
+“status” : String , // draft, active, or dormant
+“balance” : Float ,
+},{
+“createdOn” : DateTime ,
+“accountNumber” : Integer ,
+“createdOn” : DateTime ,
+“ownerEmail” : String , // user email
+“type” : String , // savings, current or loan
+“status” : String , // draft, active, or dormant
+“balance” : Float ,
+} ]
+}
+```
+Error response
+```shell
+{
+    “status” : 404 ,
+    “error” : “relevant-error-message”
+} 
+```
+
+Heroku Link POST
+https://hameed-banka-api.herokuapp.com/api/v1/accounts?status=active
+
+
 
 
 ## Contributing

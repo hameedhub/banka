@@ -1,86 +1,227 @@
-import chai, {expect} from 'chai';
+import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 
 import app from '../../app';
 
 chai.use(chaiHttp);
-
+const accountNumber = 8281401711;
 const login = {
-  email: 'hameed@gmail.com',
-  password: '12345n',
+  email: 'Admin@banka.com',
+  password: '12345',
 };
-let BearerToken = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiZW1haWwiOiJoYW1lZWRAZ21haWwuY29tIiwiaWF0IjoxNTU1NTkwMzg1LCJleHAiOjE1NTU2NzY3ODV9.4FJKArXeMbrF7BhQbo9Nw533TUPjvt9VYSJ2nqH6Fww`;   
 
-describe('POST/ Create Account', ()=>{
-  it('should be able to create account and get response', (done)=>{
-    chai.request(app).post('/api/v1/accounts')
-      .send({
-        accountNumber: 3908080304,
-        owner: 1,
-        type: 'savings',
-        openingBalance:  100,
-      })
-      .set('authorization', BearerToken)
-      .end((err, res)=>{
-        expect(res).to.have.status(201);
-        expect(res.body).to.be.an('object');
-        expect(res.body.status).to.eql(201);
-        expect(res.body.data).to.be.an('object');
-        expect(res.body.data).to.have.property('accountNumber');
-        expect(res.body.data).to.have.property('firstname');
-        expect(res.body.data).to.have.property('lastname');
-        expect(res.body.data).to.have.property('email');
-        expect(res.body.data).to.have.property('type');
-        expect(res.body.data).to.have.property('openingBalance');
+describe('Account Test', () => {
+  let token;
+  let createAccount;
+  before('Login staff before test runs', (done) => {
+    chai.request(app)
+      .post('/api/v1/auth/signin')
+      .send(login)
+      .end((err, res) => {
+        token = res.body.token;
         done();
       });
   });
-});
+  it('should be able to get all users account', (done) => {
+    chai.request(app).get('/api/v1/accounts')
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.status).to.eql(200);
+        expect(res.body.data).to.be.an('array');
+        done();
+      });
+  });
 
-describe('PATCH/ Account Status', ()=>{
-  it('should be able to change account status', (done)=>{
-    const accNum = {
-      id: 1,
-      accountNumber: 3812381012,
-      type: 'savings',
-      status: 'active'
-    }
+  it('should be able to change account status', (done) => {
     chai.request(app)
-      .patch('/api/v1/accounts/'+accNum.accountNumber)
-      .send(accNum)
-      .set('authorization', BearerToken)
-      .end((err, res)=>{
+      .patch(`/api/v1/accounts/${accountNumber}`)
+      .send({
+        status: 'active',
+      })
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body.status).to.eql(200);
         expect(res.body).to.be.an('object');
-        expect(res.body.data).to.have.property('accountNumber');
-        expect(res.body.data).to.have.property('status');
+        expect(res.body.data[0]).to.have.property('accountNumber');
+        expect(res.body.data[0]).to.have.property('status');
         done();
-      })
-  })
-})
-describe('DELETE/ Account', ()=>{
-  it('should delete account',(done)=>{
-    const accNum = {
-      id: 1,
-      accountNumber: 3812381012,
-      createdOn: '2019-06-06T21:43:27.124Z',
-      owner: 3,
-      type: 'savings',
-      status: 'active',
-      balance: 81000.00,
-    };
+      });
+  });
+  it('should return invalid status property', (done) => {
     chai.request(app)
-      .delete('/api/v1/accounts/'+accNum.accountNumber)
-      .send(accNum)
-      .set('authorization', BearerToken)
-      .end((err, res)=>{
+      .patch(`/api/v1/accounts/${accountNumber}`)
+      .send({
+        status: 'notactive',
+      })
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        expect(res.body.status).to.eql(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('error');
+        done();
+      });
+  });
+  it('should be able to get account transactions', (done) => {
+    chai.request(app)
+      .get(`/api/v1/accounts/${accountNumber}/transactions`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('object');
+        done();
+      });
+  });
+  it('should be able view all accounts by specific user', (done) => {
+    chai.request(app)
+      .get('/api/v1/user/client@banka.com/accounts')
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.eql(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.accounts).to.have.an('array');
+        expect(res.body.accounts[0]).to.have.property('accountnumber');
+        expect(res.body.accounts[0]).to.have.property('createdon');
+        expect(res.body.accounts[0]).to.have.property('owneremail');
+        expect(res.body.accounts[0]).to.have.property('type');
+        expect(res.body.accounts[0]).to.have.property('status');
+        expect(res.body.accounts[0]).to.have.property('balance');
+        done();
+      });
+  });
+  it('should be able view account details', (done) => {
+    chai.request(app)
+      .get(`/api/v1/accounts/${accountNumber}`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.eql(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.data[0]).to.have.an('object');
+        expect(res.body.data[0]).to.have.property('accountnumber');
+        expect(res.body.data[0]).to.have.property('createdon');
+        expect(res.body.data[0]).to.have.property('owneremail');
+        expect(res.body.data[0]).to.have.property('type');
+        expect(res.body.data[0]).to.have.property('status');
+        expect(res.body.data[0]).to.have.property('balance');
+        done();
+      });
+  });
+  it('should throw error without correct account number', (done) => {
+    chai.request(app)
+      .get('/api/v1/accounts/000000')
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('error');
+        done();
+      });
+  });
+
+  it('should be able view active account', (done) => {
+    chai.request(app)
+      .get('/api/v1/accounts?status=active')
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.eql(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.data).to.have.an('array');
+        expect(res.body.data[0]).to.have.property('accountnumber');
+        expect(res.body.data[0]).to.have.property('createdon');
+        expect(res.body.data[0]).to.have.property('owneremail');
+        expect(res.body.data[0]).to.have.property('type');
+        expect(res.body.data[0]).to.have.property('status');
+        expect(res.body.data[0]).to.have.property('balance');
+        done();
+      });
+  });
+  it('should be able view dormant account', (done) => {
+    chai.request(app)
+      .get('/api/v1/accounts?status=dormant')
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body.status).to.eql(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.data).to.have.an('array');
+        expect(res.body.data[0]).to.have.property('accountnumber');
+        expect(res.body.data[0]).to.have.property('createdon');
+        expect(res.body.data[0]).to.have.property('owneremail');
+        expect(res.body.data[0]).to.have.property('type');
+        expect(res.body.data[0]).to.have.property('status');
+        expect(res.body.data[0]).to.have.property('balance');
+        done();
+      });
+  });
+  it('should send error if status is not correct', (done) => {
+    chai.request(app)
+      .get('/api/v1/accounts?status=dorma')
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        expect(res.body.status).to.eql(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('status');
+        expect(res.body).to.have.property('error');
+        done();
+      });
+  });
+  it('should be able to create account', (done) => {
+    chai.request(app).post('/api/v1/accounts')
+      .send({
+        type: 'savings',
+        openingBalance: 1000,
+      })
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(201);
+        expect(res.body).to.be.an('object');
+        expect(res.body.status).to.eql(201);
+        expect(res.body.data).to.be.an('array');
+        expect(res.body.data[0]).to.have.property('accountNumber');
+        expect(res.body.data[0]).to.have.property('firstname');
+        expect(res.body.data[0]).to.have.property('lastname');
+        expect(res.body.data[0]).to.have.property('email');
+        expect(res.body.data[0]).to.have.property('type');
+        expect(res.body.data[0]).to.have.property('openingBalance');
+        createAccount = res.body.data[0].accountNumber;
+        done();
+      });
+  });
+  it('should provide account type', (done) => {
+    chai.request(app).post('/api/v1/accounts')
+      .send({
+        openingBalance: 1000,
+      })
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body.status).to.eql(404);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.have.property('error');
+        done();
+      });
+  });
+  it('should delete account', (done) => {
+    chai.request(app)
+      .delete(`/api/v1/accounts/${createAccount}`)
+      .set('authorization', `Bearer ${token}`)
+      .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body.status).to.eql(204);
         expect(res.body).to.have.property('status');
         expect(res.body).to.have.property('message');
         done();
-      })
-  })
-})
+      });
+  });
+});

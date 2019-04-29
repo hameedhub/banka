@@ -1,52 +1,56 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Create Admin/Staff - Dashboard</title>
-	<link rel="stylesheet" type="text/css" href="../assets/css/home.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Admin/Staff - Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="../assets/css/home.css">
 </head>
+
 <body>
-	<header>
-			<a class="logo" >Banka</a>
-				<input id="nav" type="checkbox">
-					<label for="nav"></label>
-			<nav>
-				<ul><li><a  href="dashboard.html">Dashboard</a></li>
-					<li><a href="view-account.html">View Accounts</a></li>
-					<li><a href="../admin/login.html">Logout</a></li>
-				</ul>
-			</nav> 			
-</header>
-<main class="home">
-	<div class="overlay">
-	<section class="container dashboard">
-		<h3>ADMIN | <span> LUKMAN </span></h3>
-			<div class="box">
-				<div class="trans-panel">
-				<b>Create Staff</b><hr>
-				<form>
-					<label>Email</label>
-					<input type="email" name="email" required>
-					<label>First Name</label>
-					<input type="text" name="firstName" required>
-					<label>Last Name</label>
-					<input type="text" name="lastName" required>
-					<label>Password</label>
-					<input type="password"  name="password" required>
-					<label>Access Level</label>
-					<select name="type" required>
-						<option selected  disabled>-Please Select-</option>
-						<option>Staff</option>
-						<option>Admin</option>
-					</select>
-					
-					<a href="#" class="btn btn-default">Create</a>
-				</form>
-				</div>
-			</div>			
-		</section>
-		</div>
-	</main>
-<script src="../assets/js/widgets.js"></script>
+    <header>
+        <a class="logo">Banka</a>
+        <input id="nav" type="checkbox">
+        <label for="nav"></label>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="view-account.html">View Accounts</a></li>
+                <li><a href="../user/login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="home">
+        <div class="overlay">
+            <section class="container dashboard">
+                <h3>ADMIN | <span> LUKMAN </span></h3>
+                <div class="box">
+                    <div class="trans-panel">
+                        <b>Create Staff</b>
+                        <hr>
+                        <form>
+                            <label>Email</label>
+                            <input type="email" name="email" required>
+                            <label>First Name</label>
+                            <input type="text" name="firstName" required>
+                            <label>Last Name</label>
+                            <input type="text" name="lastName" required>
+                            <label>Password</label>
+                            <input type="password" name="password" required>
+                            <label>Access Level</label>
+                            <select name="type" required>
+									<option selected disabled>-Please Select-</option>
+									<option>Staff</option>
+									<option>Admin</option>
+							</select>
+                            <a href="#" class="btn btn-default">Create</a>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="../assets/js/widgets.js"></script>
 </body>
+
 </html>

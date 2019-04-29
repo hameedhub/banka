@@ -1,10 +1,12 @@
 import { Router } from 'express';
-import Auth from '../helper/checkAuth';
-import Controller from '../controllers/transController';
+import Authentication from '../helper/checkAuth';
+import Controller from '../controllers/transactionController';
+import validate from '../middleware/validation';
 
 const router = Router();
 
-router.post('/:accountNumber/debit', Auth.checkToken, Controller.debitTrans);
-router.post('/:accountNumber/credit', Auth.checkToken, Controller.creditTrans);
+router.post('/:accountNumber/debit', validate.accountNumber, validate.transactionData, Authentication.checkToken, Controller.debitTransaction);
+router.post('/:accountNumber/credit', validate.accountNumber, validate.transactionData, Authentication.checkToken, Controller.creditTransaction);
+router.get('/:id', validate.getTransactionById, Authentication.checkToken, Controller.getTransactionById);
 
 export default router;

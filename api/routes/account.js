@@ -1,11 +1,16 @@
 import { Router } from 'express';
-import Auth from '../helper/checkAuth';
+import Authentication from '../helper/checkAuth';
 import Controller from '../controllers/accountController';
+import validate from '../middleware/validation';
+
 
 const router = Router();
 
-router.post('/', Auth.checkToken, Controller.createAccount);
-router.patch('/:accountNumber', Auth.checkToken, Controller.accountStatus);
-router.delete('/:accountNumber', Auth.checkToken, Controller.deleteAccount);
+router.post('/accounts', Authentication.checkToken, validate.accountData, Controller.createAccount);
+router.patch('/accounts/:accountNumber', Authentication.checkToken, validate.accountNumber, validate.accountStatus, Controller.accountStatus);
+router.delete('/accounts/:accountNumber', Authentication.checkToken, validate.accountNumber, Controller.deleteAccount);
+router.get('/accounts/:accountNumber/transactions', Authentication.checkToken, validate.accountNumber, Controller.getTransaction);
+router.get('/accounts/:accountNumber', Authentication.checkToken, validate.accountNumber, Controller.getDetails);
+router.get('/accounts/', Authentication.checkToken, Controller.getAllAccount);
 
 export default router;
