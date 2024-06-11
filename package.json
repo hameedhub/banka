@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/hameedhub/hameedhub.github.io#readme",
   "devDependencies": {
-    "@babel/cli": "^7.4.3",
+    "@babel/cli": "^7.24.7",
     "@babel/core": "^7.4.3",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.3",
@@ -45,10 +45,10 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "istanbul": "^0.4.5",
-    "mocha": "^6.0.2",
+    "mocha": "^6.2.3",
     "mocha-lcov-reporter": "^1.3.0",
     "morgan": "^1.9.1",
-    "nodemon": "^1.18.10",
+    "nodemon": "^3.1.3",
     "nyc": "^13.3.0"
   },
   "dependencies": {
